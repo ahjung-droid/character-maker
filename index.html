@@ -1024,6 +1024,68 @@
     pointer-events: none;
   }
 
+  /* Tips */
+  .tips-section {
+    margin-bottom: 22px;
+  }
+
+  .tips-heading {
+    font-family: 'Gaegu', 'Noto Sans KR';
+    font-size: 22px;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .tip-item {
+    border-radius: 20px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border: 2px solid transparent;
+  }
+
+  .tip-item.strength {
+    background: var(--yellow-soft);
+    border-color: var(--yellow-light);
+  }
+
+  .tip-item.caution {
+    background: var(--pink-soft);
+    border-color: var(--pink-light);
+  }
+
+  .tip-item.collab {
+    background: var(--mint-soft);
+    border-color: var(--mint-light);
+  }
+
+  .tip-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  .tip-body { flex: 1; min-width: 0; }
+
+  .tip-label {
+    font-family: 'Gaegu', 'Noto Sans KR';
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 3px;
+    display: block;
+    font-weight: 700;
+  }
+
+  .tip-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
   /* Small responsive */
   @media (max-width: 480px) {
     .title { font-size: 28px; }
@@ -1147,32 +1209,133 @@ const CHARACTERS = {
     keywords: ['추진력', '민첩성', '실행력'],
     props: { primary: 'a stopwatch and target', accent: 'speed lines effect', pose: 'dynamic running pose' },
   },
+  fox: {
+    name: '여우',
+    emoji: '🦊',
+    weights: { D: 1, N: 1, S: 1 },
+    desc: '한 수 앞을 내다보는 영리한 전략가예요.\n예리한 통찰과 빠른 판단으로 핵심을 짚어내요.',
+    keywords: ['전략', '영리함', '센스'],
+    props: { primary: 'a chess piece and strategy notebook', accent: 'orange motion trails', pose: 'confident sharp gaze' },
+  },
+  hamster: {
+    name: '햄스터',
+    emoji: '🐹',
+    weights: { C: 1, I: 1, S: 1 },
+    desc: '꾸준히 자신을 가꾸는 자기관리 마스터예요.\n작은 일도 빠짐없이 챙기며 매일 성장해요.',
+    keywords: ['성실', '자기관리', '꾸준함'],
+    props: { primary: 'a daily planner and tiny notebook', accent: 'warm beige sparkles', pose: 'organizing items neatly' },
+  },
+  owl: {
+    name: '부엉이',
+    emoji: '🦉',
+    weights: { I: 1, L: 1, S: 1 },
+    desc: '본질을 꿰뚫는 깊이 있는 통찰가예요.\n조용히 자료를 파고들어 남다른 인사이트를 발견해요.',
+    keywords: ['통찰', '깊이', '지혜'],
+    props: { primary: 'thick books and reading glasses', accent: 'soft blue moonlight', pose: 'contemplative side gaze' },
+  },
+  penguin: {
+    name: '펭귄',
+    emoji: '🐧',
+    weights: { C: 1, E: 1, T: 1 },
+    desc: '약속과 매너를 지키는 조직적 협력가예요.\n팀의 흐름을 부드럽게 조율하며 함께 나아가요.',
+    keywords: ['협력', '단정함', '신뢰'],
+    props: { primary: 'a clipboard and event schedule', accent: 'icy blue sparkles', pose: 'polite welcoming gesture' },
+  },
 };
 
 const NICKNAME_SLOTS = {
   retriever: {
-    adjectives: ['의욕 폭발', '햇살 가득', '꼬리 흔드는', '눈빛 반짝', '환하게 웃는', '월요일도 달리는', '브레인스토밍 제왕'],
-    topics: ['회의실 분위기 이끄는', '팀 사기 올리는', '워크샵 주인공', '점심 약속 부지런한', '우리 부서 마스코트'],
+    adjectives: ['의욕 폭발', '햇살 가득', '꼬리 흔드는', '눈빛 반짝', '환하게 웃는', '월요일도 달리는', '활기찬', '에너지 넘치는', '분위기 띄우는', '주변 밝히는', '따뜻한 마음의', '신나서 달려가는', '친근한', '다정한', '항상 웃는', '응원 가득한', '출근이 즐거운', '회의 살리는', '점심 부지런한', '사람 좋아하는', '의리 만점', '친화력 갑', '기분 좋은', '칭찬 잘하는', '텐션 높은'],
+    topics: ['회의실 분위기 이끄는', '팀 사기 올리는', '워크샵 주인공', '우리 부서 마스코트', '신입 환영의', '출근길 등대', '회식 호스트', '응원단장', 'MT 스타', '동기부여 끝판왕', '굿모닝 인사의', '휴게실 단골', '사람 잇는', '비타민 같은', '팀빌딩 마스터'],
   },
   raccoon: {
-    adjectives: ['기획안 깎는', '오탈자 사냥하는', '데이터 파는', '꼼꼼한', '계산기 두드리는', '디테일 지키는', '보고서 다듬는'],
-    topics: ['엑셀 장인', '회의록 수호자', '숫자 읽는', '자료조사 프로'],
+    adjectives: ['기획안 깎는', '오탈자 사냥하는', '데이터 파는', '꼼꼼한', '계산기 두드리는', '디테일 지키는', '보고서 다듬는', '통계 좋아하는', '숫자 읽는', '분석 잘하는', '신중한', '차분한', '논리적인', '깐깐한', '전략적인', '정확한', '빈틈없는', '자료 모으는', '한 끗 차이 잡는', '검토하는', '패턴 찾는', '예리한', '메모 장인', '차근차근하는', '똑똑한'],
+    topics: ['엑셀 마스터', '회의록 수호자', '자료조사 프로', 'PPT 깎는', '보고서 장인', '통계 분석가', '검수의 신', '디테일 변호인', '백데이터 보유자', '차트 좋아하는', '정량 평가의', '인사이트 발굴', '데이터 기반의', '첨삭의 신', '가설 검증의'],
   },
   quokka: {
-    adjectives: ['아이디어 뿜뿜', '월요일도 행복한', '긍정 에너지', '웃음 가득한', '반짝반짝', '분위기 메이커'],
-    topics: ['워크샵 스타', '브레인스토밍 요정', '팀 비타민', '캠페인 천재'],
+    adjectives: ['아이디어 뿜뿜', '월요일도 행복한', '긍정 에너지', '웃음 가득한', '반짝반짝', '행복 바이러스', '미소 천사', '따뜻한', '발랄한', '명랑한', '통통 튀는', '톡톡 튀는', '즐거운', '신선한', '새로운 시도의', '가능성의', '호기심 많은', '활기찬', '발상 전환의', '흥 많은', '활달한', '표정 부자', '매력 만점', '첫인사 좋은', '사람 모이게 하는'],
+    topics: ['워크샵 스타', '브레인스토밍 요정', '팀 비타민', '캠페인 천재', '컬러풀한', '아이디어 부자', '즐거운 회의의', '변화 좋아하는', '기획 회의의', '공감 잘하는', '분위기 살리는', '점심 메뉴 추천의', '회식 흥의', '응원 잘하는', '친구 만드는'],
   },
   cat: {
-    adjectives: ['혼자 잘하는', '감각 빛나는', '시크한', '우아한', '심미안 가진', '트렌디한'],
-    topics: ['디자인 센스', '컨셉 장인', '나만의 세계', '크리에이티브'],
+    adjectives: ['혼자 잘하는', '감각 빛나는', '시크한', '우아한', '심미안 가진', '트렌디한', '미적 감각의', '디자인 잘하는', '컨셉 잘 잡는', '영감 넘치는', '한 끗 다른', '독특한', '깊이 있는', '차분한', '조용한', '신비로운', '마이웨이의', '자기 페이스의', '자기 스타일의', '묵묵한', '내공 있는', '세련된', '감성 충만한', '직감 좋은', '본질 보는'],
+    topics: ['디자인 센스의', '컨셉 장인', '나만의 세계의', '크리에이티브', '무드 메이커', '비주얼 마스터', '브랜드 감각의', '스타일링의', '톤 앤 매너의', '큐레이터 같은', '영감 보따리', '컨텐츠 잘 만드는', '미감 있는', '작가 마인드의', '비주얼 사고형'],
   },
   panda: {
-    adjectives: ['든든한', '디테일 지키는', '차분한', '묵묵히 일하는', '평화로운', '신뢰의'],
-    topics: ['팀의 중심', '프로세스 지키는', '매뉴얼 장인', '백오피스 히어로'],
+    adjectives: ['든든한', '디테일 챙기는', '차분한', '묵묵히 일하는', '평화로운', '신뢰의', '안정적인', '따뜻한', '침착한', '한결같은', '든든한 버팀목의', '진중한', '책임감 있는', '깊이 있는', '마음 넓은', '포근한', '편안한', '조용히 빛나는', '묵직한', '모범적인', '기둥 같은', '정 많은', '감싸주는', '의지되는', '인내심 있는'],
+    topics: ['팀의 중심', '프로세스 지키는', '매뉴얼 장인', '백오피스 히어로', '멘토 같은', '마음 챙기는', '평화 지키는', '후배 챙기는', '약속 잘 지키는', '시간 약속의', '든든한 형 같은', '후방 지원의', '마음 알아주는', '균형의', '신입 챙기는'],
   },
   rabbit: {
-    adjectives: ['속도 장인', '빠릿빠릿한', 'KPI 사냥하는', '데드라인 수호', '번개같은', '타겟 조준'],
-    topics: ['스프린트 리더', '실행력 최강', '목표 맞추는', '퇴근 1등'],
+    adjectives: ['속도 장인', '빠릿빠릿한', 'KPI 사냥하는', '데드라인 수호의', '번개같은', '타겟 조준의', '기민한', '민첩한', '실행력 갑', '추진력 짱', '빠른 판단의', '일머리 좋은', '결단력 있는', '효율적인', '똑부러지는', '야무진', '군더더기 없는', '명쾌한', '시원시원한', '속전속결', '직진하는', '행동파의', '후딱 끝내는', '깔끔하게 처리하는', '결과 내는'],
+    topics: ['스프린트 리더', '실행력 최강', '목표 맞추는', '퇴근 1등의', '일정 관리의', '우선순위 잡는', '결과로 말하는', '마일스톤 깨는', '데드라인 챔피언', '타임라인 짜는', '미팅 시간 지키는', '빠른 회신의', '인박스 비우는', '워크플로우의', '일머리의'],
+  },
+  fox: {
+    adjectives: ['영리한', '한 수 앞 보는', '전략적인', '기지 넘치는', '센스 만점의', '눈치 빠른', '임기응변의', '재치 있는', '예리한', '통찰력 있는', '똑똑한', '기획력 좋은', '핵심 짚는', '응용력 만점의', '발 빠른', '노련한', '영민한', '빈틈 없는', '똘똘한', '시야 넓은', '멀리 보는', '다재다능한', '직관적인', '게임 잘하는', '큰 그림 보는'],
+    topics: ['전략 짜는', '협상 잘하는', '기획 마스터', '시장 읽는', '트렌드 캐치의', '회의 주도의', '인사이트 던지는', '핵심 찌르는', '룰 만드는', '게임 체인저', '디렉팅 잘하는', '시나리오 짜는', '전략기획의', '의사결정 빠른', '승부수 던지는'],
+  },
+  hamster: {
+    adjectives: ['부지런한', '알차게 채우는', '꾸준한', '야무진', '성실한', '차곡차곡 모으는', '작은 거 챙기는', '자기관리 잘하는', '매일 한 걸음 가는', '한결같은', '루틴 챙기는', '계획적인', '정리 잘하는', '습관 좋은', '일일 점검의', '빠짐없이 챙기는', '효율 챙기는', '본인 페이스의', '똑부러진', '꼼꼼히 살피는', '묵묵히 쌓는', '정돈된', '시간 잘 쓰는', '새벽형', '기록하는'],
+    topics: ['데일리 루틴의', '노션 마스터', '갓생러', '시간 관리의', '자기계발의', '새벽 기상의', '사내 정리왕', '책상 깨끗한', '다이어리 꾸미는', '기록의 장인', '일정 관리의', '셀프 피드백의', '차분히 성장하는', '캘린더 가득한', '메모장 채우는'],
+  },
+  owl: {
+    adjectives: ['깊이 있는', '사색 잘하는', '통찰력 있는', '신중한', '본질 꿰뚫는', '조용히 빛나는', '야행성의', '늦은 밤 빛나는', '침착한', '지혜로운', '조용한 강자의', '묵묵히 파고드는', '사려 깊은', '진지한', '진중한', '다 알고 있는', '박식한', '넓게 보는', '멀리 보는', '깊게 파는', '한 마디로 정리하는', '신중한 판단의', '한참 생각하는', '정보통의', '해박한'],
+    topics: ['인사이트 폭격기', '정보 수집가', '도서관 같은', '학습형', '리서치의 신', '백과사전 같은', '트렌드 분석의', '지식 큐레이터', '한 번 더 검토의', '메타 인지의', '케이스 스터디의', '깊이 분석의', '디테일 정리의', '글 잘 쓰는', '백그라운드 리서치의'],
+  },
+  penguin: {
+    adjectives: ['줄 잘 맞추는', '조직적인', '협력적인', '단정한', '깔끔한', '격식 있는', '예의 바른', '사회성 좋은', '단체생활의', '함께하는', '의리 있는', '부드러운', '다정한', '모범적인', '친절한', '매너 있는', '인사 잘하는', '분위기 챙기는', '협조적인', '한 팀의', '손발 잘 맞는', '호흡 좋은', '챙겨주는', '같이 가는', '약속 잘 지키는'],
+    topics: ['단체 행사의', '의전 마스터', '행사 진행의', '회의 진행의', '약속 정리의', '회식 자리 챙기는', '손님 응대의', '인사 챙기는', 'MC 같은', '팀워크의', '조율 잘하는', '사내 분위기의', '매너 갑의', '배려 만점의', '단체 사진 챙기는'],
+  },
+};
+
+const CHARACTER_TIPS = {
+  retriever: {
+    strength: '회의에서 분위기 메이커를 자처해보세요. 모두가 편하게 발언할 수 있는 환경을 만들 수 있어요.',
+    caution: '추진력이 강한 만큼 디테일은 한 번 더 검토! 중요한 문서는 너구리·부엉이형 동료에게 검수를 부탁해보세요.',
+    collab: '너구리·부엉이형 동료와 짝을 이루면 시너지 폭발. 당신이 그림을 그리고 그들이 디테일을 채워줘요.',
+  },
+  raccoon: {
+    strength: '데이터 분석이 필요한 프로젝트의 핵심 인력이 되어보세요. 당신의 신중함이 팀의 안전망이에요.',
+    caution: '완벽주의에 빠지지 마세요. 80% 완성도에서 한 번 공유해보면 더 빨리 좋아져요.',
+    collab: '리트리버·쿼카형과 협업하면 추진력을 빌릴 수 있어요. 그들의 에너지로 마감을 지켜보세요.',
+  },
+  quokka: {
+    strength: '브레인스토밍과 캠페인 기획에서 빛나요. 아이디어 회의는 당신이 주인공!',
+    caution: '많은 아이디어는 산만해 보일 수 있어요. 회의 전 핵심 3가지를 정리해두면 임팩트가 두 배.',
+    collab: '너구리·부엉이형 동료가 아이디어를 검증하고 다듬어줘요. 함께라면 더 강력해져요.',
+  },
+  cat: {
+    strength: '디자인·컨셉·글쓰기처럼 깊은 집중이 필요한 작업이 잘 맞아요. 혼자만의 시간이 결과물을 만들어요.',
+    caution: '본인 결과물을 적극적으로 알리는 것도 중요해요. "이거 제가 했어요" 한마디가 인정의 시작이에요.',
+    collab: '펭귄·리트리버형 동료가 작업물을 다른 팀에 잘 전달해줘요. 외부 커뮤니케이션은 그들에게!',
+  },
+  panda: {
+    strength: '팀의 정서적 중심이 되어보세요. 신입이나 후배에게 든든한 멘토가 될 수 있어요.',
+    caution: '너무 양보하면 본인이 지칠 수 있어요. "지금은 어려워요"도 가끔 꺼내보세요. 거절도 능력이에요.',
+    collab: '토끼·여우형 동료와 일하면 빠른 의사결정을 배울 수 있어요. 신중함과 속도가 만나면 강력해져요.',
+  },
+  rabbit: {
+    strength: '데드라인이 빡빡한 프로젝트에서 두각을 나타내요. 스프린트 리더 역할을 자원해보세요.',
+    caution: '속도에 집중하다 동료와의 소통을 놓칠 수 있어요. "지금 어디까지 됐어요?" 한 번씩 물어봐주세요.',
+    collab: '판다·고양이형 동료와 함께하면 결과물의 깊이가 더해져요. 속도+퀄리티 = 완벽!',
+  },
+  fox: {
+    strength: '신사업 기획이나 협상 자리에 적극 참여하세요. 한 수 앞을 보는 능력이 빛나는 순간이에요.',
+    caution: '너무 영리해 보이면 동료들이 거리를 둘 수 있어요. 가끔은 "잘 모르겠는데요?"도 매력이에요.',
+    collab: '햄스터·판다형 동료가 전략을 꾸준히 실행해줘요. 큰 그림은 당신, 디테일은 그들이!',
+  },
+  hamster: {
+    strength: '본인 KPI를 차곡차곡 쌓는 능력이 있어요. 개인 성과 관리의 모범이 되어보세요.',
+    caution: '내 일에만 집중하다 팀 전체 목표를 놓칠 수 있어요. 월 1회는 "팀이 어디로 가는지" 점검해보세요.',
+    collab: '쿼카·리트리버형 동료가 시야를 넓혀줘요. 가끔은 그들의 점심 자리에 합류해보세요.',
+  },
+  owl: {
+    strength: '시장 분석·리서치·케이스 스터디가 필요한 프로젝트에서 주도적 역할을 맡으세요.',
+    caution: '분석에 너무 깊이 빠지면 결정이 늦어져요. "70% 정보로 결정하기" 연습이 필요해요.',
+    collab: '토끼·리트리버형 동료가 인사이트를 빠르게 실행해줘요. 사고와 행동이 만나면 임팩트 두 배!',
+  },
+  penguin: {
+    strength: '팀 행사나 외부 미팅의 진행을 맡으세요. 매너와 조율 능력이 빛나는 자리예요.',
+    caution: '모두를 챙기다 본인 일이 밀릴 수 있어요. 일정에 "내 작업 시간"을 따로 블록으로 잡아두세요.',
+    collab: '고양이·여우형 동료의 아이디어를 팀 전체에 잘 전달해보세요. 당신은 훌륭한 매개자예요.',
   },
 };
 
@@ -1254,44 +1417,38 @@ function generateNickname(charKey, scores, name) {
   const existing = new Set(loadResults().map(r => r.nickname));
   const char = CHARACTERS[charKey];
 
-  // 1차: 형용사 + 캐릭터
-  for (let i = 0; i < slots.adjectives.length; i++) {
-    const adj = slots.adjectives[(seed + i) % slots.adjectives.length];
-    const nick = `${adj} ${char.name}`;
+  // 시드 기반 셔플 — 매번 다른 순서로 시도해서 다양성 확보
+  const shuffle = (arr, s) => {
+    const result = [...arr];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.abs(s + i * 31) % (i + 1);
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  };
+
+  const adjs = shuffle(slots.adjectives, seed);
+  const tops = shuffle(slots.topics, seed * 7 + 13);
+
+  // 1차: 형용사 + 캐릭터 (25개 중 미사용 항목)
+  for (const a of adjs) {
+    const nick = `${a} ${char.name}`;
     if (!existing.has(nick)) return nick;
   }
-  // 2차: 목적어 + 캐릭터
-  for (let i = 0; i < slots.topics.length; i++) {
-    const top = slots.topics[(seed + i) % slots.topics.length];
-    const nick = `${top} ${char.name}`;
+  // 2차: 수식어 + 캐릭터 (15개 중 미사용 항목)
+  for (const t of tops) {
+    const nick = `${t} ${char.name}`;
     if (!existing.has(nick)) return nick;
   }
-  // 3차: 이름 포함
-  return `${name}의 ${slots.adjectives[seed % slots.adjectives.length]} ${char.name}`;
-}
-
-function buildImagePrompt(char, name, faceHint) {
-  const p = char.props;
-  return `A cute 3D Pixar/Disney-style animated ${char.name} character (${char.emoji}),
-anthropomorphic chibi proportions, beaming warm friendly smile,
-rendered in soft claymation texture with matte finish, 8K ultra high resolution.
-
-[FACE LIKENESS — from uploaded reference photo of ${name}]:
-Retain the user's unique facial features — hairstyle, glasses (if any),
-skin tone, face shape, distinctive marks — stylized softly in 3D form.
-Keep the face recognizable but cute and plush.
-
-[PERSONALITY ACCENT]:
-Character traits: ${char.keywords.join(', ')}.
-Holding ${p.primary}, with ${p.accent} around,
-${p.pose}, wearing smart-casual office outfit.
-
-[STYLE]:
-Pixar/Disney 3D animation aesthetic, claymation soft shading,
-studio three-point lighting, shallow depth of field,
-pastel gradient background (soft pink to cream), centered bust shot.
-
---cref [UPLOADED_PHOTO_URL] --cw 80 --ar 3:4 --v 6 --style raw --quality 2`;
+  // 3차: 형용사 + 수식어 + 캐릭터 (콤보, 최대 25×15 = 375개)
+  for (const t of tops) {
+    for (const a of adjs) {
+      const nick = `${t} ${a} ${char.name}`;
+      if (!existing.has(nick)) return nick;
+    }
+  }
+  // 최종: 이름 포함 (이론상 도달하지 않음)
+  return `${name}의 ${adjs[0]} ${char.name}`;
 }
 
 function buildResultJSON(result) {
@@ -1322,12 +1479,7 @@ function buildResultJSON(result) {
       instance_id: `${result.character.key.toUpperCase().slice(0,3)}-${result.id}`,
       unique_nickname: result.nickname,
     },
-    image_generation: {
-      engine: "midjourney_v6",
-      reference_photo: "participant_uploaded_photo",
-      character_reference_weight: 80,
-      full_prompt: result.imagePrompt,
-    },
+    work_life_tips: result.tips || CHARACTER_TIPS[result.character.key],
   };
 }
 
@@ -1633,7 +1785,7 @@ function finalizeResult() {
   const nickname = generateNickname(character.key, scores, state.name);
   const code = personalityCode(scores);
   const traitKeywords = character.keywords;
-  const imagePrompt = buildImagePrompt(character, state.name, '');
+  const tips = CHARACTER_TIPS[character.key];
 
   const result = {
     id: Date.now().toString(),
@@ -1647,7 +1799,7 @@ function finalizeResult() {
     character,
     nickname,
     traitKeywords,
-    imagePrompt,
+    tips,
   };
 
   state.result = result;
@@ -1689,12 +1841,44 @@ function renderResult(card) {
       ${r.character.desc.replace(/\n/g, '<br>')}
     </div>
 
+    ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
+
     <div class="button-row" style="margin-bottom: 10px;">
       <button class="btn" onclick="downloadCardPNG('${r.id}')">📥 카드 PNG로 저장</button>
     </div>
     <div class="button-row">
       <button class="btn btn-secondary" onclick="goScreen('welcome')">✨ 다시하기</button>
       <button class="btn btn-secondary" onclick="showResultDetail()">상세 보기 →</button>
+    </div>
+  `;
+}
+
+function renderTipsHTML(tips) {
+  if (!tips) return '';
+  return `
+    <div class="tips-section">
+      <div class="tips-heading">💼 ${tips.label || '회사 생활 꿀팁'}</div>
+      <div class="tip-item strength">
+        <span class="tip-icon">🌟</span>
+        <div class="tip-body">
+          <span class="tip-label">강점 살리기</span>
+          <div class="tip-text">${tips.strength}</div>
+        </div>
+      </div>
+      <div class="tip-item caution">
+        <span class="tip-icon">💡</span>
+        <div class="tip-body">
+          <span class="tip-label">주의할 점</span>
+          <div class="tip-text">${tips.caution}</div>
+        </div>
+      </div>
+      <div class="tip-item collab">
+        <span class="tip-icon">🤝</span>
+        <div class="tip-body">
+          <span class="tip-label">협업 꿀팁</span>
+          <div class="tip-text">${tips.collab}</div>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -1879,10 +2063,7 @@ function showModal() {
         ${r.traitKeywords.map(k => `<span class="trait-tag" style="margin-right: 6px;">#${k}</span>`).join('')}
       </div>
 
-      <div class="section-label">🎨 이미지 생성 프롬프트
-        <button class="copy-btn" onclick="copyToClipboard(state.detailItem.imagePrompt, '프롬프트 복사됨 🎨')">복사</button>
-      </div>
-      <div class="prompt-box">${r.imagePrompt}</div>
+      ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
       <div class="section-label">📦 관리자용 JSON
         <button class="copy-btn" onclick="copyToClipboard(JSON.stringify(buildResultJSON(state.detailItem), null, 2), 'JSON 복사됨 📦')">복사</button>
