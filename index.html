@@ -2031,8 +2031,6 @@ function exportAllJSON() {
 function showModal() {
   const r = state.detailItem;
   if (!r) return;
-  const json = buildResultJSON(r);
-  const jsonStr = JSON.stringify(json, null, 2);
 
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -2064,11 +2062,6 @@ function showModal() {
       </div>
 
       ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
-
-      <div class="section-label">📦 관리자용 JSON
-        <button class="copy-btn" onclick="copyToClipboard(JSON.stringify(buildResultJSON(state.detailItem), null, 2), 'JSON 복사됨 📦')">복사</button>
-      </div>
-      <div class="json-box">${escapeHTML(jsonStr)}</div>
 
       <div class="button-row" style="margin-top: 20px;">
         <button class="btn btn-secondary" onclick="downloadCardPNG('${r.id}')">📥 PNG 저장</button>
