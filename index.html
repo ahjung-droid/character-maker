@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 우리 회사 부캐 메이커</title>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #FF97B0;
+    --pink-mid: #FFB8C7;
+    --pink-light: #FFD6DF;
+    --pink-soft: #FFF0F3;
+    --mint: #7FD8D8;
+    --mint-light: #C5EEEE;
+    --mint-soft: #E8F7F7;
+    --yellow: #FFD56F;
+    --yellow-light: #FFE8A8;
+    --yellow-soft: #FFF7E0;
+    --lavender: #C7A8E8;
+    --lavender-light: #E7D4F7;
+    --cream: #FFF8EA;
+    --text: #5D4E6D;
+    --text-mid: #7A6B8B;
+    --text-light: #9B8FB0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #FFF5F8 0%, #F0F9F9 50%, #F5F0FB 100%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Floating background decorations */
+  .bg-decor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.45;
+    animation: float 10s ease-in-out infinite;
+  }
+
+  .blob-1 { width: 320px; height: 320px; background: #FFD6DF; top: -100px; right: -100px; }
+  .blob-2 { width: 280px; height: 280px; background: #C5EEEE; bottom: 5%; left: -100px; animation-delay: 3s; }
+  .blob-3 { width: 220px; height: 220px; background: #E7D4F7; top: 45%; right: 5%; animation-delay: 6s; }
+
+  .star {
+    position: absolute;
+    font-size: 18px;
+    animation: twinkle 3s ease-in-out infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -30px) scale(1.08); }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  .container {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container.wide { max-width: 960px; }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 4px;
+  }
+
+  .logo {
+    font-family: 'Gaegu', 'Noto Sans KR';
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--pink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .admin-btn {
+    background: white;
+    border: 2px solid var(--pink-light);
+    color: var(--text-mid);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .admin-btn:hover { background: var(--pink-soft); border-color: var(--pink-mid); }
+
+  .card {
+    background: white;
+    border-radius: 36px;
+    padding: 40px 28px;
+    box-shadow: 0 20px 60px rgba(255, 151, 176, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .btn {
+    padding: 17px 32px;
+    background: linear-gradient(135deg, var(--pink), #FF7A9A);
+    color: white;
+    border: none;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 8px 20px rgba(255, 122, 154, 0.35);
+    font-family: inherit;
+    width: 100%;
+    letter-spacing: -0.2px;
+  }
+
+  .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255, 122, 154, 0.45); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-secondary {
+    background: white;
+    color: var(--text);
+    border: 2px solid var(--pink-light);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .btn-secondary:hover:not(:disabled) { background: var(--pink-soft); border-color: var(--pink-mid); transform: translateY(-2px); }
+
+  .btn:disabled {
+    background: #E8E5EE;
+    color: #B5ADBF;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Welcome */
+  .welcome-hero {
+    text-align: center;
+    margin: 20px 0 30px;
+  }
+
+  .welcome-emojis {
+    font-size: 58px;
+    margin-bottom: 20px;
+    letter-spacing: -6px;
+  }
+  .welcome-emojis span {
+    display: inline-block;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  .welcome-emojis span:nth-child(2) { animation-delay: 0.2s; }
+  .welcome-emojis span:nth-child(3) { animation-delay: 0.4s; }
+  .welcome-emojis span:nth-child(4) { animation-delay: 0.6s; }
+  .welcome-emojis span:nth-child(5) { animation-delay: 0.8s; }
+
+  @keyframes wobble {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(-8px) rotate(4deg); }
+  }
+
+  .title {
+    font-family: 'Gaegu', 'Noto Sans KR';
+    font-size: 34px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .title .accent { color: var(--pink); }
+
+  .subtitle {
+    text-align: center;
+    color: var(--text-mid);
+    font-size: 14.5px;
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .feature-chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .chip {
+    background: var(--pink-soft);
+    color: var(--pink);
+    padding: 8px 14px;
+    border-radius: 18px;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+  .chip.mint { background: var(--mint-soft); color: var(--mint); }
+  .chip.yellow { background: var(--yellow-soft); color: #D99A2B; }
+
+  /* Input */
+  .form-group { margin-bottom: 18px; }
+
+  .label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+
+  .input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid var(--pink-light);
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--pink-soft);
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .input:focus {
+    border-color: var(--pink);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 151, 176, 0.15);
+  }
+
+  .input::placeholder { color: var(--text-light); }
+
+  /* Progress */
+  .progress-wrap {
+    margin-bottom: 30px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Gaegu';
+    color: var(--text-light);
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding: 0 4px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background: var(--pink-soft);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--yellow));
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Question */
+  .q-text {
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    padding: 0 8px;
+    color: var(--text);
+  }
+
+  .option {
+    background: var(--cream);
+    border: 2.5px solid transparent;
+    border-radius: 24px;
+    padding: 20px 20px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+    color: var(--text);
+  }
+
+  .option:hover {
+    transform: translateY(-2px);
+    background: white;
+    border-color: var(--pink-light);
+    box-shadow: 0 10px 24px rgba(255, 168, 189, 0.18);
+  }
+
+  .option.selected {
+    background: white;
+    border-color: var(--pink);
+    box-shadow: 0 10px 24px rgba(255, 151, 176, 0.3);
+  }
+
+  .option-letter {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--pink), #FF7A9A);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Gaegu';
+    font-size: 22px;
+  }
+
+  .option.b .option-letter { background: linear-gradient(135deg, var(--mint), #5EC8C8); }
+
+  /* Photo upload */
+  .photo-upload {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink-soft), var(--mint-soft));
+    border: 3px dashed var(--pink-mid);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 20px auto 24px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .photo-upload:hover {
+    border-color: var(--pink);
+    transform: scale(1.02);
+  }
+
+  .photo-upload img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-upload-hint {
+    font-size: 13px;
+    color: var(--text-mid);
+    text-align: center;
+    font-weight: 500;
+    padding: 0 20px;
+    line-height: 1.5;
+  }
+
+  .photo-upload-emoji {
+    font-size: 46px;
+    margin-bottom: 10px;
+  }
+
+  .photo-change-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: -10px;
+    margin-bottom: 24px;
+  }
+
+  #photoInput { display: none; }
+
+  /* Loading */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .loading-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink-soft), var(--mint-soft));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 30px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 151, 176, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 25px rgba(255, 151, 176, 0); }
+  }
+
+  .loading-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+  }
+
+  .loading-emojis {
+    font-size: 38px;
+    margin-bottom: 20px;
+    letter-spacing: 6px;
+  }
+
+  .loading-emojis span {
+    display: inline-block;
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  .loading-emojis span:nth-child(2) { animation-delay: 0.15s; }
+  .loading-emojis span:nth-child(3) { animation-delay: 0.3s; }
+  .loading-emojis span:nth-child(4) { animation-delay: 0.45s; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .loading-text {
+    font-family: 'Gaegu';
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .loading-sub {
+    color: var(--text-light);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  /* Result */
+  .result-label {
+    font-family: 'Gaegu';
+    color: var(--text-light);
+    font-size: 18px;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .result-name-display {
+    text-align: center;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .result-name-display b { color: var(--pink); }
+
+  .character-display {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 24px;
+  }
+
+  .character-photo-wrap {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 16px 40px rgba(255, 151, 176, 0.3);
+  }
+
+  .character-photo-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--cream);
+    position: relative;
+  }
+
+  .character-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .character-emoji {
+    position: absolute;
+    bottom: -12px;
+    right: -12px;
+    width: 90px;
+    height: 90px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 54px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  .sparkle {
+    position: absolute;
+    font-size: 22px;
+    animation: sparkle 2.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .sparkle-1 { top: 6%; left: -6px; animation-delay: 0s; }
+  .sparkle-2 { top: 18%; right: -10px; animation-delay: 0.8s; }
+  .sparkle-3 { bottom: 30%; left: -8px; animation-delay: 1.5s; }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0); }
+    50% { opacity: 1; transform: scale(1.2) rotate(20deg); }
+  }
+
+  .nickname {
+    font-family: 'Gaegu';
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+
+  .nickname .char-name {
+    background: linear-gradient(120deg, transparent 0%, transparent 30%, var(--yellow-light) 30%, var(--yellow-light) 90%, transparent 90%);
+    padding: 0 4px;
+  }
+
+  .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .trait-tag {
+    background: var(--pink-soft);
+    color: var(--pink);
+    padding: 7px 16px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .description-box {
+    background: linear-gradient(135deg, var(--cream), #FFF5E8);
+    border-radius: 22px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.7;
+    font-size: 14.5px;
+    color: var(--text);
+    border: 2px solid var(--yellow-soft);
+  }
+
+  .description-box .desc-label {
+    font-family: 'Gaegu';
+    color: var(--text-light);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  .button-row .btn { flex: 1; }
+
+  /* Admin */
+  .admin-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-title {
+    font-family: 'Gaegu';
+    font-size: 28px;
+    color: var(--text);
+  }
+
+  .admin-stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stat-chip {
+    background: var(--pink-soft);
+    color: var(--pink);
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .admin-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+  }
+
+  .admin-item {
+    background: var(--cream);
+    border-radius: 22px;
+    padding: 20px 16px;
+    text-align: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .admin-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--pink-light);
+    background: white;
+    box-shadow: 0 14px 28px rgba(255, 168, 189, 0.18);
+  }
+
+  .admin-item-photo-wrap {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 10px;
+    position: relative;
+  }
+
+  .admin-item-photo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  }
+
+  .admin-item-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .admin-item-name {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+
+  .admin-item-dept {
+    font-size: 11.5px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  .admin-item-nick {
+    font-family: 'Gaegu';
+    color: var(--pink);
+    font-size: 15px;
+    line-height: 1.3;
+    min-height: 20px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+  }
+
+  .empty-emoji { font-size: 56px; margin-bottom: 16px; opacity: 0.6; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(93, 78, 109, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: white;
+    border-radius: 30px;
+    padding: 32px 26px 28px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--pink-soft);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--pink-light); }
+
+  .modal h3 {
+    font-family: 'Gaegu';
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+
+  .modal-char-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .modal-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--yellow-light);
+  }
+
+  .modal-emoji {
+    font-size: 80px;
+  }
+
+  .section-label {
+    font-weight: 700;
+    margin: 18px 0 8px;
+    font-size: 13px;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .info-box {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .prompt-box {
+    background: var(--mint-soft);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text);
+    max-height: 220px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    border: 1px solid var(--mint-light);
+  }
+
+  .json-box {
+    background: #FDFBF5;
+    padding: 14px;
+    border-radius: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+    max-height: 260px;
+    overflow-y: auto;
+    border: 1px solid var(--yellow-soft);
+    color: var(--text);
+  }
+
+  .copy-btn {
+    background: var(--pink-soft);
+    color: var(--pink);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    margin-left: auto;
+  }
+
+  .copy-btn:hover { background: var(--pink-light); }
+
+  .section-label .copy-btn { letter-spacing: 0; }
+
+  .admin-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .admin-actions .btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-size: 14px;
+    z-index: 200;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: toastIn 0.3s, toastOut 0.3s 1.7s;
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes toastOut {
+    to { opacity: 0; transform: translate(-50%, 10px); }
+  }
+
+  /* PIN auth */
+  .pin-dots {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: 30px 0 24px;
+  }
+
+  .pin-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--pink-soft);
+    border: 2.5px solid var(--pink-light);
+    transition: all 0.2s;
+  }
+
+  .pin-dot.filled {
+    background: var(--pink);
+    border-color: var(--pink);
+    transform: scale(1.15);
+    box-shadow: 0 4px 10px rgba(255, 151, 176, 0.4);
+  }
+
+  .pin-dots.shake { animation: shake 0.4s; }
+  .pin-dots.success { animation: success-pulse 0.5s; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+  }
+
+  @keyframes success-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .pin-msg {
+    text-align: center;
+    font-size: 13.5px;
+    color: var(--text-light);
+    min-height: 20px;
+    margin-bottom: 18px;
+  }
+
+  .pin-msg.error { color: #D95673; font-weight: 700; }
+
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 320px;
+    margin: 0 auto 20px;
+  }
+
+  .key {
+    background: var(--cream);
+    border: 2.5px solid transparent;
+    border-radius: 22px;
+    padding: 18px 0;
+    font-size: 26px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Gaegu', 'Noto Sans KR';
+    color: var(--text);
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .key:hover {
+    background: white;
+    border-color: var(--pink-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 168, 189, 0.18);
+  }
+
+  .key:active {
+    transform: scale(0.94);
+    background: var(--pink-soft);
+  }
+
+  .key.special {
+    background: var(--pink-soft);
+    color: var(--pink);
+    font-size: 22px;
+    font-family: 'Noto Sans KR';
+    font-weight: 700;
+  }
+
+  .key.empty {
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Small responsive */
+  @media (max-width: 480px) {
+    .title { font-size: 28px; }
+    .nickname { font-size: 30px; }
+    .card { padding: 32px 22px; border-radius: 28px; }
+    .welcome-emojis { font-size: 48px; }
+    .character-display { width: 200px; height: 200px; }
+    .character-emoji { width: 78px; height: 78px; font-size: 46px; }
+  }
+
+  /* Print styles for admin card */
+  @media print {
+    .bg-decor, .header, .admin-actions, .admin-header-row .btn, .modal-close { display: none !important; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decor">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="star" style="top: 8%; left: 10%;">✨</div>
+  <div class="star" style="top: 22%; right: 12%;">⭐</div>
+  <div class="star" style="bottom: 28%; left: 18%; animation-delay: 1s;">💫</div>
+  <div class="star" style="bottom: 12%; right: 20%; animation-delay: 2s;">✨</div>
+</div>
+
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   데이터 정의
+========================================================= */
+
+const QUESTIONS = [
+  {
+    text: "새로운 프로젝트가 주어졌어요.\n당신의 첫 행동은?",
+    a: { text: "일단 시작! 하면서 방향을 잡아간다", traits: { D: 2 } },
+    b: { text: "체크리스트부터 만들고 계획을 세운다", traits: { C: 2 } },
+  },
+  {
+    text: "점심시간, 당신의\n이상적인 한 끼는?",
+    a: { text: "동료들과 수다 떨며 시끌벅적하게", traits: { E: 2 } },
+    b: { text: "조용한 곳에서 책·유튜브 보며 혼밥", traits: { I: 2 } },
+  },
+  {
+    text: "예상 밖의 이슈가 터졌어요.\n먼저 하는 일은?",
+    a: { text: "'이런 방법 어때요?' 아이디어부터 던진다", traits: { N: 2 } },
+    b: { text: "'데이터 먼저 볼게요' 원인을 분석한다", traits: { L: 2 } },
+  },
+  {
+    text: "회식 날,\n당신이 기대하는 것은?",
+    a: { text: "팀원들과 맞추는 '짠!' — 함께하는 분위기", traits: { T: 2 } },
+    b: { text: "'나 오늘 수고했지' — 나에게 주는 보상", traits: { S: 2 } },
+  },
+  {
+    text: "마감 하루 전,\n결과물을 다시 보게 됐어요.",
+    a: { text: "'이 정도면 됐지!' 그대로 제출", traits: { D: 2 } },
+    b: { text: "오탈자, 디자인까지 한 번 더 다듬는다", traits: { C: 2 } },
+  },
+  {
+    text: "회의 중 의견 충돌이 생겼어요.",
+    a: { text: "분위기부터 풀고 새 대안을 제시한다", traits: { E: 1, N: 1 } },
+    b: { text: "일단 듣고, 근거 자료를 찾아본다", traits: { I: 1, L: 1 } },
+  },
+  {
+    text: "당신에게\n'성공한 한 해'란?",
+    a: { text: "우리 팀이 함께 성장하고 좋은 성과를 낸 해", traits: { T: 2 } },
+    b: { text: "내 커리어에서 스스로 한 단계 성장한 해", traits: { S: 2 } },
+  },
+];
+
+const CHARACTERS = {
+  retriever: {
+    name: '리트리버',
+    emoji: '🐕',
+    weights: { D: 1, E: 1, T: 1, N: 0.3 },
+    desc: '팀의 에너지를 끌어올리는 햇살 같은 동료예요.\n어떤 프로젝트든 긍정적으로 달려드는 추진력이 매력이에요.',
+    keywords: ['추진력', '팀워크', '긍정에너지'],
+    props: { primary: 'a laptop and coffee cup', accent: 'golden sparkles aura', pose: 'confident mid-stride pose' },
+  },
+  raccoon: {
+    name: '너구리',
+    emoji: '🦝',
+    weights: { C: 1, I: 1, L: 1 },
+    desc: '디테일을 놓치지 않는 분석형 전문가예요.\n숫자와 자료 속에서 인사이트를 발견하는 데 탁월해요.',
+    keywords: ['꼼꼼함', '분석력', '신중함'],
+    props: { primary: 'a magnifying glass and documents', accent: 'floating data charts', pose: 'focused thinking pose' },
+  },
+  quokka: {
+    name: '쿼카',
+    emoji: '🦘',
+    weights: { E: 1, N: 1, T: 1 },
+    desc: '분위기를 살리는 아이디어 뱅크예요.\n주변을 긍정으로 물들이며 창의적인 해답을 찾아내요.',
+    keywords: ['창의력', '긍정', '친화력'],
+    props: { primary: 'post-it notes and a lightbulb', accent: 'pink heart bubbles', pose: 'cheerful wave' },
+  },
+  cat: {
+    name: '고양이',
+    emoji: '🐱',
+    weights: { I: 1, N: 1, S: 1 },
+    desc: '감각 빛나는 독립적인 크리에이터예요.\n자기만의 세계에서 남다른 결과물을 뽑아내는 타입이에요.',
+    keywords: ['창의성', '독립성', '감각'],
+    props: { primary: 'a tablet and stylus', accent: 'soft purple aurora', pose: 'chin-in-hand thinking' },
+  },
+  panda: {
+    name: '판다',
+    emoji: '🐼',
+    weights: { C: 1, I: 1, T: 1 },
+    desc: '신중하고 든든한 팀의 서포터예요.\n묵묵히 자리를 지키며 팀을 안정적으로 이끄는 힘이 있어요.',
+    keywords: ['안정감', '신중함', '조화'],
+    props: { primary: 'a clipboard with checklist', accent: 'bamboo leaves', pose: 'calm front-facing' },
+  },
+  rabbit: {
+    name: '토끼',
+    emoji: '🐰',
+    weights: { D: 1, L: 1, S: 1 },
+    desc: '빠르게 실행하는 민첩한 플레이어예요.\n목표를 설정하면 누구보다 빨리 달려가는 스피드가 매력이에요.',
+    keywords: ['추진력', '민첩성', '실행력'],
+    props: { primary: 'a stopwatch and target', accent: 'speed lines effect', pose: 'dynamic running pose' },
+  },
+};
+
+const NICKNAME_SLOTS = {
+  retriever: {
+    adjectives: ['의욕 폭발', '햇살 가득', '꼬리 흔드는', '눈빛 반짝', '환하게 웃는', '월요일도 달리는', '브레인스토밍 제왕'],
+    topics: ['회의실 분위기 이끄는', '팀 사기 올리는', '워크샵 주인공', '점심 약속 부지런한', '우리 부서 마스코트'],
+  },
+  raccoon: {
+    adjectives: ['기획안 깎는', '오탈자 사냥하는', '데이터 파는', '꼼꼼한', '계산기 두드리는', '디테일 지키는', '보고서 다듬는'],
+    topics: ['엑셀 장인', '회의록 수호자', '숫자 읽는', '자료조사 프로'],
+  },
+  quokka: {
+    adjectives: ['아이디어 뿜뿜', '월요일도 행복한', '긍정 에너지', '웃음 가득한', '반짝반짝', '분위기 메이커'],
+    topics: ['워크샵 스타', '브레인스토밍 요정', '팀 비타민', '캠페인 천재'],
+  },
+  cat: {
+    adjectives: ['혼자 잘하는', '감각 빛나는', '시크한', '우아한', '심미안 가진', '트렌디한'],
+    topics: ['디자인 센스', '컨셉 장인', '나만의 세계', '크리에이티브'],
+  },
+  panda: {
+    adjectives: ['든든한', '디테일 지키는', '차분한', '묵묵히 일하는', '평화로운', '신뢰의'],
+    topics: ['팀의 중심', '프로세스 지키는', '매뉴얼 장인', '백오피스 히어로'],
+  },
+  rabbit: {
+    adjectives: ['속도 장인', '빠릿빠릿한', 'KPI 사냥하는', '데드라인 수호', '번개같은', '타겟 조준'],
+    topics: ['스프린트 리더', '실행력 최강', '목표 맞추는', '퇴근 1등'],
+  },
+};
+
+const TRAIT_LABELS = {
+  D: '추진력', C: '꼼꼼함',
+  E: '외향', I: '내향',
+  N: '직관·창의', L: '논리·데이터',
+  T: '팀 지향', S: '개인 성취',
+};
+
+/* =========================================================
+   설정
+========================================================= */
+
+// 🔒 관리자 비밀번호 (4자리 숫자) — 워크샵 운영자만 알도록 변경하세요
+const ADMIN_PASSWORD = '8980';
+
+/* =========================================================
+   상태 관리
+========================================================= */
+
+const state = {
+  screen: 'welcome',
+  currentQuestion: 0,
+  answers: new Array(QUESTIONS.length).fill(null),
+  name: '',
+  department: '',
+  photo: null,
+  result: null,
+  detailItem: null,
+  adminAuthed: false,
+  pinInput: '',
+  pinError: false,
+};
+
+/* =========================================================
+   로직
+========================================================= */
+
+function calculateScores() {
+  const scores = { D:0, C:0, E:0, I:0, N:0, L:0, T:0, S:0 };
+  state.answers.forEach((ans, i) => {
+    if (!ans) return;
+    const q = QUESTIONS[i];
+    const chosen = ans === 'a' ? q.a : q.b;
+    Object.entries(chosen.traits).forEach(([k, v]) => { scores[k] += v; });
+  });
+  return scores;
+}
+
+function matchCharacter(scores) {
+  let best = null, bestScore = -1;
+  Object.entries(CHARACTERS).forEach(([key, char]) => {
+    let s = 0;
+    Object.entries(char.weights).forEach(([t, w]) => { s += (scores[t] || 0) * w; });
+    if (s > bestScore) { bestScore = s; best = { key, ...char }; }
+  });
+  return best;
+}
+
+function personalityCode(scores) {
+  return [
+    scores.D >= scores.C ? 'D' : 'C',
+    scores.E >= scores.I ? 'E' : 'I',
+    scores.N >= scores.L ? 'N' : 'L',
+    scores.T >= scores.S ? 'T' : 'S',
+  ].join('');
+}
+
+function hashString(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+  return Math.abs(h);
+}
+
+function generateNickname(charKey, scores, name) {
+  const slots = NICKNAME_SLOTS[charKey];
+  const seed = hashString(name + JSON.stringify(scores) + Date.now());
+  const existing = new Set(loadResults().map(r => r.nickname));
+  const char = CHARACTERS[charKey];
+
+  // 1차: 형용사 + 캐릭터
+  for (let i = 0; i < slots.adjectives.length; i++) {
+    const adj = slots.adjectives[(seed + i) % slots.adjectives.length];
+    const nick = `${adj} ${char.name}`;
+    if (!existing.has(nick)) return nick;
+  }
+  // 2차: 목적어 + 캐릭터
+  for (let i = 0; i < slots.topics.length; i++) {
+    const top = slots.topics[(seed + i) % slots.topics.length];
+    const nick = `${top} ${char.name}`;
+    if (!existing.has(nick)) return nick;
+  }
+  // 3차: 이름 포함
+  return `${name}의 ${slots.adjectives[seed % slots.adjectives.length]} ${char.name}`;
+}
+
+function buildImagePrompt(char, name, faceHint) {
+  const p = char.props;
+  return `A cute 3D Pixar/Disney-style animated ${char.name} character (${char.emoji}),
+anthropomorphic chibi proportions, beaming warm friendly smile,
+rendered in soft claymation texture with matte finish, 8K ultra high resolution.
+
+[FACE LIKENESS — from uploaded reference photo of ${name}]:
+Retain the user's unique facial features — hairstyle, glasses (if any),
+skin tone, face shape, distinctive marks — stylized softly in 3D form.
+Keep the face recognizable but cute and plush.
+
+[PERSONALITY ACCENT]:
+Character traits: ${char.keywords.join(', ')}.
+Holding ${p.primary}, with ${p.accent} around,
+${p.pose}, wearing smart-casual office outfit.
+
+[STYLE]:
+Pixar/Disney 3D animation aesthetic, claymation soft shading,
+studio three-point lighting, shallow depth of field,
+pastel gradient background (soft pink to cream), centered bust shot.
+
+--cref [UPLOADED_PHOTO_URL] --cw 80 --ar 3:4 --v 6 --style raw --quality 2`;
+}
+
+function buildResultJSON(result) {
+  return {
+    schema_version: "1.1",
+    generated_at: result.createdAt,
+    workshop_info: {
+      session_id: `WS-${new Date(result.createdAt).toISOString().slice(0,10)}`,
+      session_name: "신규 입사자 워크샵",
+    },
+    participant: {
+      employee_id: result.id,
+      name: result.name,
+      department: result.department || "미기재",
+    },
+    assessment: {
+      answers: result.answers,
+      detailed_scores: result.scores,
+      personality_type: result.personalityCode,
+      trait_keywords: result.traitKeywords,
+    },
+    character_type: {
+      animal: result.character.name,
+      emoji: result.character.emoji,
+      archetype_description: result.character.desc.replace(/\n/g, ' '),
+    },
+    character_instance: {
+      instance_id: `${result.character.key.toUpperCase().slice(0,3)}-${result.id}`,
+      unique_nickname: result.nickname,
+    },
+    image_generation: {
+      engine: "midjourney_v6",
+      reference_photo: "participant_uploaded_photo",
+      character_reference_weight: 80,
+      full_prompt: result.imagePrompt,
+    },
+  };
+}
+
+/* =========================================================
+   저장소
+========================================================= */
+
+const STORAGE_KEY = 'characterApp_results_v1';
+
+function saveResult(result) {
+  const all = loadResults();
+  all.push(result);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
+function loadResults() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function deleteResult(id) {
+  const all = loadResults().filter(r => r.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
+function clearAllResults() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+/* =========================================================
+   화면 전환
+========================================================= */
+
+function goScreen(name) {
+  state.screen = name;
+  if (name === 'welcome') {
+    state.currentQuestion = 0;
+    state.answers = new Array(QUESTIONS.length).fill(null);
+    state.name = '';
+    state.department = '';
+    state.photo = null;
+    state.result = null;
+    state.pinInput = '';
+    state.pinError = false;
+  }
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 키보드로도 PIN 입력 가능
+document.addEventListener('keydown', (e) => {
+  if (state.screen !== 'adminAuth') return;
+  if (/^[0-9]$/.test(e.key)) {
+    handlePinKey(e.key);
+  } else if (e.key === 'Backspace') {
+    handlePinKey('del');
+  } else if (e.key === 'Escape') {
+    goScreen('welcome');
+  }
+});
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2100);
+}
+
+function copyToClipboard(text, label = '복사되었어요! 📋') {
+  navigator.clipboard.writeText(text).then(() => toast(label));
+}
+
+/* =========================================================
+   렌더링
+========================================================= */
+
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const isAdmin = state.screen === 'admin';
+  const container = document.createElement('div');
+  container.className = 'container' + (isAdmin ? ' wide' : '');
+
+  container.appendChild(renderHeader());
+
+  const card = document.createElement('div');
+  card.className = 'card' + (isAdmin ? ' admin-card' : '');
+
+  switch (state.screen) {
+    case 'welcome':   renderWelcome(card); break;
+    case 'name':      renderName(card); break;
+    case 'photo':     renderPhoto(card); break;
+    case 'questions': renderQuestion(card); break;
+    case 'loading':   renderLoading(card); break;
+    case 'result':    renderResult(card); break;
+    case 'adminAuth': renderAdminAuth(card); break;
+    case 'admin':     renderAdmin(card); break;
+  }
+
+  container.appendChild(card);
+  app.appendChild(container);
+}
+
+function renderHeader() {
+  const h = document.createElement('div');
+  h.className = 'header';
+  const isAdminArea = state.screen === 'admin' || state.screen === 'adminAuth';
+  h.innerHTML = `
+    <div class="logo" onclick="goScreen('welcome')">🌸 부캐 메이커</div>
+    <button class="admin-btn" onclick="${isAdminArea ? "goScreen('welcome')" : 'enterAdmin()'}">${isAdminArea ? '✨ 처음으로' : '🔑 관리자'}</button>
+  `;
+  return h;
+}
+
+function enterAdmin() {
+  if (state.adminAuthed) {
+    goScreen('admin');
+  } else {
+    state.pinInput = '';
+    state.pinError = false;
+    goScreen('adminAuth');
+  }
+}
+
+/* ---- Welcome ---- */
+function renderWelcome(card) {
+  card.innerHTML = `
+    <div class="welcome-hero">
+      <div class="welcome-emojis">
+        <span>🐕</span><span>🦝</span><span>🐼</span><span>🐱</span><span>🐰</span>
+      </div>
+      <h1 class="title">나의 동물 <span class="accent">부캐</span>를<br>찾아볼까요?</h1>
+      <p class="subtitle">
+        7가지 질문에 답하고<br>
+        사진을 업로드하면, 당신만의<br>
+        귀여운 캐릭터와 별명이 완성돼요 ✨
+      </p>
+      <div class="feature-chips">
+        <div class="chip">⏱️ 약 2분 소요</div>
+        <div class="chip mint">📷 사진 필요</div>
+        <div class="chip yellow">🎁 결과 카드 제공</div>
+      </div>
+    </div>
+    <button class="btn" onclick="goScreen('name')">시작하기 →</button>
+  `;
+}
+
+/* ---- Name ---- */
+function renderName(card) {
+  card.innerHTML = `
+    <h2 class="title" style="margin-top: 20px;">먼저, <span class="accent">이름</span>을<br>알려주세요</h2>
+    <p class="subtitle">결과 카드에 사용될 이름이에요</p>
+    <div class="form-group">
+      <label class="label">이름</label>
+      <input class="input" id="nameInput" placeholder="예) 김아현" value="${state.name}" maxlength="20"/>
+    </div>
+    <div class="form-group">
+      <label class="label">부서 (선택)</label>
+      <input class="input" id="deptInput" placeholder="예) 전략기획팀" value="${state.department}" maxlength="20"/>
+    </div>
+    <div style="margin-top: auto;" class="button-row">
+      <button class="btn btn-secondary" onclick="goScreen('welcome')">← 이전</button>
+      <button class="btn" id="nameNext" disabled>다음 →</button>
+    </div>
+  `;
+  const input = card.querySelector('#nameInput');
+  const deptInput = card.querySelector('#deptInput');
+  const nextBtn = card.querySelector('#nameNext');
+  const update = () => {
+    state.name = input.value.trim();
+    state.department = deptInput.value.trim();
+    nextBtn.disabled = !state.name;
+  };
+  input.addEventListener('input', update);
+  deptInput.addEventListener('input', update);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && state.name) goScreen('photo'); });
+  nextBtn.addEventListener('click', () => goScreen('photo'));
+  update();
+  setTimeout(() => input.focus(), 100);
+}
+
+/* ---- Photo ---- */
+function renderPhoto(card) {
+  card.innerHTML = `
+    <h2 class="title" style="margin-top: 20px;"><span class="accent">${state.name}</span>님의<br>사진을 올려주세요</h2>
+    <p class="subtitle">
+      AI가 얼굴 특징을 반영해<br>
+      나만의 유일한 캐릭터를 만들어드려요
+    </p>
+    <label for="photoInput" class="photo-upload" id="photoBox">
+      ${state.photo
+        ? `<img src="${state.photo}" alt="uploaded"/>`
+        : `<div class="photo-upload-emoji">📷</div>
+           <div class="photo-upload-hint">사진 추가하기<br><span style="font-size: 11px;">정면 얼굴이 잘 보이는 사진</span></div>`}
+    </label>
+    <input type="file" id="photoInput" accept="image/*"/>
+    ${state.photo ? '<div class="photo-change-hint">사진을 탭하면 변경할 수 있어요</div>' : ''}
+    <div style="margin-top: auto;" class="button-row">
+      <button class="btn btn-secondary" onclick="goScreen('name')">← 이전</button>
+      <button class="btn" id="photoNext" ${state.photo ? '' : 'disabled'}>다음 →</button>
+    </div>
+  `;
+  card.querySelector('#photoInput').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      state.photo = ev.target.result;
+      render();
+    };
+    reader.readAsDataURL(f);
+  });
+  card.querySelector('#photoNext').addEventListener('click', () => {
+    if (state.photo) { state.currentQuestion = 0; goScreen('questions'); }
+  });
+}
+
+/* ---- Questions ---- */
+function renderQuestion(card) {
+  const i = state.currentQuestion;
+  const q = QUESTIONS[i];
+  const prog = ((i) / QUESTIONS.length) * 100;
+  const sel = state.answers[i];
+
+  card.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span>Q${i + 1} / ${QUESTIONS.length}</span>
+        <span>${Math.round(((i+1)/QUESTIONS.length)*100)}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: ${((i+1)/QUESTIONS.length)*100}%"></div></div>
+    </div>
+    <p class="q-text">${q.text.replace(/\n/g, '<br>')}</p>
+    <button class="option ${sel === 'a' ? 'selected' : ''}" data-opt="a">
+      <div class="option-letter">A</div>
+      <div>${q.a.text}</div>
+    </button>
+    <button class="option b ${sel === 'b' ? 'selected' : ''}" data-opt="b">
+      <div class="option-letter">B</div>
+      <div>${q.b.text}</div>
+    </button>
+    <div style="margin-top: auto; padding-top: 20px;" class="button-row">
+      <button class="btn btn-secondary" id="qPrev">← 이전</button>
+      <button class="btn" id="qNext" ${sel ? '' : 'disabled'}>${i === QUESTIONS.length - 1 ? '결과 보기 🎀' : '다음 →'}</button>
+    </div>
+  `;
+
+  card.querySelectorAll('.option').forEach(el => {
+    el.addEventListener('click', () => {
+      state.answers[i] = el.dataset.opt;
+      render();
+      // auto-advance
+      setTimeout(() => {
+        if (i < QUESTIONS.length - 1) {
+          state.currentQuestion = i + 1;
+          render();
+        }
+      }, 280);
+    });
+  });
+
+  card.querySelector('#qPrev').addEventListener('click', () => {
+    if (i === 0) goScreen('photo');
+    else { state.currentQuestion = i - 1; render(); }
+  });
+
+  card.querySelector('#qNext').addEventListener('click', () => {
+    if (!state.answers[i]) return;
+    if (i < QUESTIONS.length - 1) {
+      state.currentQuestion = i + 1;
+      render();
+    } else {
+      goScreen('loading');
+      // 분석 시뮬레이션
+      setTimeout(() => finalizeResult(), 2400);
+    }
+  });
+}
+
+/* ---- Loading ---- */
+function renderLoading(card) {
+  card.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-circle">
+        ${state.photo ? `<img src="${state.photo}" class="loading-photo"/>` : '<div style="font-size: 80px;">🎨</div>'}
+      </div>
+      <div class="loading-emojis">
+        <span>✨</span><span>🐾</span><span>💫</span><span>🎀</span>
+      </div>
+      <div class="loading-text">${state.name}님의 부캐를 그리는 중...</div>
+      <div class="loading-sub">
+        성향을 분석하고 딱 맞는<br>
+        캐릭터와 별명을 만들고 있어요
+      </div>
+    </div>
+  `;
+}
+
+function finalizeResult() {
+  const scores = calculateScores();
+  const character = matchCharacter(scores);
+  const nickname = generateNickname(character.key, scores, state.name);
+  const code = personalityCode(scores);
+  const traitKeywords = character.keywords;
+  const imagePrompt = buildImagePrompt(character, state.name, '');
+
+  const result = {
+    id: Date.now().toString(),
+    createdAt: new Date().toISOString(),
+    name: state.name,
+    department: state.department,
+    photo: state.photo,
+    answers: state.answers,
+    scores,
+    personalityCode: code,
+    character,
+    nickname,
+    traitKeywords,
+    imagePrompt,
+  };
+
+  state.result = result;
+  saveResult(result);
+  goScreen('result');
+}
+
+/* ---- Result ---- */
+function renderResult(card) {
+  const r = state.result;
+  if (!r) { goScreen('welcome'); return; }
+  const nickParts = r.nickname.split(r.character.name);
+  const prefix = nickParts[0];
+
+  card.innerHTML = `
+    <div class="result-label">🎉 당신의 부캐가 나왔어요 🎉</div>
+    <div class="result-name-display"><b>${r.name}</b>님은...</div>
+
+    <div class="character-display">
+      <span class="sparkle sparkle-1">✨</span>
+      <span class="sparkle sparkle-2">💫</span>
+      <span class="sparkle sparkle-3">⭐</span>
+      <div class="character-photo-wrap">
+        <div class="character-photo-inner">
+          <img src="${r.photo}" class="character-photo" alt="photo"/>
+        </div>
+      </div>
+      <div class="character-emoji">${r.character.emoji}</div>
+    </div>
+
+    <h2 class="nickname">${prefix}<span class="char-name">${r.character.name}</span></h2>
+
+    <div class="traits">
+      ${r.traitKeywords.map(k => `<span class="trait-tag">#${k}</span>`).join('')}
+    </div>
+
+    <div class="description-box">
+      <span class="desc-label">🌟 캐릭터 소개</span>
+      ${r.character.desc.replace(/\n/g, '<br>')}
+    </div>
+
+    <div class="button-row" style="margin-bottom: 10px;">
+      <button class="btn" onclick="downloadCardPNG('${r.id}')">📥 카드 PNG로 저장</button>
+    </div>
+    <div class="button-row">
+      <button class="btn btn-secondary" onclick="goScreen('welcome')">✨ 다시하기</button>
+      <button class="btn btn-secondary" onclick="showResultDetail()">상세 보기 →</button>
+    </div>
+  `;
+}
+
+function showResultDetail() {
+  state.detailItem = state.result;
+  showModal();
+}
+
+/* ---- Admin Auth ---- */
+function renderAdminAuth(card) {
+  const len = state.pinInput.length;
+  const dotsClass = state.pinError ? 'pin-dots shake' : 'pin-dots';
+
+  card.innerHTML = `
+    <div style="text-align: center; margin-top: 12px;">
+      <div style="font-size: 56px; margin-bottom: 14px;">🔒</div>
+      <h2 class="title"><span class="accent">관리자</span> 인증</h2>
+      <p class="subtitle" style="margin-bottom: 10px;">비밀번호 4자리를 입력해주세요</p>
+    </div>
+
+    <div class="${dotsClass}" id="pinDots">
+      ${[0,1,2,3].map(i => `<div class="pin-dot ${i < len ? 'filled' : ''}"></div>`).join('')}
+    </div>
+
+    <div class="pin-msg ${state.pinError ? 'error' : ''}">
+      ${state.pinError ? '비밀번호가 일치하지 않아요 😢' : '\u00A0'}
+    </div>
+
+    <div class="keypad">
+      ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" data-key="${n}">${n}</button>`).join('')}
+      <button class="key special" data-key="del">⌫</button>
+      <button class="key" data-key="0">0</button>
+      <button class="key empty"></button>
+    </div>
+
+    <div style="margin-top: auto;">
+      <button class="btn btn-secondary" onclick="goScreen('welcome')">← 돌아가기</button>
+    </div>
+  `;
+
+  card.querySelectorAll('.key[data-key]').forEach(btn => {
+    btn.addEventListener('click', () => handlePinKey(btn.dataset.key));
+  });
+}
+
+function handlePinKey(key) {
+  if (state.pinError) state.pinError = false;
+
+  if (key === 'del') {
+    state.pinInput = state.pinInput.slice(0, -1);
+    render();
+    return;
+  }
+
+  if (state.pinInput.length >= 4) return;
+
+  state.pinInput += key;
+  render();
+
+  if (state.pinInput.length === 4) {
+    setTimeout(() => {
+      if (state.pinInput === ADMIN_PASSWORD) {
+        state.adminAuthed = true;
+        state.pinInput = '';
+        toast('인증 성공! ✨');
+        goScreen('admin');
+      } else {
+        state.pinError = true;
+        state.pinInput = '';
+        render();
+      }
+    }, 250);
+  }
+}
+
+/* ---- Admin ---- */
+function renderAdmin(card) {
+  const results = loadResults().sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+  card.innerHTML = `
+    <div class="admin-header-row">
+      <div>
+        <div class="admin-title">🔑 관리자 페이지</div>
+        <div style="font-size: 13px; color: var(--text-light); margin-top: 4px;">참가자 결과를 확인하고 카드로 출력하세요</div>
+      </div>
+      <div class="admin-stats">
+        <div class="stat-chip">👥 참가자 ${results.length}명</div>
+        <div class="stat-chip" style="background: var(--mint-soft); color: #3FA5A5;">🎭 캐릭터 ${new Set(results.map(r=>r.character.key)).size}종</div>
+      </div>
+    </div>
+
+    <div class="admin-actions">
+      <button class="btn" onclick="goScreen('welcome')">🌸 새 참가자 시작</button>
+      ${results.length > 0 ? `
+        <button class="btn btn-secondary" onclick="exportAllJSON()">📦 전체 JSON 내보내기</button>
+        <button class="btn btn-secondary" onclick="confirmClearAll()" style="color: #D95673; border-color: #FFCBD4;">🗑️ 전체 삭제</button>
+      ` : ''}
+    </div>
+
+    ${results.length === 0
+      ? `<div class="empty-state">
+           <div class="empty-emoji">🌱</div>
+           <div style="font-size: 15px; line-height: 1.7;">아직 참가자가 없어요<br>첫 참가자를 시작해주세요!</div>
+         </div>`
+      : `<div class="admin-list">
+           ${results.map(r => `
+             <div class="admin-item" onclick="openDetail('${r.id}')">
+               <div class="admin-item-photo-wrap">
+                 <img src="${r.photo}" class="admin-item-photo" alt="${r.name}"/>
+                 <div class="admin-item-badge">${r.character.emoji}</div>
+               </div>
+               <div class="admin-item-name">${r.name}</div>
+               <div class="admin-item-dept">${r.department || '&nbsp;'}</div>
+               <div class="admin-item-nick">${r.nickname}</div>
+             </div>
+           `).join('')}
+         </div>`
+    }
+  `;
+}
+
+function openDetail(id) {
+  const r = loadResults().find(x => x.id === id);
+  if (!r) return;
+  state.detailItem = r;
+  showModal();
+}
+
+function confirmClearAll() {
+  if (confirm('모든 참가자 결과를 삭제할까요?\n이 작업은 되돌릴 수 없어요.')) {
+    clearAllResults();
+    render();
+    toast('전체 삭제 완료');
+  }
+}
+
+function exportAllJSON() {
+  const data = loadResults().map(r => buildResultJSON(r));
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `workshop-results-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON 파일이 다운로드됐어요 📥');
+}
+
+/* ---- Modal ---- */
+function showModal() {
+  const r = state.detailItem;
+  if (!r) return;
+  const json = buildResultJSON(r);
+  const jsonStr = JSON.stringify(json, null, 2);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.onclick = (e) => { if (e.target === overlay) closeModal(); };
+
+  overlay.innerHTML = `
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h3>🎀 ${r.nickname}</h3>
+
+      <div class="modal-char-display">
+        <img src="${r.photo}" class="modal-photo" alt="${r.name}"/>
+        <div class="modal-emoji">${r.character.emoji}</div>
+      </div>
+
+      <div class="info-box" style="text-align: center; margin-bottom: 8px;">
+        <b>${r.name}</b>${r.department ? ` · ${r.department}` : ''}<br>
+        <span style="font-size: 12.5px; color: var(--text-light);">${new Date(r.createdAt).toLocaleString('ko-KR')}</span>
+      </div>
+
+      <div class="section-label">🌟 캐릭터 소개</div>
+      <div class="info-box">${r.character.desc.replace(/\n/g, '<br>')}</div>
+
+      <div class="section-label">🏷️ 성향 키워드
+        <span class="copy-btn" style="background: transparent; padding: 0;">${r.personalityCode}</span>
+      </div>
+      <div class="info-box">
+        ${r.traitKeywords.map(k => `<span class="trait-tag" style="margin-right: 6px;">#${k}</span>`).join('')}
+      </div>
+
+      <div class="section-label">🎨 이미지 생성 프롬프트
+        <button class="copy-btn" onclick="copyToClipboard(state.detailItem.imagePrompt, '프롬프트 복사됨 🎨')">복사</button>
+      </div>
+      <div class="prompt-box">${r.imagePrompt}</div>
+
+      <div class="section-label">📦 관리자용 JSON
+        <button class="copy-btn" onclick="copyToClipboard(JSON.stringify(buildResultJSON(state.detailItem), null, 2), 'JSON 복사됨 📦')">복사</button>
+      </div>
+      <div class="json-box">${escapeHTML(jsonStr)}</div>
+
+      <div class="button-row" style="margin-top: 20px;">
+        <button class="btn btn-secondary" onclick="downloadCardPNG('${r.id}')">📥 PNG 저장</button>
+        <button class="btn btn-secondary" onclick="confirmDelete('${r.id}')" style="color: #D95673; border-color: #FFCBD4;">🗑️ 삭제</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const o = document.querySelector('.modal-overlay');
+  if (o) o.remove();
+  document.body.style.overflow = '';
+  state.detailItem = null;
+}
+
+function confirmDelete(id) {
+  if (confirm('이 참가자 결과를 삭제할까요?')) {
+    deleteResult(id);
+    closeModal();
+    render();
+    toast('삭제되었어요');
+  }
+}
+
+function escapeHTML(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// 사진을 정사각형으로 미리 크롭 (html2canvas의 object-fit 미지원 회피)
+function cropPhotoToSquare(dataUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const size = Math.min(img.width, img.height);
+      const sx = (img.width - size) / 2;
+      const sy = (img.height - size) / 2;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, size, size);
+      try { resolve(canvas.toDataURL('image/png')); }
+      catch (e) { resolve(dataUrl); }
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+async function downloadCardPNG(id) {
+  const r = loadResults().find(x => x.id === id);
+  if (!r) return;
+
+  if (typeof html2canvas === 'undefined') {
+    toast('이미지 라이브러리 로딩 중이에요. 잠시 후 다시 시도해주세요 ✨');
+    return;
+  }
+
+  toast('PNG 카드 만드는 중... ✨');
+
+  // 사진을 정사각형으로 먼저 크롭 (눌림 방지)
+  const squarePhoto = await cropPhotoToSquare(r.photo);
+
+  // 캡처용 카드 요소를 화면 밖에 생성
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position:fixed;left:-99999px;top:0;z-index:-1;';
+  wrapper.innerHTML = `
+    <div id="png-card-render" style="
+      width: 380px;
+      background: white;
+      border-radius: 32px;
+      padding: 36px 28px;
+      text-align: center;
+      border: 3px solid #FFE0E6;
+      font-family: 'Noto Sans KR', -apple-system, sans-serif;
+      color: #5D4E6D;
+      box-sizing: border-box;
+    ">
+      <div style="font-family: 'Gaegu', cursive; color: #FF97B0; font-size: 18px; margin-bottom: 14px; font-weight: 700;">🌸 우리 회사 부캐 메이커</div>
+      <div style="position: relative; width: 180px; height: 180px; margin: 0 auto 20px;">
+        <img src="${squarePhoto}" crossorigin="anonymous" style="width: 180px; height: 180px; border-radius: 50%; border: 6px solid #FFE8A8; display: block; box-sizing: border-box;"/>
+        <div style="position: absolute; bottom: -10px; right: -10px; width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); line-height: 1;">${r.character.emoji}</div>
+      </div>
+      <div style="font-size: 16px; color: #5D4E6D; margin-bottom: 14px; font-weight: 700;">${r.name}${r.department ? ' · ' + r.department : ''}</div>
+      <div style="font-family: 'Gaegu', cursive; font-size: 30px; color: #5D4E6D; margin-bottom: 16px; line-height: 1.3; font-weight: 700;">${r.nickname}</div>
+      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px;">
+        ${r.traitKeywords.map(k => `<span style="background: #FFF0F3; color: #FF97B0; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: 700;">#${k}</span>`).join('')}
+      </div>
+      <div style="background: #FFF8EA; border-radius: 18px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7;">${r.character.desc.replace(/\n/g, '<br>')}</div>
+    </div>
+  `;
+  document.body.appendChild(wrapper);
+
+  try {
+    // 폰트 로드 대기
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready;
+    }
+    // 이미지 로드 대기
+    const img = wrapper.querySelector('img');
+    if (img && !img.complete) {
+      await new Promise((res) => { img.onload = res; img.onerror = res; });
+    }
+    // 약간의 추가 지연 (브라우저 렌더링 안정화)
+    await new Promise((res) => setTimeout(res, 150));
+
+    const cardEl = wrapper.querySelector('#png-card-render');
+    const canvas = await html2canvas(cardEl, {
+      scale: 2,
+      backgroundColor: '#FFF5F8',
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+    });
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        toast('PNG 생성에 실패했어요 😢');
+        wrapper.remove();
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = (r.nickname + '_' + r.name).replace(/[\\/:*?"<>|]/g, '').replace(/\s+/g, '_');
+      a.href = url;
+      a.download = `${safeName}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      toast('PNG로 저장됐어요! 🎉');
+      wrapper.remove();
+    }, 'image/png');
+  } catch (err) {
+    console.error('PNG 저장 오류:', err);
+    toast('PNG 저장 중 오류가 발생했어요');
+    wrapper.remove();
+  }
+}
+
+/* =========================================================
+   초기 실행
+========================================================= */
+render();
+</script>
+
+</body>
+</html>
