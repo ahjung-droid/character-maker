@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 우리 회사 부캐 메이커</title>
+<title>🪪 나만의 사원증 만들기</title>
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -1856,7 +1856,7 @@ function renderHeader() {
   h.className = 'header';
   const isAdminArea = state.screen === 'admin' || state.screen === 'adminAuth';
   h.innerHTML = `
-    <div class="logo" onclick="goScreen('welcome')">🌸 부캐 메이커</div>
+    <div class="logo" onclick="goScreen('welcome')">🪪 사원증 만들기</div>
     <button class="admin-btn" onclick="${isAdminArea ? "goScreen('welcome')" : 'enterAdmin()'}">${isAdminArea ? '✨ 처음으로' : '🔑 관리자'}</button>
   `;
   return h;
@@ -1879,16 +1879,16 @@ function renderWelcome(card) {
       <div class="welcome-emojis">
         <span>🐕</span><span>🦝</span><span>🐼</span><span>🐱</span><span>🐰</span>
       </div>
-      <h1 class="title">나의 동물 <span class="accent">부캐</span>와<br>맞는 직무를 찾아볼까요?</h1>
+      <h1 class="title">나만의 <span class="accent">사원증</span>을<br>만들어볼까요?</h1>
       <p class="subtitle">
         11가지 질문에 답하고<br>
-        사진을 업로드하면, 당신만의<br>
-        귀여운 캐릭터와 어울리는 직무를 알려드려요 ✨
+        사진을 업로드하면, 나만의 동물 캐릭터가<br>
+        담긴 사원증과 어울리는 직무를 알려드려요 ✨
       </p>
       <div class="feature-chips">
         <div class="chip">⏱️ 약 3분 소요</div>
         <div class="chip mint">📷 사진 필요</div>
-        <div class="chip yellow">💼 직무 추천 포함</div>
+        <div class="chip yellow">🪪 나만의 사원증 제공</div>
       </div>
     </div>
     <button class="btn" onclick="goScreen('info')">시작하기 →</button>
@@ -2105,10 +2105,10 @@ function renderLoading(card) {
       <div class="loading-emojis">
         <span>✨</span><span>🐾</span><span>💫</span><span>🎀</span>
       </div>
-      <div class="loading-text">${state.name}님의 부캐를 그리는 중...</div>
+      <div class="loading-text">${state.name}님의 사원증을 만드는 중...</div>
       <div class="loading-sub">
         성향을 분석하고 딱 맞는<br>
-        캐릭터와 별명을 만들고 있어요
+        캐릭터와 직무를 찾고 있어요
       </div>
     </div>
   `;
@@ -2162,7 +2162,7 @@ function renderResult(card) {
   const prefix = nickParts[0];
 
   card.innerHTML = `
-    <div class="result-label">🎉 당신의 부캐가 나왔어요 🎉</div>
+    <div class="result-label">🎉 나만의 사원증이 완성됐어요 🎉</div>
     <div class="result-name-display"><b>${r.name}</b>님은...</div>
 
     <div class="character-display">
@@ -2193,7 +2193,7 @@ function renderResult(card) {
     ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
     <div class="button-row" style="margin-bottom: 10px;">
-      <button class="btn" onclick="downloadCardPNG('${r.id}')">📥 카드 PNG로 저장</button>
+      <button class="btn" onclick="downloadCardPNG('${r.id}')">📥 사원증 PNG로 저장</button>
     </div>
     <div class="button-row">
       <button class="btn btn-secondary" onclick="goScreen('welcome')">✨ 다시하기</button>
@@ -2457,7 +2457,7 @@ function showModal() {
       ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
       <div class="button-row" style="margin-top: 20px;">
-        <button class="btn btn-secondary" onclick="downloadCardPNG('${r.id}')">📥 PNG 저장</button>
+        <button class="btn btn-secondary" onclick="downloadCardPNG('${r.id}')">📥 사원증 PNG 저장</button>
         <button class="btn btn-secondary" onclick="confirmDelete('${r.id}')" style="color: #D95673; border-color: #FFCBD4;">🗑️ 삭제</button>
       </div>
     </div>
@@ -2518,33 +2518,63 @@ async function buildCardCanvas(r) {
   // 사진을 정사각형으로 먼저 크롭 (눌림 방지)
   const squarePhoto = await cropPhotoToSquare(r.photo);
 
-  // 캡처용 카드 요소를 화면 밖에 생성
+  // 사원증 하단에 넣을 참가자 ID 코드 (참가자 고유 id 뒷자리로 생성)
+  const badgeId = ((r.id || '').toString().replace(/[^A-Za-z0-9]/g, '').slice(-8) || 'GUEST0001').toUpperCase();
+
+  // 캡처용 카드 요소를 화면 밖에 생성 — 사원증(ID 카드) 형태로 렌더링
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;left:-99999px;top:0;z-index:-1;';
   wrapper.innerHTML = `
     <div id="png-card-render" style="
       width: 380px;
       background: white;
-      border-radius: 32px;
-      padding: 36px 28px;
+      border-radius: 22px;
+      overflow: hidden;
       text-align: center;
-      border: 3px solid #FFE0E6;
+      border: 1px solid #ECE1E8;
       font-family: 'Noto Sans KR', -apple-system, sans-serif;
       color: #5D4E6D;
       box-sizing: border-box;
     ">
-      <div style="font-family: 'Gaegu', cursive; color: #FF97B0; font-size: 18px; margin-bottom: 14px; font-weight: 700;">🌸 우리 회사 부캐 메이커</div>
-      <div style="position: relative; width: 180px; height: 180px; margin: 0 auto 20px;">
-        <img src="${squarePhoto}" crossorigin="anonymous" style="width: 180px; height: 180px; border-radius: 50%; border: 6px solid #FFE8A8; display: block; box-sizing: border-box;"/>
-        <div style="position: absolute; bottom: -10px; right: -10px; width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); line-height: 1;">${r.character.emoji}</div>
+      <!-- 목걸이 줄 구멍 -->
+      <div style="padding-top: 16px;">
+        <div style="width: 52px; height: 16px; border-radius: 10px; background: #EFE7F0; border: 1px solid #E2D5E4; margin: 0 auto;"></div>
       </div>
-      <div style="font-size: 16px; color: #5D4E6D; margin-bottom: 14px; font-weight: 700;">${r.name}${r.major ? ' · ' + r.major : ''}</div>
-      <div style="font-family: 'Gaegu', cursive; font-size: 30px; color: #5D4E6D; margin-bottom: 16px; line-height: 1.3; font-weight: 700;">${r.nickname}</div>
-      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px;">
-        ${r.traitKeywords.map(k => `<span style="background: #FFF0F3; color: #FF97B0; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: 700;">#${k}</span>`).join('')}
+
+      <!-- 상단 컬러 밴드 -->
+      <div style="background: linear-gradient(120deg, #FF97B0, #FF7A9A); padding: 10px 24px 42px; margin-top: 12px;">
+        <div style="font-family: 'Gaegu', cursive; color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 3px; font-weight: 700;">PARTICIPANT ID</div>
+        <div style="color: white; font-family: 'Gaegu', cursive; font-size: 22px; font-weight: 700; margin-top: 2px;">나만의 사원증</div>
       </div>
-      <div style="background: #FFF8EA; border-radius: 18px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7; margin-bottom: 14px;">${r.character.desc.replace(/\n/g, '<br>')}</div>
-      ${r.jobs && r.jobs[0] ? `<div style="background: #E8F7F7; border-radius: 18px; padding: 14px 18px; font-size: 13px; color: #5D4E6D;"><b>💼 추천 직무: ${r.jobs[0].emoji} ${r.jobs[0].name}</b></div>` : ''}
+
+      <!-- 증명사진 (컬러 밴드에 걸치도록) -->
+      <div style="margin-top: -46px; position: relative; display: flex; justify-content: center;">
+        <div style="width: 128px; height: 128px; border-radius: 18px; overflow: hidden; border: 5px solid white; box-shadow: 0 8px 20px rgba(93,78,109,0.22); background: white;">
+          <img src="${squarePhoto}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+        </div>
+        <div style="position: absolute; bottom: 2px; left: calc(50% + 40px); width: 44px; height: 44px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); line-height: 1;">${r.character.emoji}</div>
+      </div>
+
+      <div style="padding: 14px 26px 26px;">
+        <div style="font-size: 20px; font-weight: 800; margin-top: 8px; letter-spacing: -0.3px;">${r.name}</div>
+        ${r.major ? `<div style="font-size: 12.5px; color: #9B8FB0; margin-top: 3px;">${r.major}${r.grade ? ' · ' + r.grade : ''}</div>` : ''}
+        <div style="font-family: 'Gaegu', cursive; font-size: 23px; font-weight: 700; margin: 10px 0 14px; color: #FF7A9A;">「 ${r.nickname} 」</div>
+
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+          ${r.traitKeywords.map(k => `<span style="background: #FFF0F3; color: #FF97B0; padding: 6px 14px; border-radius: 16px; font-size: 12.5px; font-weight: 700;">#${k}</span>`).join('')}
+        </div>
+
+        <div style="background: #FFF8EA; border-radius: 14px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7; margin-bottom: 12px;">${r.character.desc.replace(/\n/g, '<br>')}</div>
+        ${r.jobs && r.jobs[0] ? `<div style="background: #E8F7F7; border-radius: 14px; padding: 14px 18px; font-size: 13px; color: #5D4E6D;"><b>💼 추천 직무: ${r.jobs[0].emoji} ${r.jobs[0].name}</b></div>` : ''}
+
+        <!-- 하단 바코드 장식 (html2canvas 호환을 위해 반복 그라디언트 대신 개별 막대 사용) -->
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed #E4DCEA;">
+          <div style="height: 30px; display: flex; align-items: stretch; justify-content: center; gap: 2px;">
+            ${Array.from({ length: 46 }).map((_, i) => `<div style="width: ${i % 7 === 0 ? 3 : 2}px; background: #4A3F55;"></div>`).join('')}
+          </div>
+          <div style="font-family: 'Courier New', monospace; font-size: 11.5px; letter-spacing: 3px; color: #9B8FB0; margin-top: 8px;">ID · ${badgeId}</div>
+        </div>
+      </div>
     </div>
   `;
   document.body.appendChild(wrapper);
