@@ -2127,6 +2127,7 @@ function finalizeResult() {
   state.result = result;
   saveResult(result);
   syncToSheet(buildResultPayload(result));
+  autoUploadCardPNG(result); // 다운로드 버튼과 별개로, 결과 카드를 서버에 자동 업로드 (기기 의존 없는 저장 경로)
   goScreen('result');
 }
 
@@ -2476,16 +2477,12 @@ function cropPhotoToSquare(dataUrl) {
   });
 }
 
-async function downloadCardPNG(id) {
-  const r = loadResults().find(x => x.id === id);
-  if (!r) return;
-
+// 결과 카드를 오프스크린 DOM으로 그린 뒤 html2canvas로 캡처해 canvas를 반환합니다.
+// downloadCardPNG(수동 다운로드)와 autoUploadCardPNG(자동 서버 업로드)가 함께 씁니다.
+async function buildCardCanvas(r) {
   if (typeof html2canvas === 'undefined') {
-    toast('이미지 라이브러리 로딩 중이에요. 잠시 후 다시 시도해주세요 ✨');
-    return;
+    throw new Error('html2canvas가 아직 로딩되지 않았어요');
   }
-
-  toast('PNG 카드 만드는 중... ✨');
 
   // 사진을 정사각형으로 먼저 크롭 (눌림 방지)
   const squarePhoto = await cropPhotoToSquare(r.photo);
@@ -2542,11 +2539,28 @@ async function downloadCardPNG(id) {
       allowTaint: true,
       logging: false,
     });
+    return canvas;
+  } finally {
+    wrapper.remove();
+  }
+}
 
+async function downloadCardPNG(id) {
+  const r = loadResults().find(x => x.id === id);
+  if (!r) return;
+
+  if (typeof html2canvas === 'undefined') {
+    toast('이미지 라이브러리 로딩 중이에요. 잠시 후 다시 시도해주세요 ✨');
+    return;
+  }
+
+  toast('PNG 카드 만드는 중... ✨');
+
+  try {
+    const canvas = await buildCardCanvas(r);
     canvas.toBlob((blob) => {
       if (!blob) {
         toast('PNG 생성에 실패했어요 😢');
-        wrapper.remove();
         return;
       }
       const url = URL.createObjectURL(blob);
@@ -2559,12 +2573,33 @@ async function downloadCardPNG(id) {
       document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(url), 1500);
       toast('PNG로 저장됐어요! 🎉');
-      wrapper.remove();
     }, 'image/png');
   } catch (err) {
     console.error('PNG 저장 오류:', err);
     toast('PNG 저장 중 오류가 발생했어요');
-    wrapper.remove();
+  }
+}
+
+// 참가자의 다운로드 성공 여부와 무관하게, 결과가 나오는 즉시 카드 이미지를 서버(Apps Script)로
+// 보내 구글 드라이브에 자동 저장합니다. 참가자 기기·브라우저의 다운로드 지원 여부에 영향받지 않는
+// "무조건 저장" 경로입니다. 화면 전환을 막지 않도록 finalizeResult()에서 await 없이 호출됩니다.
+async function autoUploadCardPNG(result) {
+  if (!GOOGLE_SHEET_WEB_APP_URL) return;
+  try {
+    const canvas = await buildCardCanvas(result);
+    const dataUrl = canvas.toDataURL('image/png');
+    syncToSheet({
+      participant_id: result.id,
+      timestamp: result.createdAt,
+      stage: 'card',
+      name: result.name,
+      grade: result.grade,
+      major: result.major,
+      email: result.email,
+      card_png_base64: dataUrl,
+    });
+  } catch (err) {
+    console.warn('사원증 카드 자동 업로드 실패 (기기의 관리자 페이지에는 남아있어요):', err);
   }
 }
 
