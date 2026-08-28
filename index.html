@@ -2487,19 +2487,31 @@ function escapeHTML(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// 사진을 정사각형으로 미리 크롭 (html2canvas의 object-fit 미지원 회피)
-function cropPhotoToSquare(dataUrl) {
+// 사진을 지정한 비율로 미리 크롭 (html2canvas의 object-fit 미지원 회피).
+// 사원증 증명사진처럼 보이도록 정사각형이 아닌 세로형 비율(예: 3:4)로 크롭할 때 씁니다.
+function cropPhotoToRatio(dataUrl, ratioW, ratioH) {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const size = Math.min(img.width, img.height);
-      const sx = (img.width - size) / 2;
-      const sy = (img.height - size) / 2;
+      const targetRatio = ratioW / ratioH;
+      const srcRatio = img.width / img.height;
+      let sx, sy, sw, sh;
+      if (srcRatio > targetRatio) {
+        sh = img.height;
+        sw = sh * targetRatio;
+        sx = (img.width - sw) / 2;
+        sy = 0;
+      } else {
+        sw = img.width;
+        sh = sw / targetRatio;
+        sx = 0;
+        sy = (img.height - sh) / 2;
+      }
       const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
+      canvas.width = Math.round(sw);
+      canvas.height = Math.round(sh);
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, sx, sy, size, size, 0, 0, size, size);
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
       try { resolve(canvas.toDataURL('image/png')); }
       catch (e) { resolve(dataUrl); }
     };
@@ -2515,11 +2527,9 @@ async function buildCardCanvas(r) {
     throw new Error('html2canvas가 아직 로딩되지 않았어요');
   }
 
-  // 사진을 정사각형으로 먼저 크롭 (눌림 방지)
-  const squarePhoto = await cropPhotoToSquare(r.photo);
-
-  // 사원증 하단에 넣을 참가자 ID 코드 (참가자 고유 id 뒷자리로 생성)
-  const badgeId = ((r.id || '').toString().replace(/[^A-Za-z0-9]/g, '').slice(-8) || 'GUEST0001').toUpperCase();
+  // 사원증 증명사진처럼 보이도록 세로형(3:4) 비율로 크롭
+  const idPhoto = await cropPhotoToRatio(r.photo, 3, 4);
+  const issuedDate = new Date(r.createdAt || Date.now()).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '');
 
   // 캡처용 카드 요소를 화면 밖에 생성 — 사원증(ID 카드) 형태로 렌더링
   const wrapper = document.createElement('div');
@@ -2541,22 +2551,25 @@ async function buildCardCanvas(r) {
         <div style="width: 52px; height: 16px; border-radius: 10px; background: #EFE7F0; border: 1px solid #E2D5E4; margin: 0 auto;"></div>
       </div>
 
-      <!-- 상단 컬러 밴드 -->
-      <div style="background: linear-gradient(120deg, #FF97B0, #FF7A9A); padding: 10px 24px 42px; margin-top: 12px;">
-        <div style="font-family: 'Gaegu', cursive; color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 3px; font-weight: 700;">PARTICIPANT ID</div>
-        <div style="color: white; font-family: 'Gaegu', cursive; font-size: 22px; font-weight: 700; margin-top: 2px;">나만의 사원증</div>
+      <!-- 상단 헤더: 로고 배지 + 카드 타이틀 -->
+      <div style="padding: 16px 24px 4px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <div style="width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #FF97B0, #FF7A9A); display: flex; align-items: center; justify-content: center; font-size: 15px;">🪪</div>
+        <div style="font-family: 'Gaegu', cursive; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;">나만의 사원증</div>
       </div>
+      <div style="font-size: 10.5px; letter-spacing: 3px; color: #B5ADBF; font-weight: 700; margin-bottom: 16px;">EMPLOYEE ID CARD</div>
 
-      <!-- 증명사진 (컬러 밴드에 걸치도록) -->
-      <div style="margin-top: -46px; position: relative; display: flex; justify-content: center;">
-        <div style="width: 128px; height: 128px; border-radius: 18px; overflow: hidden; border: 5px solid white; box-shadow: 0 8px 20px rgba(93,78,109,0.22); background: white;">
-          <img src="${squarePhoto}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+      <!-- 상단 컬러 밴드 + 증명사진(세로형) -->
+      <div style="background: linear-gradient(120deg, #FF97B0, #FF7A9A); padding-bottom: 34px;">
+        <div style="position: relative; display: flex; justify-content: center; padding-top: 4px;">
+          <div style="width: 116px; height: 154px; border-radius: 10px; overflow: hidden; border: 4px solid white; box-shadow: 0 10px 22px rgba(93,78,109,0.28); background: white;">
+            <img src="${idPhoto}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+          </div>
+          <div style="position: absolute; bottom: -6px; left: calc(50% + 44px); width: 42px; height: 42px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.18); line-height: 1;">${r.character.emoji}</div>
         </div>
-        <div style="position: absolute; bottom: 2px; left: calc(50% + 40px); width: 44px; height: 44px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); line-height: 1;">${r.character.emoji}</div>
       </div>
 
-      <div style="padding: 14px 26px 26px;">
-        <div style="font-size: 20px; font-weight: 800; margin-top: 8px; letter-spacing: -0.3px;">${r.name}</div>
+      <div style="padding: 18px 26px 24px; margin-top: -18px;">
+        <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.3px;">${r.name}</div>
         ${r.major ? `<div style="font-size: 12.5px; color: #9B8FB0; margin-top: 3px;">${r.major}${r.grade ? ' · ' + r.grade : ''}</div>` : ''}
         <div style="font-family: 'Gaegu', cursive; font-size: 23px; font-weight: 700; margin: 10px 0 14px; color: #FF7A9A;">「 ${r.nickname} 」</div>
 
@@ -2566,15 +2579,10 @@ async function buildCardCanvas(r) {
 
         <div style="background: #FFF8EA; border-radius: 14px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7; margin-bottom: 12px;">${r.character.desc.replace(/\n/g, '<br>')}</div>
         ${r.jobs && r.jobs[0] ? `<div style="background: #E8F7F7; border-radius: 14px; padding: 14px 18px; font-size: 13px; color: #5D4E6D;"><b>💼 추천 직무: ${r.jobs[0].emoji} ${r.jobs[0].name}</b></div>` : ''}
-
-        <!-- 하단 바코드 장식 (html2canvas 호환을 위해 반복 그라디언트 대신 개별 막대 사용) -->
-        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed #E4DCEA;">
-          <div style="height: 30px; display: flex; align-items: stretch; justify-content: center; gap: 2px;">
-            ${Array.from({ length: 46 }).map((_, i) => `<div style="width: ${i % 7 === 0 ? 3 : 2}px; background: #4A3F55;"></div>`).join('')}
-          </div>
-          <div style="font-family: 'Courier New', monospace; font-size: 11.5px; letter-spacing: 3px; color: #9B8FB0; margin-top: 8px;">ID · ${badgeId}</div>
-        </div>
       </div>
+
+      <!-- 하단 발급 정보 바 -->
+      <div style="background: #FBF7FA; border-top: 1px solid #ECE1E8; padding: 10px 24px; font-size: 11px; color: #9B8FB0; letter-spacing: 0.5px;">발급일 · ${issuedDate}</div>
     </div>
   `;
   document.body.appendChild(wrapper);
