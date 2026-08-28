@@ -657,6 +657,14 @@
     color: var(--text-mid);
   }
 
+  .job-interest {
+    font-size: 12.5px;
+    color: var(--text-mid);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--mint-light);
+  }
+
   .choice-option {
     align-items: flex-start;
     text-align: left;
@@ -1532,22 +1540,33 @@ function calculateScores() {
 }
 
 function calculateJobScores() {
+  // "관심 직무 직접 선택" 문항(type: 'choice')은 여기서 제외합니다.
+  // 이 문항까지 점수에 섞으면 가중치가 압도적이라 성향 분석 결과가 사실상
+  // "본인이 고른 답 그대로"가 되어버려서, 성향 기반 추천은 밸런스 게임
+  // 문항(a/b)만으로 계산하고, 직접 고른 관심 분야는 getInterestJob()으로
+  // 따로 분리해 보여줍니다.
   const scores = { MKT:0, SAL:0, PLN:0, DES:0, RND:0, OPS:0, SUP:0, ITD:0 };
   state.answers.forEach((ans, i) => {
     if (!ans) return;
     const q = QUESTIONS[i];
-    let jobTraits;
-    if (q.type === 'choice') {
-      const opt = q.options.find(o => o.key === ans);
-      jobTraits = opt && opt.jobTraits;
-    } else {
-      const chosen = ans === 'a' ? q.a : q.b;
-      jobTraits = chosen.jobTraits;
-    }
+    if (q.type === 'choice') return;
+    const chosen = ans === 'a' ? q.a : q.b;
+    const jobTraits = chosen.jobTraits;
     if (!jobTraits) return;
     Object.entries(jobTraits).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
   });
   return scores;
+}
+
+// 참가자가 마지막 문항에서 직접 고른 "관심 직무"를 성향 점수와 별개로 반환합니다.
+function getInterestJob() {
+  const idx = QUESTIONS.findIndex(q => q.type === 'choice');
+  if (idx === -1) return null;
+  const ans = state.answers[idx];
+  if (!ans) return null;
+  const opt = QUESTIONS[idx].options.find(o => o.key === ans);
+  if (!opt) return null;
+  return { key: opt.key, ...JOB_ROLES[opt.key] };
 }
 
 function matchCharacter(scores) {
@@ -1660,6 +1679,7 @@ function buildResultJSON(result) {
     job_recommendation: {
       job_scores: result.jobScores,
       recommended_jobs: (result.jobs || []).slice(0, 3).map(j => ({ job: j.name, score: j.score })),
+      self_reported_interest: result.interestJob ? result.interestJob.name : null,
     },
     work_life_tips: result.tips || CHARACTER_TIPS[result.character.key],
   };
@@ -1719,6 +1739,7 @@ function buildResultPayload(result) {
     nickname: result.nickname,
     recommended_job_1: result.jobs && result.jobs[0] ? result.jobs[0].name : '',
     recommended_job_2: result.jobs && result.jobs[1] ? result.jobs[1].name : '',
+    interest_job: result.interestJob ? result.interestJob.name : '',
     job_scores_json: JSON.stringify(result.jobScores),
     answers_json: JSON.stringify(result.answers),
   };
@@ -2102,6 +2123,7 @@ function finalizeResult() {
   const tips = CHARACTER_TIPS[character.key];
   const jobScores = calculateJobScores();
   const jobs = matchJobs(jobScores);
+  const interestJob = getInterestJob();
 
   const result = {
     id: state.participantId || Date.now().toString(),
@@ -2122,6 +2144,7 @@ function finalizeResult() {
     tips,
     jobScores,
     jobs,
+    interestJob,
   };
 
   state.result = result;
@@ -2165,7 +2188,7 @@ function renderResult(card) {
       ${r.character.desc.replace(/\n/g, '<br>')}
     </div>
 
-    ${renderJobHTML(r.jobs)}
+    ${renderJobHTML(r.jobs, r.interestJob)}
 
     ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
@@ -2179,16 +2202,23 @@ function renderResult(card) {
   `;
 }
 
-function renderJobHTML(jobs) {
+function renderJobHTML(jobs, interestJob) {
   if (!jobs || !jobs.length) return '';
   const primary = jobs[0];
   const secondary = jobs[1];
+  const matchesInterest = interestJob && interestJob.key === primary.key;
   return `
     <div class="job-box">
-      <span class="desc-label">💼 추천 직무</span>
+      <span class="desc-label">🧠 성향 분석 기반 추천 직무</span>
       <div class="job-primary">${primary.emoji} ${primary.name}</div>
       <div class="job-primary-desc">${primary.desc.replace(/\n/g, '<br>')}</div>
       ${secondary ? `<div class="job-secondary">이런 직무도 잘 맞을 수 있어요 → <b>${secondary.emoji} ${secondary.name}</b></div>` : ''}
+      ${interestJob ? `
+        <div class="job-interest">
+          🙋 직접 고르신 관심 분야: <b>${interestJob.emoji} ${interestJob.name}</b>
+          ${matchesInterest ? ' — 성향 분석 결과와도 잘 맞아떨어져요! ✨' : ''}
+        </div>
+      ` : ''}
     </div>
   `;
 }
@@ -2417,9 +2447,10 @@ function showModal() {
       </div>
 
       ${r.jobs ? `
-        <div class="section-label">💼 추천 직무</div>
+        <div class="section-label">🧠 성향 분석 기반 추천 직무</div>
         <div class="info-box">
           ${r.jobs.slice(0, 3).map((j, idx) => `<div>${idx + 1}순위 — ${j.emoji} ${j.name}</div>`).join('')}
+          ${r.interestJob ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--pink-light);">🙋 직접 고른 관심 분야 — ${r.interestJob.emoji} ${r.interestJob.name}</div>` : ''}
         </div>
       ` : ''}
 

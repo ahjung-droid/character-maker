@@ -52,7 +52,12 @@ const COLUMNS = [
   'job_scores_json',
   'answers_json',
   'card_png_url',
+  'interest_job',
 ];
+// ⚠️ 컬럼을 더 추가할 일이 생기면 항상 이 배열의 "맨 끝"에 추가하세요.
+// 중간에 끼워 넣으면 이미 만들어진 시트의 기존 컬럼과 순서가 어긋나서
+// 예전 데이터 위의 헤더가 틀어질 수 있어요. (아래 getOrCreateSheet가
+// 새로 추가된 컬럼의 헤더는 자동으로 뒤에 이어붙여줍니다)
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -132,6 +137,14 @@ function getOrCreateSheet() {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(COLUMNS);
     sheet.setFrozenRows(1);
+  } else {
+    // 예전 버전 스크립트로 이미 만들어진 시트라 헤더가 COLUMNS보다 짧을 수 있어요.
+    // 이 경우 새로 추가된 컬럼의 헤더만 뒤에 이어붙입니다 (기존 컬럼 위치는 그대로 유지).
+    const currentHeaderLen = sheet.getLastColumn();
+    if (currentHeaderLen < COLUMNS.length) {
+      const missingHeaders = COLUMNS.slice(currentHeaderLen);
+      sheet.getRange(1, currentHeaderLen + 1, 1, missingHeaders.length).setValues([missingHeaders]);
+    }
   }
   return sheet;
 }
