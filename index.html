@@ -619,6 +619,53 @@
     margin-bottom: 4px;
   }
 
+  .job-box {
+    background: linear-gradient(135deg, var(--mint-soft), #EAFBFB);
+    border-radius: 22px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.7;
+    font-size: 14.5px;
+    color: var(--text);
+    border: 2px solid var(--mint-light);
+  }
+
+  .job-box .desc-label {
+    font-family: 'Gaegu';
+    color: var(--text-light);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .job-primary {
+    font-family: 'Gaegu';
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .job-primary-desc {
+    font-size: 13.5px;
+    margin-bottom: 10px;
+  }
+
+  .job-secondary {
+    font-size: 12.5px;
+    color: var(--text-mid);
+  }
+
+  .choice-option {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .choice-option .option-letter {
+    font-size: 22px;
+    background: linear-gradient(135deg, var(--mint), #5EC8C8);
+  }
+
   .button-row {
     display: flex;
     gap: 12px;
@@ -1125,38 +1172,67 @@
 const QUESTIONS = [
   {
     text: "새로운 프로젝트가 주어졌어요.\n당신의 첫 행동은?",
-    a: { text: "일단 시작! 하면서 방향을 잡아간다", traits: { D: 2 } },
-    b: { text: "체크리스트부터 만들고 계획을 세운다", traits: { C: 2 } },
+    a: { text: "일단 시작! 하면서 방향을 잡아간다", traits: { D: 2 }, jobTraits: { SAL: 1, PLN: 1 } },
+    b: { text: "체크리스트부터 만들고 계획을 세운다", traits: { C: 2 }, jobTraits: { OPS: 1, SUP: 1 } },
   },
   {
     text: "점심시간, 당신의\n이상적인 한 끼는?",
-    a: { text: "동료들과 수다 떨며 시끌벅적하게", traits: { E: 2 } },
-    b: { text: "조용한 곳에서 책·유튜브 보며 혼밥", traits: { I: 2 } },
+    a: { text: "동료들과 수다 떨며 시끌벅적하게", traits: { E: 2 }, jobTraits: { SAL: 1, MKT: 1 } },
+    b: { text: "조용한 곳에서 책·유튜브 보며 혼밥", traits: { I: 2 }, jobTraits: { RND: 1, ITD: 1 } },
   },
   {
     text: "예상 밖의 이슈가 터졌어요.\n먼저 하는 일은?",
-    a: { text: "'이런 방법 어때요?' 아이디어부터 던진다", traits: { N: 2 } },
-    b: { text: "'데이터 먼저 볼게요' 원인을 분석한다", traits: { L: 2 } },
+    a: { text: "'이런 방법 어때요?' 아이디어부터 던진다", traits: { N: 2 }, jobTraits: { MKT: 1, PLN: 1 } },
+    b: { text: "'데이터 먼저 볼게요' 원인을 분석한다", traits: { L: 2 }, jobTraits: { ITD: 1, RND: 1 } },
   },
   {
     text: "회식 날,\n당신이 기대하는 것은?",
-    a: { text: "팀원들과 맞추는 '짠!' — 함께하는 분위기", traits: { T: 2 } },
-    b: { text: "'나 오늘 수고했지' — 나에게 주는 보상", traits: { S: 2 } },
+    a: { text: "팀원들과 맞추는 '짠!' — 함께하는 분위기", traits: { T: 2 }, jobTraits: { SUP: 1, OPS: 1 } },
+    b: { text: "'나 오늘 수고했지' — 나에게 주는 보상", traits: { S: 2 }, jobTraits: { DES: 1, RND: 1 } },
   },
   {
     text: "마감 하루 전,\n결과물을 다시 보게 됐어요.",
-    a: { text: "'이 정도면 됐지!' 그대로 제출", traits: { D: 2 } },
-    b: { text: "오탈자, 디자인까지 한 번 더 다듬는다", traits: { C: 2 } },
+    a: { text: "'이 정도면 됐지!' 그대로 제출", traits: { D: 2 }, jobTraits: { SAL: 1, MKT: 1 } },
+    b: { text: "오탈자, 디자인까지 한 번 더 다듬는다", traits: { C: 2 }, jobTraits: { DES: 1, OPS: 1 } },
   },
   {
     text: "회의 중 의견 충돌이 생겼어요.",
-    a: { text: "분위기부터 풀고 새 대안을 제시한다", traits: { E: 1, N: 1 } },
-    b: { text: "일단 듣고, 근거 자료를 찾아본다", traits: { I: 1, L: 1 } },
+    a: { text: "분위기부터 풀고 새 대안을 제시한다", traits: { E: 1, N: 1 }, jobTraits: { MKT: 1, PLN: 1 } },
+    b: { text: "일단 듣고, 근거 자료를 찾아본다", traits: { I: 1, L: 1 }, jobTraits: { ITD: 1, RND: 1 } },
   },
   {
     text: "당신에게\n'성공한 한 해'란?",
-    a: { text: "우리 팀이 함께 성장하고 좋은 성과를 낸 해", traits: { T: 2 } },
-    b: { text: "내 커리어에서 스스로 한 단계 성장한 해", traits: { S: 2 } },
+    a: { text: "우리 팀이 함께 성장하고 좋은 성과를 낸 해", traits: { T: 2 }, jobTraits: { SUP: 1, OPS: 1 } },
+    b: { text: "내 커리어에서 스스로 한 단계 성장한 해", traits: { S: 2 }, jobTraits: { SAL: 1, RND: 1 } },
+  },
+  {
+    text: "인턴이나 신입으로 일을 시작한다면,\n더 끌리는 업무는?",
+    a: { text: "고객·거래처와 직접 소통하며 성과를 만드는 일", traits: { E: 1 }, jobTraits: { SAL: 2, MKT: 1 } },
+    b: { text: "데이터와 자료를 분석해 전략을 세우는 일", traits: { L: 1 }, jobTraits: { PLN: 2, ITD: 1 } },
+  },
+  {
+    text: "당신이 더 잘한다고\n생각하는 것은?",
+    a: { text: "새로운 트렌드를 캐치하고 콘텐츠·비주얼로 표현하는 것", traits: { N: 1 }, jobTraits: { MKT: 2, DES: 2 } },
+    b: { text: "일정과 자원을 꼼꼼히 관리해 차질 없이 진행하는 것", traits: { C: 1 }, jobTraits: { OPS: 2, SUP: 1 } },
+  },
+  {
+    text: "팀 프로젝트에서\n주로 맡았던 역할은?",
+    a: { text: "아이디어를 내고 방향을 제시하는 기획자", traits: { D: 1 }, jobTraits: { PLN: 2, RND: 1 } },
+    b: { text: "실제로 만들고 결과물의 품질을 점검하는 실행자", traits: { C: 1 }, jobTraits: { RND: 2, OPS: 1 } },
+  },
+  {
+    type: 'choice',
+    text: "마지막으로,\n가장 끌리는 업무 분야를 골라주세요",
+    options: [
+      { key: 'marketing', emoji: '📣', title: '마케팅/브랜드기획', desc: '브랜드와 고객에게 메시지를 전달하는 일', jobTraits: { MKT: 4 } },
+      { key: 'sales', emoji: '🤝', title: '영업/해외영업', desc: '파트너·바이어와 관계를 만들고 성과를 이끄는 일', jobTraits: { SAL: 4 } },
+      { key: 'planning', emoji: '📋', title: '상품기획/MD', desc: '트렌드를 읽고 팔릴 상품을 기획하는 일', jobTraits: { PLN: 4 } },
+      { key: 'design', emoji: '🎨', title: '디자인', desc: '제품과 브랜드를 시각적으로 완성하는 일', jobTraits: { DES: 4 } },
+      { key: 'rnd', emoji: '🔬', title: '연구개발/품질', desc: '제품을 개발하고 품질을 검증하는 일', jobTraits: { RND: 4 } },
+      { key: 'ops', emoji: '📦', title: 'SCM/생산·물류관리', desc: '생산과 물류의 흐름을 관리하는 일', jobTraits: { OPS: 4 } },
+      { key: 'support', emoji: '🏢', title: '경영지원(인사·재무·총무)', desc: '조직이 잘 돌아가게 지원하는 일', jobTraits: { SUP: 4 } },
+      { key: 'it', emoji: '💻', title: 'IT/데이터', desc: '시스템을 만들고 데이터를 다루는 일', jobTraits: { ITD: 4 } },
+    ],
   },
 ];
 
@@ -1240,6 +1316,65 @@ const CHARACTERS = {
     desc: '약속과 매너를 지키는 조직적 협력가예요.\n팀의 흐름을 부드럽게 조율하며 함께 나아가요.',
     keywords: ['협력', '단정함', '신뢰'],
     props: { primary: 'a clipboard and event schedule', accent: 'icy blue sparkles', pose: 'polite welcoming gesture' },
+  },
+};
+
+const JOB_ROLES = {
+  marketing: {
+    name: '마케팅/브랜드기획',
+    emoji: '📣',
+    weights: { MKT: 1 },
+    desc: '트렌드를 빠르게 캐치하고, 브랜드와 고객을 연결하는 메시지를 만드는 일이 잘 맞아요.\nSNS·콘텐츠·캠페인처럼 사람들의 마음을 움직이는 작업에서 강점을 발휘해요.',
+    keywords: ['트렌드 감각', '기획력', '커뮤니케이션'],
+  },
+  sales: {
+    name: '영업/해외영업',
+    emoji: '🤝',
+    weights: { SAL: 1 },
+    desc: '사람을 만나고 관계를 쌓는 데서 에너지를 얻는 타입이에요.\n파트너사·바이어와 신뢰를 만들고 성과로 연결하는 역할에서 빛나요.',
+    keywords: ['관계력', '추진력', '협상력'],
+  },
+  planning: {
+    name: '상품기획/MD',
+    emoji: '📋',
+    weights: { PLN: 1 },
+    desc: '데이터와 시장을 함께 보며 "팔릴 상품"을 그려내는 감각이 있어요.\n전략적으로 방향을 잡고 실행까지 이어가는 기획자 타입이에요.',
+    keywords: ['전략', '시장감각', '기획력'],
+  },
+  design: {
+    name: '디자인',
+    emoji: '🎨',
+    weights: { DES: 1 },
+    desc: '보이는 것, 느껴지는 것에 예민한 감각을 가지고 있어요.\n제품과 브랜드를 시각적으로 완성하는 크리에이티브 작업에서 강점을 보여요.',
+    keywords: ['감각', '창의성', '완성도'],
+  },
+  rnd: {
+    name: '연구개발/품질',
+    emoji: '🔬',
+    weights: { RND: 1 },
+    desc: '궁금한 건 끝까지 파고드는 몰입력을 가지고 있어요.\n제품을 만들고 검증하는 과정에서 꼼꼼함과 전문성이 빛을 발해요.',
+    keywords: ['탐구심', '전문성', '꼼꼼함'],
+  },
+  ops: {
+    name: 'SCM/생산·물류관리',
+    emoji: '📦',
+    weights: { OPS: 1 },
+    desc: '전체 흐름을 조율하고 차질 없이 진행시키는 데 강해요.\n생산·물류처럼 많은 변수를 관리하는 일에서 안정감을 발휘해요.',
+    keywords: ['실행력', '관리력', '안정감'],
+  },
+  support: {
+    name: '경영지원(인사·재무·총무)',
+    emoji: '🏢',
+    weights: { SUP: 1 },
+    desc: '조직이 잘 굴러가도록 뒤에서 든든하게 받쳐주는 역할이 잘 맞아요.\n사람과 시스템을 챙기는 세심함이 팀 전체를 지탱해요.',
+    keywords: ['신뢰감', '세심함', '조율력'],
+  },
+  it: {
+    name: 'IT/데이터',
+    emoji: '💻',
+    weights: { ITD: 1 },
+    desc: '논리적으로 문제를 파고들고 구조화하는 걸 좋아해요.\n데이터와 시스템으로 문제를 해결하는 과정에서 몰입을 느껴요.',
+    keywords: ['논리력', '문제해결', '몰입력'],
   },
 };
 
@@ -1353,6 +1488,10 @@ const TRAIT_LABELS = {
 // 🔒 관리자 비밀번호 (4자리 숫자) — 워크샵 운영자만 알도록 변경하세요
 const ADMIN_PASSWORD = '8980';
 
+// 📊 구글 시트 연동 — Apps Script 웹앱 배포 후 URL을 여기에 붙여넣으세요
+// (자세한 설정 방법은 README.md와 apps-script/Code.gs 참고)
+const GOOGLE_SHEET_WEB_APP_URL = '';
+
 /* =========================================================
    상태 관리
 ========================================================= */
@@ -1362,7 +1501,12 @@ const state = {
   currentQuestion: 0,
   answers: new Array(QUESTIONS.length).fill(null),
   name: '',
-  department: '',
+  grade: '',
+  major: '',
+  email: '',
+  consentAgreed: false,
+  consentAt: null,
+  participantId: null,
   photo: null,
   result: null,
   detailItem: null,
@@ -1380,8 +1524,28 @@ function calculateScores() {
   state.answers.forEach((ans, i) => {
     if (!ans) return;
     const q = QUESTIONS[i];
+    if (q.type === 'choice') return; // 직무 선택 문항은 동물 캐릭터 성향 점수에는 반영하지 않음
     const chosen = ans === 'a' ? q.a : q.b;
     Object.entries(chosen.traits).forEach(([k, v]) => { scores[k] += v; });
+  });
+  return scores;
+}
+
+function calculateJobScores() {
+  const scores = { MKT:0, SAL:0, PLN:0, DES:0, RND:0, OPS:0, SUP:0, ITD:0 };
+  state.answers.forEach((ans, i) => {
+    if (!ans) return;
+    const q = QUESTIONS[i];
+    let jobTraits;
+    if (q.type === 'choice') {
+      const opt = q.options.find(o => o.key === ans);
+      jobTraits = opt && opt.jobTraits;
+    } else {
+      const chosen = ans === 'a' ? q.a : q.b;
+      jobTraits = chosen.jobTraits;
+    }
+    if (!jobTraits) return;
+    Object.entries(jobTraits).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
   });
   return scores;
 }
@@ -1394,6 +1558,16 @@ function matchCharacter(scores) {
     if (s > bestScore) { bestScore = s; best = { key, ...char }; }
   });
   return best;
+}
+
+function matchJobs(jobScores) {
+  return Object.entries(JOB_ROLES)
+    .map(([key, job]) => {
+      let s = 0;
+      Object.entries(job.weights).forEach(([t, w]) => { s += (jobScores[t] || 0) * w; });
+      return { key, ...job, score: s };
+    })
+    .sort((a, b) => b.score - a.score);
 }
 
 function personalityCode(scores) {
@@ -1453,16 +1627,20 @@ function generateNickname(charKey, scores, name) {
 
 function buildResultJSON(result) {
   return {
-    schema_version: "1.1",
+    schema_version: "2.0",
     generated_at: result.createdAt,
-    workshop_info: {
-      session_id: `WS-${new Date(result.createdAt).toISOString().slice(0,10)}`,
-      session_name: "신규 입사자 워크샵",
+    event_info: {
+      session_id: `CF-${new Date(result.createdAt).toISOString().slice(0,10)}`,
+      session_name: "서강대학교 채용박람회",
     },
     participant: {
-      employee_id: result.id,
+      participant_id: result.id,
       name: result.name,
-      department: result.department || "미기재",
+      grade: result.grade || "미기재",
+      major: result.major || "미기재",
+      email: result.email || "미기재",
+      consent_agreed: !!result.consentAgreed,
+      consent_at: result.consentAt || null,
     },
     assessment: {
       answers: result.answers,
@@ -1479,7 +1657,70 @@ function buildResultJSON(result) {
       instance_id: `${result.character.key.toUpperCase().slice(0,3)}-${result.id}`,
       unique_nickname: result.nickname,
     },
+    job_recommendation: {
+      job_scores: result.jobScores,
+      recommended_jobs: (result.jobs || []).slice(0, 3).map(j => ({ job: j.name, score: j.score })),
+    },
     work_life_tips: result.tips || CHARACTER_TIPS[result.character.key],
+  };
+}
+
+/* =========================================================
+   구글 시트 연동
+========================================================= */
+
+function generateParticipantId() {
+  return 'P-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+}
+
+// Apps Script 웹앱으로 참가자 데이터를 전송합니다.
+// no-cors 모드로 보내기 때문에 성공 여부를 응답으로 확인할 수는 없지만,
+// 데이터는 항상 localStorage에도 저장되므로 네트워크 문제가 있어도 유실되지 않습니다.
+function syncToSheet(payload) {
+  if (!GOOGLE_SHEET_WEB_APP_URL) return;
+  fetch(GOOGLE_SHEET_WEB_APP_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+  }).catch(err => {
+    console.warn('구글 시트 동기화 실패 (로컬 데이터는 안전합니다):', err);
+  });
+}
+
+function buildLeadPayload() {
+  return {
+    participant_id: state.participantId,
+    timestamp: new Date().toISOString(),
+    stage: 'lead',
+    name: state.name,
+    grade: state.grade,
+    major: state.major,
+    email: state.email,
+    consent_agreed: state.consentAgreed ? 'Y' : 'N',
+    consent_at: state.consentAt || '',
+  };
+}
+
+function buildResultPayload(result) {
+  return {
+    participant_id: result.id,
+    timestamp: result.createdAt,
+    stage: 'result',
+    name: result.name,
+    grade: result.grade,
+    major: result.major,
+    email: result.email,
+    consent_agreed: result.consentAgreed ? 'Y' : 'N',
+    consent_at: result.consentAt || '',
+    personality_code: result.personalityCode,
+    trait_scores_json: JSON.stringify(result.scores),
+    character_animal: result.character.name,
+    nickname: result.nickname,
+    recommended_job_1: result.jobs && result.jobs[0] ? result.jobs[0].name : '',
+    recommended_job_2: result.jobs && result.jobs[1] ? result.jobs[1].name : '',
+    job_scores_json: JSON.stringify(result.jobScores),
+    answers_json: JSON.stringify(result.answers),
   };
 }
 
@@ -1519,7 +1760,12 @@ function goScreen(name) {
     state.currentQuestion = 0;
     state.answers = new Array(QUESTIONS.length).fill(null);
     state.name = '';
-    state.department = '';
+    state.grade = '';
+    state.major = '';
+    state.email = '';
+    state.consentAgreed = false;
+    state.consentAt = null;
+    state.participantId = null;
     state.photo = null;
     state.result = null;
     state.pinInput = '';
@@ -1571,7 +1817,7 @@ function render() {
 
   switch (state.screen) {
     case 'welcome':   renderWelcome(card); break;
-    case 'name':      renderName(card); break;
+    case 'info':      renderInfo(card); break;
     case 'photo':     renderPhoto(card); break;
     case 'questions': renderQuestion(card); break;
     case 'loading':   renderLoading(card); break;
@@ -1612,54 +1858,108 @@ function renderWelcome(card) {
       <div class="welcome-emojis">
         <span>🐕</span><span>🦝</span><span>🐼</span><span>🐱</span><span>🐰</span>
       </div>
-      <h1 class="title">나의 동물 <span class="accent">부캐</span>를<br>찾아볼까요?</h1>
+      <h1 class="title">나의 동물 <span class="accent">부캐</span>와<br>맞는 직무를 찾아볼까요?</h1>
       <p class="subtitle">
-        7가지 질문에 답하고<br>
+        11가지 질문에 답하고<br>
         사진을 업로드하면, 당신만의<br>
-        귀여운 캐릭터와 별명이 완성돼요 ✨
+        귀여운 캐릭터와 어울리는 직무를 알려드려요 ✨
       </p>
       <div class="feature-chips">
-        <div class="chip">⏱️ 약 2분 소요</div>
+        <div class="chip">⏱️ 약 3분 소요</div>
         <div class="chip mint">📷 사진 필요</div>
-        <div class="chip yellow">🎁 결과 카드 제공</div>
+        <div class="chip yellow">💼 직무 추천 포함</div>
       </div>
     </div>
-    <button class="btn" onclick="goScreen('name')">시작하기 →</button>
+    <button class="btn" onclick="goScreen('info')">시작하기 →</button>
   `;
 }
 
-/* ---- Name ---- */
-function renderName(card) {
+/* ---- Info + 개인정보 수집 동의 ---- */
+const GRADE_OPTIONS = ['1학년', '2학년', '3학년', '4학년', '5학년 이상', '졸업예정/졸업유예', '대학원생', '기타'];
+
+const CONSENT_TEXT = `
+1. 수집 항목: 이름, 학년, 전공, 이메일 (사진은 결과 카드 생성을 위해서만 이 브라우저에 저장되며 서버로 전송되지 않아요)
+2. 수집 목적: 채용박람회 참가자 확인, 회사 소개자료·채용 정보 이메일 발송, 성향/직무 추천 테스트 결과 제공
+3. 보유 및 이용 기간: 수집일로부터 6개월간 보관 후 파기 (채용 관련 문의 대응 목적)
+4. 동의를 거부할 권리가 있으며, 동의하지 않으실 경우 테스트 참여 및 자료 발송이 제한될 수 있어요.
+`.trim();
+
+function isValidEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function renderInfo(card) {
   card.innerHTML = `
-    <h2 class="title" style="margin-top: 20px;">먼저, <span class="accent">이름</span>을<br>알려주세요</h2>
-    <p class="subtitle">결과 카드에 사용될 이름이에요</p>
+    <h2 class="title" style="margin-top: 20px;">먼저, <span class="accent">참가자 정보</span>를<br>알려주세요</h2>
+    <p class="subtitle">작성해주신 이메일로 회사 소개자료를 보내드려요</p>
     <div class="form-group">
       <label class="label">이름</label>
       <input class="input" id="nameInput" placeholder="예) 김아현" value="${state.name}" maxlength="20"/>
     </div>
     <div class="form-group">
-      <label class="label">부서 (선택)</label>
-      <input class="input" id="deptInput" placeholder="예) 전략기획팀" value="${state.department}" maxlength="20"/>
+      <label class="label">학년</label>
+      <select class="input" id="gradeInput">
+        <option value="" disabled ${state.grade ? '' : 'selected'}>학년을 선택해주세요</option>
+        ${GRADE_OPTIONS.map(g => `<option value="${g}" ${state.grade === g ? 'selected' : ''}>${g}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="label">전공</label>
+      <input class="input" id="majorInput" placeholder="예) 경영학과" value="${state.major}" maxlength="30"/>
+    </div>
+    <div class="form-group">
+      <label class="label">이메일</label>
+      <input class="input" id="emailInput" type="email" placeholder="예) sogang@email.sogang.ac.kr" value="${state.email}" maxlength="60"/>
+      <div id="emailHint" style="font-size: 12px; color: var(--text-light); margin-top: 6px; padding-left: 4px;"></div>
+    </div>
+    <div class="form-group">
+      <label class="label" style="display:flex; align-items:center; gap: 6px;">
+        <input type="checkbox" id="consentCheck" ${state.consentAgreed ? 'checked' : ''} style="width: 18px; height: 18px; accent-color: var(--pink); cursor: pointer;"/>
+        개인정보 수집·이용에 동의합니다 (필수)
+      </label>
+      <div class="info-box" style="white-space: pre-line; font-size: 12.5px; line-height: 1.7; margin-top: 8px;">${CONSENT_TEXT}</div>
     </div>
     <div style="margin-top: auto;" class="button-row">
       <button class="btn btn-secondary" onclick="goScreen('welcome')">← 이전</button>
-      <button class="btn" id="nameNext" disabled>다음 →</button>
+      <button class="btn" id="infoNext" disabled>다음 →</button>
     </div>
   `;
-  const input = card.querySelector('#nameInput');
-  const deptInput = card.querySelector('#deptInput');
-  const nextBtn = card.querySelector('#nameNext');
+  const nameInput = card.querySelector('#nameInput');
+  const gradeInput = card.querySelector('#gradeInput');
+  const majorInput = card.querySelector('#majorInput');
+  const emailInput = card.querySelector('#emailInput');
+  const emailHint = card.querySelector('#emailHint');
+  const consentCheck = card.querySelector('#consentCheck');
+  const nextBtn = card.querySelector('#infoNext');
+
   const update = () => {
-    state.name = input.value.trim();
-    state.department = deptInput.value.trim();
-    nextBtn.disabled = !state.name;
+    state.name = nameInput.value.trim();
+    state.grade = gradeInput.value;
+    state.major = majorInput.value.trim();
+    state.email = emailInput.value.trim();
+    state.consentAgreed = consentCheck.checked;
+
+    const emailOk = state.email === '' || isValidEmail(state.email);
+    emailHint.textContent = (!emailOk) ? '이메일 형식을 확인해주세요' : '';
+    emailHint.style.color = '#D95673';
+
+    const ready = state.name && state.grade && state.major && state.email && isValidEmail(state.email) && state.consentAgreed;
+    nextBtn.disabled = !ready;
   };
-  input.addEventListener('input', update);
-  deptInput.addEventListener('input', update);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter' && state.name) goScreen('photo'); });
-  nextBtn.addEventListener('click', () => goScreen('photo'));
+
+  [nameInput, gradeInput, majorInput, emailInput].forEach(el => el.addEventListener('input', update));
+  gradeInput.addEventListener('change', update);
+  consentCheck.addEventListener('change', update);
+
+  nextBtn.addEventListener('click', () => {
+    state.participantId = generateParticipantId();
+    state.consentAt = new Date().toISOString();
+    syncToSheet(buildLeadPayload());
+    goScreen('photo');
+  });
+
   update();
-  setTimeout(() => input.focus(), 100);
+  setTimeout(() => nameInput.focus(), 100);
 }
 
 /* ---- Photo ---- */
@@ -1679,7 +1979,7 @@ function renderPhoto(card) {
     <input type="file" id="photoInput" accept="image/*"/>
     ${state.photo ? '<div class="photo-change-hint">사진을 탭하면 변경할 수 있어요</div>' : ''}
     <div style="margin-top: auto;" class="button-row">
-      <button class="btn btn-secondary" onclick="goScreen('name')">← 이전</button>
+      <button class="btn btn-secondary" onclick="goScreen('info')">← 이전</button>
       <button class="btn" id="photoNext" ${state.photo ? '' : 'disabled'}>다음 →</button>
     </div>
   `;
@@ -1702,8 +2002,29 @@ function renderPhoto(card) {
 function renderQuestion(card) {
   const i = state.currentQuestion;
   const q = QUESTIONS[i];
-  const prog = ((i) / QUESTIONS.length) * 100;
   const sel = state.answers[i];
+  const isChoice = q.type === 'choice';
+
+  const optionsHTML = isChoice
+    ? q.options.map(o => `
+        <button class="option choice-option ${sel === o.key ? 'selected' : ''}" data-opt="${o.key}">
+          <div class="option-letter">${o.emoji}</div>
+          <div>
+            <div style="font-weight: 700; margin-bottom: 2px;">${o.title}</div>
+            <div style="font-size: 12.5px; color: var(--text-light);">${o.desc}</div>
+          </div>
+        </button>
+      `).join('')
+    : `
+      <button class="option ${sel === 'a' ? 'selected' : ''}" data-opt="a">
+        <div class="option-letter">A</div>
+        <div>${q.a.text}</div>
+      </button>
+      <button class="option b ${sel === 'b' ? 'selected' : ''}" data-opt="b">
+        <div class="option-letter">B</div>
+        <div>${q.b.text}</div>
+      </button>
+    `;
 
   card.innerHTML = `
     <div class="progress-wrap">
@@ -1714,14 +2035,7 @@ function renderQuestion(card) {
       <div class="progress-bar"><div class="progress-fill" style="width: ${((i+1)/QUESTIONS.length)*100}%"></div></div>
     </div>
     <p class="q-text">${q.text.replace(/\n/g, '<br>')}</p>
-    <button class="option ${sel === 'a' ? 'selected' : ''}" data-opt="a">
-      <div class="option-letter">A</div>
-      <div>${q.a.text}</div>
-    </button>
-    <button class="option b ${sel === 'b' ? 'selected' : ''}" data-opt="b">
-      <div class="option-letter">B</div>
-      <div>${q.b.text}</div>
-    </button>
+    ${optionsHTML}
     <div style="margin-top: auto; padding-top: 20px;" class="button-row">
       <button class="btn btn-secondary" id="qPrev">← 이전</button>
       <button class="btn" id="qNext" ${sel ? '' : 'disabled'}>${i === QUESTIONS.length - 1 ? '결과 보기 🎀' : '다음 →'}</button>
@@ -1786,12 +2100,18 @@ function finalizeResult() {
   const code = personalityCode(scores);
   const traitKeywords = character.keywords;
   const tips = CHARACTER_TIPS[character.key];
+  const jobScores = calculateJobScores();
+  const jobs = matchJobs(jobScores);
 
   const result = {
-    id: Date.now().toString(),
+    id: state.participantId || Date.now().toString(),
     createdAt: new Date().toISOString(),
     name: state.name,
-    department: state.department,
+    grade: state.grade,
+    major: state.major,
+    email: state.email,
+    consentAgreed: state.consentAgreed,
+    consentAt: state.consentAt,
     photo: state.photo,
     answers: state.answers,
     scores,
@@ -1800,10 +2120,13 @@ function finalizeResult() {
     nickname,
     traitKeywords,
     tips,
+    jobScores,
+    jobs,
   };
 
   state.result = result;
   saveResult(result);
+  syncToSheet(buildResultPayload(result));
   goScreen('result');
 }
 
@@ -1841,6 +2164,8 @@ function renderResult(card) {
       ${r.character.desc.replace(/\n/g, '<br>')}
     </div>
 
+    ${renderJobHTML(r.jobs)}
+
     ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
     <div class="button-row" style="margin-bottom: 10px;">
@@ -1849,6 +2174,20 @@ function renderResult(card) {
     <div class="button-row">
       <button class="btn btn-secondary" onclick="goScreen('welcome')">✨ 다시하기</button>
       <button class="btn btn-secondary" onclick="showResultDetail()">상세 보기 →</button>
+    </div>
+  `;
+}
+
+function renderJobHTML(jobs) {
+  if (!jobs || !jobs.length) return '';
+  const primary = jobs[0];
+  const secondary = jobs[1];
+  return `
+    <div class="job-box">
+      <span class="desc-label">💼 추천 직무</span>
+      <div class="job-primary">${primary.emoji} ${primary.name}</div>
+      <div class="job-primary-desc">${primary.desc.replace(/\n/g, '<br>')}</div>
+      ${secondary ? `<div class="job-secondary">이런 직무도 잘 맞을 수 있어요 → <b>${secondary.emoji} ${secondary.name}</b></div>` : ''}
     </div>
   `;
 }
@@ -1967,6 +2306,9 @@ function renderAdmin(card) {
       <div class="admin-stats">
         <div class="stat-chip">👥 참가자 ${results.length}명</div>
         <div class="stat-chip" style="background: var(--mint-soft); color: #3FA5A5;">🎭 캐릭터 ${new Set(results.map(r=>r.character.key)).size}종</div>
+        ${GOOGLE_SHEET_WEB_APP_URL
+          ? `<div class="stat-chip" style="background: var(--yellow-soft); color: #B8791E;">📊 시트 연동됨</div>`
+          : `<div class="stat-chip" style="background: #FFE0E0; color: #C0392B;">⚠️ 구글 시트 미설정</div>`}
       </div>
     </div>
 
@@ -1974,6 +2316,7 @@ function renderAdmin(card) {
       <button class="btn" onclick="goScreen('welcome')">🌸 새 참가자 시작</button>
       ${results.length > 0 ? `
         <button class="btn btn-secondary" onclick="exportAllJSON()">📦 전체 JSON 내보내기</button>
+        <button class="btn btn-secondary" onclick="resyncAllToSheet()">🔄 구글 시트 다시 동기화</button>
         <button class="btn btn-secondary" onclick="confirmClearAll()" style="color: #D95673; border-color: #FFCBD4;">🗑️ 전체 삭제</button>
       ` : ''}
     </div>
@@ -1991,7 +2334,7 @@ function renderAdmin(card) {
                  <div class="admin-item-badge">${r.character.emoji}</div>
                </div>
                <div class="admin-item-name">${r.name}</div>
-               <div class="admin-item-dept">${r.department || '&nbsp;'}</div>
+               <div class="admin-item-dept">${[r.major, r.grade].filter(Boolean).join(' · ') || '&nbsp;'}</div>
                <div class="admin-item-nick">${r.nickname}</div>
              </div>
            `).join('')}
@@ -2027,6 +2370,16 @@ function exportAllJSON() {
   toast('JSON 파일이 다운로드됐어요 📥');
 }
 
+function resyncAllToSheet() {
+  if (!GOOGLE_SHEET_WEB_APP_URL) {
+    toast('먼저 GOOGLE_SHEET_WEB_APP_URL을 설정해주세요 (README 참고)');
+    return;
+  }
+  const results = loadResults();
+  results.forEach(r => syncToSheet(buildResultPayload(r)));
+  toast(`${results.length}명의 데이터를 구글 시트로 다시 보냈어요 📊`);
+}
+
 /* ---- Modal ---- */
 function showModal() {
   const r = state.detailItem;
@@ -2047,7 +2400,8 @@ function showModal() {
       </div>
 
       <div class="info-box" style="text-align: center; margin-bottom: 8px;">
-        <b>${r.name}</b>${r.department ? ` · ${r.department}` : ''}<br>
+        <b>${r.name}</b>${[r.grade, r.major].filter(Boolean).length ? ` · ${[r.grade, r.major].filter(Boolean).join(' · ')}` : ''}<br>
+        ${r.email ? `<span style="font-size: 12.5px;">${r.email}</span><br>` : ''}
         <span style="font-size: 12.5px; color: var(--text-light);">${new Date(r.createdAt).toLocaleString('ko-KR')}</span>
       </div>
 
@@ -2060,6 +2414,13 @@ function showModal() {
       <div class="info-box">
         ${r.traitKeywords.map(k => `<span class="trait-tag" style="margin-right: 6px;">#${k}</span>`).join('')}
       </div>
+
+      ${r.jobs ? `
+        <div class="section-label">💼 추천 직무</div>
+        <div class="info-box">
+          ${r.jobs.slice(0, 3).map((j, idx) => `<div>${idx + 1}순위 — ${j.emoji} ${j.name}</div>`).join('')}
+        </div>
+      ` : ''}
 
       ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
@@ -2149,12 +2510,13 @@ async function downloadCardPNG(id) {
         <img src="${squarePhoto}" crossorigin="anonymous" style="width: 180px; height: 180px; border-radius: 50%; border: 6px solid #FFE8A8; display: block; box-sizing: border-box;"/>
         <div style="position: absolute; bottom: -10px; right: -10px; width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); line-height: 1;">${r.character.emoji}</div>
       </div>
-      <div style="font-size: 16px; color: #5D4E6D; margin-bottom: 14px; font-weight: 700;">${r.name}${r.department ? ' · ' + r.department : ''}</div>
+      <div style="font-size: 16px; color: #5D4E6D; margin-bottom: 14px; font-weight: 700;">${r.name}${r.major ? ' · ' + r.major : ''}</div>
       <div style="font-family: 'Gaegu', cursive; font-size: 30px; color: #5D4E6D; margin-bottom: 16px; line-height: 1.3; font-weight: 700;">${r.nickname}</div>
       <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px;">
         ${r.traitKeywords.map(k => `<span style="background: #FFF0F3; color: #FF97B0; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: 700;">#${k}</span>`).join('')}
       </div>
-      <div style="background: #FFF8EA; border-radius: 18px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7;">${r.character.desc.replace(/\n/g, '<br>')}</div>
+      <div style="background: #FFF8EA; border-radius: 18px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7; margin-bottom: 14px;">${r.character.desc.replace(/\n/g, '<br>')}</div>
+      ${r.jobs && r.jobs[0] ? `<div style="background: #E8F7F7; border-radius: 18px; padding: 14px 18px; font-size: 13px; color: #5D4E6D;"><b>💼 추천 직무: ${r.jobs[0].emoji} ${r.jobs[0].name}</b></div>` : ''}
     </div>
   `;
   document.body.appendChild(wrapper);
