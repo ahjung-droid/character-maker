@@ -1330,6 +1330,7 @@ const CHARACTERS = {
 const JOB_ROLES = {
   marketing: {
     name: '마케팅/브랜드기획',
+    team: '마케팅팀',
     emoji: '📣',
     weights: { MKT: 1 },
     desc: '트렌드를 빠르게 캐치하고, 브랜드와 고객을 연결하는 메시지를 만드는 일이 잘 맞아요.\nSNS·콘텐츠·캠페인처럼 사람들의 마음을 움직이는 작업에서 강점을 발휘해요.',
@@ -1337,6 +1338,7 @@ const JOB_ROLES = {
   },
   sales: {
     name: '영업/해외영업',
+    team: '영업팀',
     emoji: '🤝',
     weights: { SAL: 1 },
     desc: '사람을 만나고 관계를 쌓는 데서 에너지를 얻는 타입이에요.\n파트너사·바이어와 신뢰를 만들고 성과로 연결하는 역할에서 빛나요.',
@@ -1344,6 +1346,7 @@ const JOB_ROLES = {
   },
   planning: {
     name: '상품기획/MD',
+    team: '상품기획팀',
     emoji: '📋',
     weights: { PLN: 1 },
     desc: '데이터와 시장을 함께 보며 "팔릴 상품"을 그려내는 감각이 있어요.\n전략적으로 방향을 잡고 실행까지 이어가는 기획자 타입이에요.',
@@ -1351,6 +1354,7 @@ const JOB_ROLES = {
   },
   design: {
     name: '디자인',
+    team: '디자인팀',
     emoji: '🎨',
     weights: { DES: 1 },
     desc: '보이는 것, 느껴지는 것에 예민한 감각을 가지고 있어요.\n제품과 브랜드를 시각적으로 완성하는 크리에이티브 작업에서 강점을 보여요.',
@@ -1358,6 +1362,7 @@ const JOB_ROLES = {
   },
   rnd: {
     name: '연구개발/품질',
+    team: '연구개발팀',
     emoji: '🔬',
     weights: { RND: 1 },
     desc: '궁금한 건 끝까지 파고드는 몰입력을 가지고 있어요.\n제품을 만들고 검증하는 과정에서 꼼꼼함과 전문성이 빛을 발해요.',
@@ -1365,6 +1370,7 @@ const JOB_ROLES = {
   },
   ops: {
     name: 'SCM/생산·물류관리',
+    team: 'SCM팀',
     emoji: '📦',
     weights: { OPS: 1 },
     desc: '전체 흐름을 조율하고 차질 없이 진행시키는 데 강해요.\n생산·물류처럼 많은 변수를 관리하는 일에서 안정감을 발휘해요.',
@@ -1372,6 +1378,7 @@ const JOB_ROLES = {
   },
   support: {
     name: '경영지원(인사·재무·총무)',
+    team: '경영지원팀',
     emoji: '🏢',
     weights: { SUP: 1 },
     desc: '조직이 잘 굴러가도록 뒤에서 든든하게 받쳐주는 역할이 잘 맞아요.\n사람과 시스템을 챙기는 세심함이 팀 전체를 지탱해요.',
@@ -1379,6 +1386,7 @@ const JOB_ROLES = {
   },
   it: {
     name: 'IT/데이터',
+    team: 'IT팀',
     emoji: '💻',
     weights: { ITD: 1 },
     desc: '논리적으로 문제를 파고들고 구조화하는 걸 좋아해요.\n데이터와 시스템으로 문제를 해결하는 과정에서 몰입을 느껴요.',
@@ -2527,11 +2535,12 @@ async function buildCardCanvas(r) {
     throw new Error('html2canvas가 아직 로딩되지 않았어요');
   }
 
-  // 사원증 증명사진처럼 보이도록 세로형(3:4) 비율로 크롭
-  const idPhoto = await cropPhotoToRatio(r.photo, 3, 4);
-  const issuedDate = new Date(r.createdAt || Date.now()).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '');
+  // 사원증처럼 사진이 카드의 대부분을 차지하도록 큼직한 세로형 비율로 크롭
+  const idPhoto = await cropPhotoToRatio(r.photo, 380, 460);
+  const job = (r.jobs && r.jobs[0]) || null;
+  const team = job ? (job.team || job.name) : '';
 
-  // 캡처용 카드 요소를 화면 밖에 생성 — 사원증(ID 카드) 형태로 렌더링
+  // 캡처용 카드 요소를 화면 밖에 생성 — 사진이 크게 들어간 심플한 사원증 형태로 렌더링
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;left:-99999px;top:0;z-index:-1;';
   wrapper.innerHTML = `
@@ -2543,46 +2552,25 @@ async function buildCardCanvas(r) {
       text-align: center;
       border: 1px solid #ECE1E8;
       font-family: 'Noto Sans KR', -apple-system, sans-serif;
-      color: #5D4E6D;
+      color: white;
       box-sizing: border-box;
     ">
       <!-- 목걸이 줄 구멍 -->
-      <div style="padding-top: 16px;">
-        <div style="width: 52px; height: 16px; border-radius: 10px; background: #EFE7F0; border: 1px solid #E2D5E4; margin: 0 auto;"></div>
+      <div style="padding-top: 14px; background: white;">
+        <div style="width: 52px; height: 14px; border-radius: 8px; background: #EFE7F0; border: 1px solid #E2D5E4; margin: 0 auto;"></div>
       </div>
 
-      <!-- 상단 헤더: 로고 배지 + 카드 타이틀 -->
-      <div style="padding: 16px 24px 4px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-        <div style="width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #FF97B0, #FF7A9A); display: flex; align-items: center; justify-content: center; font-size: 15px;">🪪</div>
-        <div style="font-family: 'Gaegu', cursive; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;">나만의 사원증</div>
-      </div>
-      <div style="font-size: 10.5px; letter-spacing: 3px; color: #B5ADBF; font-weight: 700; margin-bottom: 16px;">EMPLOYEE ID CARD</div>
-
-      <!-- 상단 컬러 밴드 + 증명사진(세로형) -->
-      <div style="background: linear-gradient(120deg, #FF97B0, #FF7A9A); padding-bottom: 34px;">
-        <div style="position: relative; display: flex; justify-content: center; padding-top: 4px;">
-          <div style="width: 116px; height: 154px; border-radius: 10px; overflow: hidden; border: 4px solid white; box-shadow: 0 10px 22px rgba(93,78,109,0.28); background: white;">
-            <img src="${idPhoto}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
-          </div>
-          <div style="position: absolute; bottom: -6px; left: calc(50% + 44px); width: 42px; height: 42px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.18); line-height: 1;">${r.character.emoji}</div>
-        </div>
+      <!-- 큼직한 증명사진 -->
+      <div style="position: relative; margin-top: 12px;">
+        <img src="${idPhoto}" crossorigin="anonymous" style="width: 380px; height: 460px; object-fit: cover; display: block;"/>
+        <div style="position: absolute; bottom: 12px; right: 14px; width: 46px; height: 46px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 1;">${r.character.emoji}</div>
       </div>
 
-      <div style="padding: 18px 26px 24px; margin-top: -18px;">
-        <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.3px;">${r.name}</div>
-        ${r.major ? `<div style="font-size: 12.5px; color: #9B8FB0; margin-top: 3px;">${r.major}${r.grade ? ' · ' + r.grade : ''}</div>` : ''}
-        <div style="font-family: 'Gaegu', cursive; font-size: 23px; font-weight: 700; margin: 10px 0 14px; color: #FF7A9A;">「 ${r.nickname} 」</div>
-
-        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
-          ${r.traitKeywords.map(k => `<span style="background: #FFF0F3; color: #FF97B0; padding: 6px 14px; border-radius: 16px; font-size: 12.5px; font-weight: 700;">#${k}</span>`).join('')}
-        </div>
-
-        <div style="background: #FFF8EA; border-radius: 14px; padding: 16px 18px; font-size: 13px; color: #5D4E6D; line-height: 1.7; margin-bottom: 12px;">${r.character.desc.replace(/\n/g, '<br>')}</div>
-        ${r.jobs && r.jobs[0] ? `<div style="background: #E8F7F7; border-radius: 14px; padding: 14px 18px; font-size: 13px; color: #5D4E6D;"><b>💼 추천 직무: ${r.jobs[0].emoji} ${r.jobs[0].name}</b></div>` : ''}
+      <!-- 이름 + 팀 -->
+      <div style="background: linear-gradient(120deg, #FF97B0, #FF7A9A); padding: 20px 24px 26px;">
+        <div style="font-size: 24px; font-weight: 800; letter-spacing: -0.3px;">${r.name}</div>
+        ${team ? `<div style="font-size: 15px; font-weight: 700; margin-top: 6px; letter-spacing: 0.5px; color: rgba(255,255,255,0.95);">${team}</div>` : ''}
       </div>
-
-      <!-- 하단 발급 정보 바 -->
-      <div style="background: #FBF7FA; border-top: 1px solid #ECE1E8; padding: 10px 24px; font-size: 11px; color: #9B8FB0; letter-spacing: 0.5px;">발급일 · ${issuedDate}</div>
     </div>
   `;
   document.body.appendChild(wrapper);
