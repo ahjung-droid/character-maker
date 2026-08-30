@@ -1180,8 +1180,18 @@
   .card.chat-card {
     padding: 0;
     overflow: hidden;
-    height: calc(100vh - 110px);
-    min-height: 520px;
+    /* .card는 기본이 flex:1 1 0% 라서 내용이 길어지면 컨테이너와 함께 계속 늘어납니다.
+       그러면 안쪽 스크롤이 동작하지 않고 하단 버튼이 화면 밖으로 밀려나므로,
+       챗봇 화면에서는 높이를 화면 크기에 딱 고정합니다. */
+    flex: 0 0 auto;
+    height: calc(100vh - 106px);
+    min-height: 380px;
+  }
+
+  /* 모바일 브라우저의 100vh는 주소창 높이를 포함해 실제 보이는 영역보다 커서
+     카드 아래쪽(퀵리플라이 버튼)이 화면 밖으로 밀려납니다. dvh를 쓸 수 있으면 그걸로 대체. */
+  @supports (height: 100dvh) {
+    .card.chat-card { height: calc(100dvh - 106px); }
   }
 
   .chat-head {
@@ -1226,7 +1236,10 @@
 
   /* 카카오톡 대화방 느낌의 배경 */
   .chat-scroll {
-    flex: 1;
+    flex: 1 1 auto;
+    /* flex 아이템의 기본 min-height는 auto(=내용 높이)라, 이걸 0으로 낮추지 않으면
+       대화가 길어질 때 스크롤되지 않고 카드 자체가 늘어나 하단 버튼이 화면 밖으로 밀립니다. */
+    min-height: 0;
     overflow-y: auto;
     padding: 20px 16px;
     background: #B8CADA;
@@ -1260,7 +1273,9 @@
   }
 
   .chat-bubble {
-    max-width: min(74%, 460px);
+    /* 아바타(38px) + gap(8px)을 뺀 나머지가 말풍선이 쓸 수 있는 최대 폭입니다.
+       단순 % 로 두면 아바타 폭까지 더해져 줄 밖으로 삐져나가요. */
+    max-width: min(calc(100% - 46px), 460px);
     padding: 12px 15px;
     font-size: 15px;
     line-height: 1.65;
@@ -1275,6 +1290,8 @@
     background: #FEE500;
     border-radius: 16px 4px 16px 16px;
     color: #2C2C2C;
+    /* 내 말풍선 쪽에는 아바타가 없으므로 폭을 더 쓸 수 있어요 */
+    max-width: min(86%, 460px);
   }
 
   /* 입력 중... 점 3개 */
@@ -1305,7 +1322,7 @@
        (안 그러면 안쪽 통계 그리드가 1열로 접혀 세로로 길어져요) */
     flex: 1 1 auto;
     min-width: 0;
-    max-width: min(88%, 560px);
+    max-width: min(calc(100% - 46px), 560px);
     background: white;
     border-radius: 4px 16px 16px 16px;
     padding: 6px;
@@ -1433,9 +1450,10 @@
     color: var(--pink);
     margin-bottom: 4px;
     letter-spacing: -0.3px;
-    /* "4,639억 원"처럼 띄어쓰기가 든 수치가 어절 중간에서 깨지지 않도록 */
+    /* "4,639억 원"처럼 띄어쓰기가 든 수치는 어절 중간에서 깨지지 않게 하되,
+       좁은 화면에서는 공백에서 줄바꿈되도록 nowrap은 쓰지 않습니다.
+       (nowrap이면 카드 폭을 넘겨 글자가 잘려 보여요) */
     word-break: keep-all;
-    white-space: nowrap;
   }
 
   .stat-label { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
@@ -1540,11 +1558,24 @@
     .welcome-emojis { font-size: 48px; }
     .character-display { width: 200px; height: 200px; }
     .character-emoji { width: 78px; height: 78px; font-size: 46px; }
-    .card.chat-card { padding: 0; }
-    .chat-bubble { max-width: 80%; font-size: 14.5px; }
-    .chat-card-bubble { max-width: 92%; }
+    /* 좁은 화면에서는 여백·아바타를 줄여 말풍선이 쓸 수 있는 폭을 최대한 확보합니다 */
+    .logo { font-size: 17px; }
+    .card.chat-card { padding: 0; border-radius: 24px; }
+    /* 버튼 영역이 화면을 다 먹지 않도록 제한 (넘치면 이 영역만 스크롤) */
+    .quick-replies { max-height: 34vh; }
+    .chat-scroll { padding: 16px 10px; }
+    .chat-row { gap: 6px; }
+    .chat-avatar { width: 30px; height: 30px; border-radius: 10px; font-size: 16px; }
+    .chat-bubble { max-width: calc(100% - 36px); font-size: 14.5px; padding: 11px 13px; }
+    .chat-card-bubble { max-width: calc(100% - 36px); }
+    .intro-card { padding: 12px; }
+    .intro-section { padding: 12px 13px; }
+    .quick-replies { padding: 10px 10px 12px; }
     .quick-chip { font-size: 13px; padding: 10px 13px; }
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .stat-card { padding: 12px 6px; }
+    .stat-value { font-size: 16.5px; }
+    .stat-label { font-size: 11.5px; }
   }
 
   /* Print styles for admin card */
