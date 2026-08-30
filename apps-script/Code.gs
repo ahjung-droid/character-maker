@@ -68,8 +68,14 @@ function doPost(e) {
 
     // 사원증 카드 이미지가 왔으면 드라이브에 저장하고, base64 원본 대신 파일 URL만 시트에 남깁니다.
     // (base64 원본은 구글 시트 셀 용량 제한(약 5만자)을 넘기기 쉬워서 시트에 직접 넣지 않아요)
+    // 드라이브 저장 자체가 실패해도(권한 문제 등) 참가자 데이터 행 upsert는 계속 진행되도록
+    // 별도로 감싸고, 실패 사유는 시트에 남겨서 나중에 확인할 수 있게 합니다.
     if (data.card_png_base64) {
-      data.card_png_url = saveCardToDrive(data.participant_id, data.card_png_base64);
+      try {
+        data.card_png_url = saveCardToDrive(data.participant_id, data.card_png_base64);
+      } catch (driveErr) {
+        data.card_png_url = 'ERROR: ' + String(driveErr);
+      }
       delete data.card_png_base64;
     }
 
@@ -105,7 +111,16 @@ function saveCardToDrive(participantId, dataUrl) {
   const fileName = `${participantId || 'unknown'}.png`;
   const blob = Utilities.newBlob(Utilities.base64Decode(base64), 'image/png', fileName);
   const file = folder.createFile(blob);
-  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+  // 조직(워크스페이스) 정책이 "링크가 있는 모든 사용자" 외부 공유를 막아두면 이 호출이
+  // 예외를 던질 수 있어요. 파일 자체는 바로 위에서 이미 생성·저장이 끝난 뒤라 그와는
+  // 무관하니, 여기서 실패해도 전체 요청이 실패 처리되지 않도록 별도로 감싸줍니다.
+  try {
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  } catch (sharingErr) {
+    // 공유 링크 설정만 실패한 것 — 파일은 조직 내 계정으로 로그인한 사람은 드라이브에서
+    // 정상적으로 열람할 수 있으니 계속 진행합니다.
+  }
 
   if (NOTIFY_EMAIL) {
     try {
