@@ -1176,86 +1176,259 @@
   .menu-tile-desc { font-size: 13.5px; color: var(--text-mid); line-height: 1.6; }
   .menu-tile-arrow { font-size: 22px; color: var(--text-light); flex-shrink: 0; }
 
-  /* ===== 회사 소개: 키오스크형 타일 그리드 ===== */
-  .intro-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 16px;
+  /* ===== 회사 소개: 카카오톡 챗봇 화면 ===== */
+  .card.chat-card {
+    padding: 0;
+    overflow: hidden;
+    height: calc(100vh - 110px);
+    min-height: 520px;
   }
 
-  .intro-tile {
-    background: var(--cream);
-    border: 2.5px solid transparent;
-    border-radius: 24px;
-    padding: 26px 18px;
-    text-align: center;
-    cursor: pointer;
-    font-family: inherit;
-    color: var(--text);
-    transition: all 0.2s;
-    min-height: 168px;
+  .chat-head {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    background: white;
+    border-bottom: 1px solid #F0E7EE;
+    flex-shrink: 0;
+  }
+
+  .chat-head-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--pink), #FF7A9A);
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    font-size: 22px;
+    flex-shrink: 0;
   }
 
-  .intro-tile:hover, .intro-tile:active {
-    transform: translateY(-4px);
+  .chat-head-name { font-size: 16px; font-weight: 800; }
+  .chat-head-status { font-size: 11.5px; color: var(--text-light); margin-top: 2px; }
+
+  .chat-head-close {
+    margin-left: auto;
+    background: var(--pink-soft);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text);
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+  .chat-head-close:hover { background: var(--pink-light); }
+
+  /* 카카오톡 대화방 느낌의 배경 */
+  .chat-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 16px;
+    background: #B8CADA;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chat-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+    animation: chatIn 0.25s ease-out;
+  }
+  .chat-row.me { justify-content: flex-end; }
+
+  @keyframes chatIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
     background: white;
-    box-shadow: 0 16px 32px rgba(255, 168, 189, 0.2);
-  }
-
-  .intro-tile.pink { background: var(--pink-soft); }
-  .intro-tile.pink:hover, .intro-tile.pink:active { border-color: var(--pink); }
-  .intro-tile.mint { background: var(--mint-soft); }
-  .intro-tile.mint:hover, .intro-tile.mint:active { border-color: var(--mint); }
-  .intro-tile.yellow { background: var(--yellow-soft); }
-  .intro-tile.yellow:hover, .intro-tile.yellow:active { border-color: var(--yellow); }
-  .intro-tile.lavender { background: var(--lavender-light); }
-  .intro-tile.lavender:hover, .intro-tile.lavender:active { border-color: var(--lavender); }
-
-  .intro-tile-emoji { font-size: 42px; line-height: 1; margin-bottom: 4px; }
-  .intro-tile-title { font-size: 17px; font-weight: 800; }
-  .intro-tile-summary { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
-
-  /* ===== 회사 소개: 상세 화면 ===== */
-  .intro-detail-head {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 22px 24px;
-    border-radius: 24px;
-    margin-bottom: 22px;
-    background: var(--cream);
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
   }
-  .intro-detail-head.pink { background: var(--pink-soft); }
-  .intro-detail-head.mint { background: var(--mint-soft); }
-  .intro-detail-head.yellow { background: var(--yellow-soft); }
-  .intro-detail-head.lavender { background: var(--lavender-light); }
 
-  .intro-detail-emoji { font-size: 46px; line-height: 1; flex-shrink: 0; }
-  .intro-detail-title { font-size: 24px; font-weight: 800; }
-  .intro-detail-summary { font-size: 13.5px; color: var(--text-mid); margin-top: 4px; }
+  .chat-bubble {
+    max-width: min(74%, 460px);
+    padding: 12px 15px;
+    font-size: 15px;
+    line-height: 1.65;
+    border-radius: 4px 16px 16px 16px;
+    background: white;
+    color: #2C2C2C;
+    word-break: break-word;
+    min-height: 22px;
+  }
+
+  .chat-bubble.me {
+    background: #FEE500;
+    border-radius: 16px 4px 16px 16px;
+    color: #2C2C2C;
+  }
+
+  /* 입력 중... 점 3개 */
+  .chat-bubble.typing {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 15px;
+  }
+  .chat-bubble.typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #B9B2C4;
+    animation: typingDot 1.2s infinite;
+  }
+  .chat-bubble.typing span:nth-child(2) { animation-delay: 0.18s; }
+  .chat-bubble.typing span:nth-child(3) { animation-delay: 0.36s; }
+
+  @keyframes typingDot {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
+  }
+
+  /* 주제 내용이 담기는 큰 카드형 말풍선 */
+  .chat-card-bubble {
+    /* flex 자식이라 내용 크기로 줄어들지 않도록 grow를 켜서 가로를 채웁니다
+       (안 그러면 안쪽 통계 그리드가 1열로 접혀 세로로 길어져요) */
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: min(88%, 560px);
+    background: white;
+    border-radius: 4px 16px 16px 16px;
+    padding: 6px;
+    overflow: hidden;
+  }
+
+  .intro-card { border-radius: 14px; padding: 16px; }
+  .intro-card.pink { background: var(--pink-soft); }
+  .intro-card.mint { background: var(--mint-soft); }
+  .intro-card.yellow { background: var(--yellow-soft); }
+  .intro-card.lavender { background: var(--lavender-light); }
+
+  .intro-card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .intro-card-emoji { font-size: 24px; line-height: 1; }
+  .intro-card-title { font-size: 17px; font-weight: 800; }
+
+  .intro-card-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .intro-link-btn {
+    display: block;
+    text-align: center;
+    background: #FF0033;
+    color: white;
+    text-decoration: none;
+    padding: 13px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 12px;
+  }
+  .intro-link-btn:hover { opacity: 0.9; }
+
+  /* 아래쪽 퀵리플라이 버튼 영역 */
+  .quick-replies {
+    flex-shrink: 0;
+    background: white;
+    border-top: 1px solid #F0E7EE;
+    padding: 12px 14px 14px;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .quick-hint {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .quick-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .quick-row.actions { margin-top: 10px; }
+
+  .quick-chip {
+    background: white;
+    border: 2px solid var(--pink-light);
+    color: var(--text);
+    padding: 11px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .quick-chip:hover, .quick-chip:active {
+    background: var(--pink-soft);
+    border-color: var(--pink);
+    transform: translateY(-2px);
+  }
+
+  .quick-chip.seen {
+    color: var(--text-light);
+    border-color: #EDE6EF;
+    background: #FAF7FA;
+  }
+
+  .quick-chip.yt {
+    background: #FF0033;
+    border-color: #FF0033;
+    color: white;
+  }
+  .quick-chip.yt:hover { background: #E0002D; border-color: #E0002D; }
+
+  .quick-chip.go {
+    background: linear-gradient(135deg, var(--pink), #FF7A9A);
+    border-color: transparent;
+    color: white;
+  }
 
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(172px, 1fr));
-    gap: 12px;
-    margin-bottom: 22px;
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
   }
 
   .stat-card {
     background: white;
-    border: 2px solid var(--pink-light);
-    border-radius: 18px;
-    padding: 18px 14px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 14px;
+    padding: 14px 10px;
     text-align: center;
   }
 
   .stat-value {
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 800;
     color: var(--pink);
     margin-bottom: 4px;
@@ -1268,39 +1441,39 @@
   .stat-label { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
 
   .intro-section {
-    background: var(--cream);
-    border-radius: 20px;
-    padding: 20px 22px;
-    margin-bottom: 14px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
   }
 
   .intro-section-heading {
-    font-size: 16.5px;
+    font-size: 15px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text);
   }
 
   .intro-section-body {
-    font-size: 14.5px;
-    line-height: 1.85;
+    font-size: 14px;
+    line-height: 1.8;
     color: var(--text);
   }
 
   .intro-chip-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
+    gap: 6px;
+    margin-top: 11px;
   }
 
   .intro-chip {
     background: white;
     color: var(--text-mid);
     border: 1.5px solid var(--pink-light);
-    padding: 8px 15px;
-    border-radius: 18px;
-    font-size: 13px;
+    padding: 7px 13px;
+    border-radius: 16px;
+    font-size: 12.5px;
     font-weight: 700;
   }
 
@@ -1308,27 +1481,27 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     margin-top: 6px;
   }
 
   .step-item {
     background: white;
     border: 2px solid var(--mint-light);
-    border-radius: 16px;
-    padding: 12px 16px;
+    border-radius: 13px;
+    padding: 9px 12px;
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 7px;
   }
 
   .step-num {
-    width: 24px;
-    height: 24px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
     background: var(--mint);
     color: white;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -1336,24 +1509,16 @@
     flex-shrink: 0;
   }
 
-  .step-text { font-size: 13.5px; font-weight: 700; }
-  .step-arrow { color: var(--text-light); font-size: 16px; }
+  .step-text { font-size: 12.5px; font-weight: 700; }
+  .step-arrow { color: var(--text-light); font-size: 14px; }
 
   .intro-note {
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--text-light);
     text-align: right;
     margin-top: 8px;
     line-height: 1.6;
   }
-
-  .intro-nav {
-    display: flex;
-    gap: 12px;
-    margin-top: 26px;
-    flex-wrap: wrap;
-  }
-  .intro-nav .btn { flex: 1; min-width: 200px; }
 
   /* 태블릿에서 터치하기 좋도록 여백·글자 키우기 */
   @media (min-width: 768px) {
@@ -1361,12 +1526,10 @@
     .menu-tile-emoji { font-size: 52px; }
     .menu-tile-title { font-size: 22px; }
     .menu-tile-desc { font-size: 15px; }
-    .intro-tile { min-height: 190px; padding: 30px 20px; }
-    .intro-tile-emoji { font-size: 48px; }
-    .intro-tile-title { font-size: 19px; }
-    .intro-tile-summary { font-size: 13.5px; }
-    .intro-section-body { font-size: 15.5px; }
-    .stat-value { font-size: 26px; }
+    .chat-bubble { font-size: 16.5px; padding: 14px 17px; }
+    .intro-section-body { font-size: 15px; }
+    .quick-chip { font-size: 15px; padding: 13px 18px; }
+    .stat-value { font-size: 22px; }
   }
 
   /* Small responsive */
@@ -1377,13 +1540,11 @@
     .welcome-emojis { font-size: 48px; }
     .character-display { width: 200px; height: 200px; }
     .character-emoji { width: 78px; height: 78px; font-size: 46px; }
-    .intro-grid { grid-template-columns: repeat(2, 1fr); }
-    .intro-tile { min-height: 150px; padding: 20px 12px; }
-    .intro-tile-emoji { font-size: 34px; }
-    .intro-tile-title { font-size: 15px; }
-    .intro-tile-summary { font-size: 11.5px; }
-    .intro-detail-title { font-size: 20px; }
-    .intro-nav .btn { min-width: 100%; }
+    .card.chat-card { padding: 0; }
+    .chat-bubble { max-width: 80%; font-size: 14.5px; }
+    .chat-card-bubble { max-width: 92%; }
+    .quick-chip { font-size: 13px; padding: 10px 13px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* Print styles for admin card */
@@ -1738,12 +1899,18 @@ const TRAIT_LABELS = {
    태블릿 키오스크에서 항목별로 터치해 보도록 구성했습니다.
 ========================================================= */
 
+// 슈피겐코리아 조직문화 유튜브 채널
+const YOUTUBE_URL = 'https://youtube.com/@spigenhr';
+
+// 각 항목에 image: 'images/파일명.png' 를 추가하면 카드 안에 사진이 함께 표시됩니다.
+// (구글 슬라이드 PDF에서 추출한 이미지를 images/ 폴더에 넣고 경로만 적어주세요)
 const SPIGEN_INTRO = [
   {
     key: 'about',
     emoji: '🏆',
     title: '회사 소개',
     summary: '모바일 액세서리 Global Top Tier',
+    reply: '오 좋아.. 우리가 어떤 회사인지부터 알려줄게..',
     accent: 'pink',
     sections: [
       {
@@ -1767,6 +1934,7 @@ const SPIGEN_INTRO = [
     emoji: '📊',
     title: '숫자로 보는 슈피겐',
     summary: '매출·고객·글로벌 지표',
+    reply: '숫자로 보면 감이 확 올 거야..',
     accent: 'mint',
     stats: [
       { value: '4,639억 원', label: '매출' },
@@ -1788,6 +1956,7 @@ const SPIGEN_INTRO = [
     emoji: '📦',
     title: '제품 & 사업 확장',
     summary: '카테고리 확장과 신사업',
+    reply: '케이스 회사인 줄만 알았지..? 더 있어..',
     accent: 'yellow',
     sections: [
       {
@@ -1807,6 +1976,7 @@ const SPIGEN_INTRO = [
     emoji: '🌏',
     title: '글로벌 진출',
     summary: '지역별 매출 비중과 확장 타임라인',
+    reply: '해외에서 더 유명한 거 알고 있었어..?',
     accent: 'lavender',
     sections: [
       {
@@ -1826,6 +1996,7 @@ const SPIGEN_INTRO = [
     emoji: '🏢',
     title: '근무 환경 & 복지',
     summary: '유연근무·사무공간·복지 제도',
+    reply: '이거 궁금했지..? 제일 인기 많은 질문이야..',
     accent: 'mint',
     sections: [
       {
@@ -1850,6 +2021,7 @@ const SPIGEN_INTRO = [
     emoji: '🎓',
     title: '채용연계형 인턴',
     summary: '6주 인턴십 & 채용 프로세스',
+    reply: '지원 생각 있구나..? 잘 봐둬..',
     accent: 'pink',
     sections: [
       {
@@ -1871,6 +2043,7 @@ const SPIGEN_INTRO = [
     emoji: '💻',
     title: '리모트 인턴십',
     summary: '8주 비대면 인턴십 프로그램',
+    reply: '학기 중에도 할 수 있는 게 있어..',
     accent: 'lavender',
     sections: [
       {
@@ -1892,6 +2065,7 @@ const SPIGEN_INTRO = [
     emoji: '🎁',
     title: '채용 상담 & 이벤트',
     summary: '부스에서 참여할 수 있는 혜택',
+    reply: '이건 꼭 챙겨가.. 그냥 가면 아쉬워..',
     accent: 'yellow',
     sections: [
       {
@@ -1907,6 +2081,9 @@ const SPIGEN_INTRO = [
         heading: '슈피겐코리아 유튜브',
         body: '지금 구독하면 슈피겐 제품이 내 손에!\n참여 방법 : [슈피겐코리아 조직문화] 채널 구독 버튼 누르기\n경품 : 슈피겐 인기 제품(충전기, 거치대, 배터리 등)',
       },
+    ],
+    links: [
+      { label: '▶️ 유튜브 채널 구독하러 가기', url: YOUTUBE_URL },
     ],
   },
 ];
@@ -1928,7 +2105,9 @@ const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyfqvs
 
 const state = {
   screen: 'home',
-  introKey: null,
+  chat: [],          // 소개 챗봇의 대화 내역
+  chatSeen: [],      // 이미 확인한 주제 key 목록
+  chatStarted: false,
   currentQuestion: 0,
   answers: new Array(QUESTIONS.length).fill(null),
   name: '',
@@ -2228,7 +2407,17 @@ function clearAllResults() {
 ========================================================= */
 
 function goScreen(name) {
+  // 진행 중이던 챗봇 타이핑 애니메이션이 있으면 중단시키고, 곧 버려질 DOM 참조도 비웁니다.
+  chatRunToken++;
+  chatScrollRef = null;
+  quickRepliesRef = null;
   state.screen = name;
+  // 홈으로 돌아오면 다음 지원자를 위해 소개 챗봇 대화를 처음부터 다시 시작합니다.
+  if (name === 'home') {
+    state.chat = [];
+    state.chatSeen = [];
+    state.chatStarted = false;
+  }
   // 홈(메뉴)이나 테스트 시작 화면으로 돌아오면 이전 참가자의 입력을 모두 비웁니다.
   // 부스에서 여러 사람이 같은 기기를 번갈아 쓰기 때문에 반드시 초기화되어야 해요.
   if (name === 'welcome' || name === 'home') {
@@ -2281,8 +2470,8 @@ function copyToClipboard(text, label = '복사되었어요! 📋') {
 function render() {
   const app = document.getElementById('app');
   app.innerHTML = '';
-  // 태블릿 키오스크로 띄우는 회사 소개 화면과 관리자 화면은 넓은 레이아웃을 씁니다.
-  const isWide = state.screen === 'admin' || state.screen === 'intro' || state.screen === 'introDetail';
+  // 태블릿 키오스크로 띄우는 회사 소개(챗봇) 화면과 관리자 화면은 넓은 레이아웃을 씁니다.
+  const isWide = state.screen === 'admin' || state.screen === 'intro';
   const container = document.createElement('div');
   container.className = 'container' + (isWide ? ' wide' : '');
 
@@ -2294,7 +2483,6 @@ function render() {
   switch (state.screen) {
     case 'home':        renderHome(card); break;
     case 'intro':       renderIntro(card); break;
-    case 'introDetail': renderIntroDetail(card); break;
     case 'welcome':     renderWelcome(card); break;
     case 'info':        renderInfo(card); break;
     case 'photo':       renderPhoto(card); break;
@@ -2313,11 +2501,30 @@ function renderHeader() {
   const h = document.createElement('div');
   h.className = 'header';
   const isAdminArea = state.screen === 'admin' || state.screen === 'adminAuth';
+  // 참가자 데이터는 구글 시트로 바로 들어가므로 부스 화면에는 관리자 버튼을 노출하지 않습니다.
+  // 필요할 때만 로고를 연속 5번 탭하면 관리자 인증 화면이 열려요. (아래 logoTapGate 참고)
   h.innerHTML = `
-    <div class="logo" onclick="goScreen('home')">🏠 슈피겐코리아 채용상담회</div>
-    <button class="admin-btn" onclick="${isAdminArea ? "goScreen('home')" : 'enterAdmin()'}">${isAdminArea ? '✨ 처음으로' : '🔑 관리자'}</button>
+    <div class="logo" id="headerLogo">🏠 슈피겐코리아 채용상담회</div>
+    ${isAdminArea ? `<button class="admin-btn" onclick="goScreen('home')">✨ 처음으로</button>` : ''}
   `;
+  h.querySelector('#headerLogo').addEventListener('click', logoTapGate);
   return h;
+}
+
+// 로고를 1.5초 안에 5번 연속 탭하면 관리자 화면으로 진입합니다.
+// (부스 운영자만 쓰는 숨은 통로 — 지원자에게는 보이지 않아요)
+let logoTapCount = 0;
+let logoTapTimer = null;
+function logoTapGate() {
+  logoTapCount++;
+  clearTimeout(logoTapTimer);
+  logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1500);
+  if (logoTapCount >= 5) {
+    logoTapCount = 0;
+    enterAdmin();
+    return;
+  }
+  if (logoTapCount === 1) goScreen('home');
 }
 
 /* ---- Home (메뉴 선택) ---- */
@@ -2349,94 +2556,264 @@ function renderHome(card) {
   `;
 }
 
-/* ---- 슈피겐코리아 소개: 항목 선택 (키오스크형 타일) ---- */
+/* =========================================================
+   슈피겐코리아 소개 — 카카오톡 챗봇 형태
+   봇이 한 줄씩 타이핑하듯 말을 걸고, 아래 퀵리플라이 버튼을 누르면
+   해당 주제를 대화로 이어서 답해줍니다.
+========================================================= */
+
+const CHAT_INTRO_LINES = [
+  '슈피겐코리아가 궁금하니..?',
+  '아래 궁금한 항목들을 눌러봐..\n가능하면 다 보는 게 유용할 거야..',
+  '상담도 받고 가..',
+];
+
+// 애니메이션이 진행되는 도중에 사용자가 화면을 벗어나면 중단시키기 위한 토큰
+let chatRunToken = 0;
+
+// render()는 카드를 document에 붙이기 "전에" renderIntro를 호출하기 때문에
+// 그 시점에는 document.getElementById로 채팅 영역을 찾을 수 없습니다.
+// 그래서 카드에서 직접 얻은 요소 참조를 들고 있습니다.
+let chatScrollRef = null;
+let quickRepliesRef = null;
+
+function chatScrollEl() { return chatScrollRef; }
+
+function scrollChatToBottom() {
+  const el = chatScrollEl();
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
 function renderIntro(card) {
+  card.classList.add('chat-card');
   card.innerHTML = `
-    <div style="text-align: center; margin-bottom: 26px;">
-      <h1 class="title" style="margin-bottom: 8px;"><span class="accent">슈피겐코리아</span>를 소개합니다</h1>
-      <p class="subtitle" style="margin-bottom: 0;">궁금한 항목을 눌러보세요 👆</p>
+    <div class="chat-head">
+      <div class="chat-head-avatar">🏢</div>
+      <div>
+        <div class="chat-head-name">슈피겐코리아</div>
+        <div class="chat-head-status">채용 안내 챗봇 · 온라인</div>
+      </div>
+      <button class="chat-head-close" onclick="goScreen('home')">✕</button>
     </div>
 
-    <div class="intro-grid">
-      ${SPIGEN_INTRO.map(item => `
-        <button class="intro-tile ${item.accent}" onclick="openIntroDetail('${item.key}')">
-          <div class="intro-tile-emoji">${item.emoji}</div>
-          <div class="intro-tile-title">${item.title}</div>
-          <div class="intro-tile-summary">${item.summary}</div>
+    <div class="chat-scroll" id="chatScroll"></div>
+
+    <div class="quick-replies" id="quickReplies"></div>
+  `;
+
+  chatScrollRef = card.querySelector('#chatScroll');
+  quickRepliesRef = card.querySelector('#quickReplies');
+
+  // 이미 대화한 내역이 있으면 애니메이션 없이 그대로 복원합니다.
+  state.chat.forEach(entry => appendChatEntry(entry, { instant: true }));
+  renderQuickReplies();
+
+  if (!state.chatStarted) {
+    state.chatStarted = true;
+    playIntroSequence();
+  } else {
+    scrollChatToBottom();
+  }
+}
+
+async function playIntroSequence() {
+  const token = ++chatRunToken;
+  for (const line of CHAT_INTRO_LINES) {
+    const ok = await botSay(line, token);
+    if (!ok) return;
+  }
+}
+
+// 봇이 "입력 중..." 표시를 띄운 뒤 한 글자씩 타이핑하듯 말합니다.
+// 토큰이 바뀌면(=화면 이탈) 즉시 중단하고 false를 돌려줍니다.
+async function botSay(text, token) {
+  const scroll = chatScrollEl();
+  if (!scroll || token !== chatRunToken) return false;
+
+  // 1) 입력 중 표시
+  const typing = document.createElement('div');
+  typing.className = 'chat-row bot';
+  typing.innerHTML = `
+    <div class="chat-avatar">🏢</div>
+    <div class="chat-bubble bot typing"><span></span><span></span><span></span></div>
+  `;
+  scroll.appendChild(typing);
+  scrollChatToBottom();
+  await sleep(600 + Math.min(text.length * 12, 700));
+  if (token !== chatRunToken) { typing.remove(); return false; }
+  typing.remove();
+
+  // 2) 말풍선 생성 후 한 글자씩 채우기
+  const row = document.createElement('div');
+  row.className = 'chat-row bot';
+  row.innerHTML = `
+    <div class="chat-avatar">🏢</div>
+    <div class="chat-bubble bot"></div>
+  `;
+  const bubble = row.querySelector('.chat-bubble');
+  scroll.appendChild(row);
+  scrollChatToBottom();
+
+  for (let i = 1; i <= text.length; i++) {
+    if (token !== chatRunToken) return false;
+    bubble.innerHTML = escapeHTML(text.slice(0, i)).replace(/\n/g, '<br>');
+    if (i % 3 === 0) scrollChatToBottom();
+    await sleep(28);
+  }
+  bubble.innerHTML = escapeHTML(text).replace(/\n/g, '<br>');
+  scrollChatToBottom();
+
+  state.chat.push({ who: 'bot', type: 'text', text });
+  return true;
+}
+
+// 저장된 대화 내역을 애니메이션 없이 다시 그릴 때 사용합니다.
+function appendChatEntry(entry, { instant } = {}) {
+  const scroll = chatScrollEl();
+  if (!scroll) return;
+  const row = document.createElement('div');
+
+  if (entry.who === 'me') {
+    row.className = 'chat-row me';
+    row.innerHTML = `<div class="chat-bubble me">${escapeHTML(entry.text)}</div>`;
+  } else if (entry.type === 'card') {
+    row.className = 'chat-row bot';
+    const item = SPIGEN_INTRO.find(x => x.key === entry.key);
+    row.innerHTML = `
+      <div class="chat-avatar">🏢</div>
+      <div class="chat-card-bubble">${item ? buildIntroCardHTML(item) : ''}</div>
+    `;
+  } else {
+    row.className = 'chat-row bot';
+    row.innerHTML = `
+      <div class="chat-avatar">🏢</div>
+      <div class="chat-bubble bot">${escapeHTML(entry.text).replace(/\n/g, '<br>')}</div>
+    `;
+  }
+  scroll.appendChild(row);
+  if (instant) scrollChatToBottom();
+}
+
+// 주제 카드(이미지·통계·본문·칩·프로세스·링크)를 말풍선 안에 들어갈 HTML로 만듭니다.
+function buildIntroCardHTML(item) {
+  return `
+    <div class="intro-card ${item.accent}">
+      <div class="intro-card-head">
+        <span class="intro-card-emoji">${item.emoji}</span>
+        <span class="intro-card-title">${item.title}</span>
+      </div>
+
+      ${item.image ? `<img class="intro-card-image" src="${item.image}" alt="${item.title}" loading="lazy"/>` : ''}
+
+      ${item.stats ? `
+        <div class="stat-grid">
+          ${item.stats.map(s => `
+            <div class="stat-card">
+              <div class="stat-value">${s.value}</div>
+              <div class="stat-label">${s.label}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      ${(item.sections || []).map(sec => `
+        <div class="intro-section">
+          <div class="intro-section-heading">${sec.heading}</div>
+          <div class="intro-section-body">${sec.body.replace(/\n/g, '<br>')}</div>
+          ${sec.chips ? `
+            <div class="intro-chip-row">
+              ${sec.chips.map(c => `<span class="intro-chip">${c}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `).join('')}
+
+      ${item.steps ? `
+        <div class="intro-section">
+          <div class="intro-section-heading">${item.steps.heading}</div>
+          <div class="step-row">
+            ${item.steps.items.map((s, i) => `
+              <div class="step-item">
+                <div class="step-num">${i + 1}</div>
+                <div class="step-text">${s}</div>
+              </div>
+              ${i < item.steps.items.length - 1 ? '<div class="step-arrow">→</div>' : ''}
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${item.links ? item.links.map(l => `
+        <a class="intro-link-btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>
+      `).join('') : ''}
+
+      ${item.note ? `<div class="intro-note">${item.note}</div>` : ''}
+    </div>
+  `;
+}
+
+// 아래쪽 퀵리플라이(빠른 응답) 버튼들 — 아직 안 본 주제는 강조해서 보여줍니다.
+function renderQuickReplies() {
+  const wrap = quickRepliesRef;
+  if (!wrap) return;
+  const remaining = SPIGEN_INTRO.filter(i => !state.chatSeen.includes(i.key));
+  const allSeen = remaining.length === 0;
+
+  wrap.innerHTML = `
+    ${allSeen ? `<div class="quick-hint">다 봤네..! 이제 사원증 만들러 가볼까..? 🪪</div>` : ''}
+    <div class="quick-row">
+      ${SPIGEN_INTRO.map(i => `
+        <button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">
+          ${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}
         </button>
       `).join('')}
     </div>
-
-    <div style="margin-top: 26px;">
-      <button class="btn btn-secondary" onclick="goScreen('home')">← 메뉴로 돌아가기</button>
+    <div class="quick-row actions">
+      <a class="quick-chip yt" href="${YOUTUBE_URL}" target="_blank" rel="noopener noreferrer">▶️ 유튜브 구독하기</a>
+      <button class="quick-chip go" onclick="goScreen('welcome')">🪪 사원증 만들러 가기</button>
     </div>
   `;
+
+  wrap.querySelectorAll('.quick-chip[data-key]').forEach(btn => {
+    btn.addEventListener('click', () => askIntroTopic(btn.dataset.key));
+  });
 }
 
-function openIntroDetail(key) {
-  state.introKey = key;
-  goScreen('introDetail');
-}
+async function askIntroTopic(key) {
+  const item = SPIGEN_INTRO.find(x => x.key === key);
+  if (!item) return;
+  const token = ++chatRunToken;
+  const scroll = chatScrollEl();
+  if (!scroll) return;
 
-/* ---- 슈피겐코리아 소개: 항목별 상세 ---- */
-function renderIntroDetail(card) {
-  const item = SPIGEN_INTRO.find(x => x.key === state.introKey);
-  if (!item) { goScreen('intro'); return; }
+  // 1) 사용자가 고른 주제를 내 말풍선으로 표시
+  const myText = `${item.title} 궁금해!`;
+  const myEntry = { who: 'me', type: 'text', text: myText };
+  state.chat.push(myEntry);
+  appendChatEntry(myEntry, { instant: true });
 
-  card.innerHTML = `
-    <div class="intro-detail-head ${item.accent}">
-      <div class="intro-detail-emoji">${item.emoji}</div>
-      <div>
-        <div class="intro-detail-title">${item.title}</div>
-        <div class="intro-detail-summary">${item.summary}</div>
-      </div>
-    </div>
+  // 2) 봇의 짧은 리액션 후 내용 카드 전달
+  const ok = await botSay(item.reply || `${item.title}, 좋은 선택이야..!`, token);
+  if (!ok) return;
 
-    ${item.stats ? `
-      <div class="stat-grid">
-        ${item.stats.map(s => `
-          <div class="stat-card">
-            <div class="stat-value">${s.value}</div>
-            <div class="stat-label">${s.label}</div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
+  await sleep(180);
+  if (token !== chatRunToken) return;
 
-    ${(item.sections || []).map(sec => `
-      <div class="intro-section">
-        <div class="intro-section-heading">${sec.heading}</div>
-        <div class="intro-section-body">${sec.body.replace(/\n/g, '<br>')}</div>
-        ${sec.chips ? `
-          <div class="intro-chip-row">
-            ${sec.chips.map(c => `<span class="intro-chip">${c}</span>`).join('')}
-          </div>
-        ` : ''}
-      </div>
-    `).join('')}
+  const cardEntry = { who: 'bot', type: 'card', key: item.key };
+  state.chat.push(cardEntry);
+  appendChatEntry(cardEntry, { instant: true });
 
-    ${item.steps ? `
-      <div class="intro-section">
-        <div class="intro-section-heading">${item.steps.heading}</div>
-        <div class="step-row">
-          ${item.steps.items.map((s, i) => `
-            <div class="step-item">
-              <div class="step-num">${i + 1}</div>
-              <div class="step-text">${s}</div>
-            </div>
-            ${i < item.steps.items.length - 1 ? '<div class="step-arrow">→</div>' : ''}
-          `).join('')}
-        </div>
-      </div>
-    ` : ''}
+  if (!state.chatSeen.includes(key)) state.chatSeen.push(key);
+  renderQuickReplies();
 
-    ${item.note ? `<div class="intro-note">${item.note}</div>` : ''}
-
-    <div class="intro-nav">
-      <button class="btn btn-secondary" onclick="goScreen('intro')">← 목록으로</button>
-      <button class="btn" onclick="goScreen('welcome')">🪪 사원증 만들러 가기</button>
-    </div>
-  `;
+  // 3) 모든 주제를 다 본 경우 마무리 멘트
+  if (state.chatSeen.length === SPIGEN_INTRO.length) {
+    await sleep(300);
+    await botSay('이제 다 봤네..!\n부스에서 상담도 꼭 받고 가..', token);
+  }
+  scrollChatToBottom();
 }
 
 function enterAdmin() {
