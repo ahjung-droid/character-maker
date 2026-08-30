@@ -1547,6 +1547,28 @@ function calculateScores() {
   return scores;
 }
 
+// 전공 텍스트(자유 입력)에서 키워드를 찾아 직무 점수에 보너스를 주기 위한 힌트 목록.
+// 위에서부터 먼저 매칭되는 항목을 적용합니다 (디자인 계열을 먼저 검사해서
+// "디자인" 관련 학과가 일반 인문 키워드에 걸리지 않도록 순서를 둡니다).
+const MAJOR_JOB_HINTS = [
+  { keywords: ['디자인'], jobTraits: { RND: 4 } },
+  { keywords: [
+      '언어', '어학', '어문', '영어', '중어', '일어', '불어', '독어', '노어', '서어', '스페인어', '아랍어',
+      '국어국문', '문학', '사학', '역사', '철학', '심리', '사회학', '인류학', '정치외교', '외교학',
+      '신문방송', '언론', '미디어', '문헌정보', '경영', '경제', '무역', '국제통상', '국제학', '글로벌',
+      '인문', '문과',
+    ], jobTraits: { SAL: 4 } },
+];
+
+function getMajorJobTraits(major) {
+  if (!major) return null;
+  const m = major.replace(/\s/g, '');
+  for (const hint of MAJOR_JOB_HINTS) {
+    if (hint.keywords.some(k => m.includes(k))) return hint.jobTraits;
+  }
+  return null;
+}
+
 function calculateJobScores() {
   // "관심 직무 직접 선택" 문항(type: 'choice')은 여기서 제외합니다.
   // 이 문항까지 점수에 섞으면 가중치가 압도적이라 성향 분석 결과가 사실상
@@ -1563,6 +1585,13 @@ function calculateJobScores() {
     if (!jobTraits) return;
     Object.entries(jobTraits).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
   });
+
+  // 전공 힌트를 보너스로 더합니다 (예: 언어/경영/인문 계열 → 해외영업, 디자인 계열 → 연구개발)
+  const majorTraits = getMajorJobTraits(state.major);
+  if (majorTraits) {
+    Object.entries(majorTraits).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
+  }
+
   return scores;
 }
 
@@ -2132,6 +2161,7 @@ function finalizeResult() {
   const jobScores = calculateJobScores();
   const jobs = matchJobs(jobScores);
   const interestJob = getInterestJob();
+  const majorHintApplied = !!getMajorJobTraits(state.major);
 
   const result = {
     id: state.participantId || Date.now().toString(),
@@ -2153,6 +2183,7 @@ function finalizeResult() {
     jobScores,
     jobs,
     interestJob,
+    majorHintApplied,
   };
 
   state.result = result;
@@ -2196,7 +2227,7 @@ function renderResult(card) {
       ${r.character.desc.replace(/\n/g, '<br>')}
     </div>
 
-    ${renderJobHTML(r.jobs, r.interestJob)}
+    ${renderJobHTML(r.jobs, r.interestJob, r.majorHintApplied)}
 
     ${renderTipsHTML(r.tips || CHARACTER_TIPS[r.character.key])}
 
@@ -2210,7 +2241,7 @@ function renderResult(card) {
   `;
 }
 
-function renderJobHTML(jobs, interestJob) {
+function renderJobHTML(jobs, interestJob, majorHintApplied) {
   if (!jobs || !jobs.length) return '';
   const primary = jobs[0];
   const secondary = jobs[1];
@@ -2220,6 +2251,7 @@ function renderJobHTML(jobs, interestJob) {
       <span class="desc-label">🧠 성향 분석 기반 추천 직무</span>
       <div class="job-primary">${primary.emoji} ${primary.name}</div>
       <div class="job-primary-desc">${primary.desc.replace(/\n/g, '<br>')}</div>
+      ${majorHintApplied ? `<div class="job-secondary">🎓 전공도 함께 고려한 추천이에요</div>` : ''}
       ${secondary ? `<div class="job-secondary">이런 직무도 잘 맞을 수 있어요 → <b>${secondary.emoji} ${secondary.name}</b></div>` : ''}
       ${interestJob ? `
         <div class="job-interest">
