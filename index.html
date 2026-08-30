@@ -1141,6 +1141,234 @@
     color: var(--text);
   }
 
+  /* ===== 홈 메뉴 타일 ===== */
+  .menu-tile {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-align: left;
+    background: var(--cream);
+    border: 2.5px solid transparent;
+    border-radius: 26px;
+    padding: 24px 22px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .menu-tile:hover, .menu-tile:active {
+    transform: translateY(-3px);
+    background: white;
+    box-shadow: 0 14px 30px rgba(255, 168, 189, 0.22);
+  }
+
+  .menu-tile.pink { background: var(--pink-soft); }
+  .menu-tile.pink:hover, .menu-tile.pink:active { border-color: var(--pink); }
+  .menu-tile.mint { background: var(--mint-soft); }
+  .menu-tile.mint:hover, .menu-tile.mint:active { border-color: var(--mint); }
+
+  .menu-tile-emoji { font-size: 44px; flex-shrink: 0; line-height: 1; }
+  .menu-tile-body { flex: 1; min-width: 0; }
+  .menu-tile-title { font-size: 19px; font-weight: 800; margin-bottom: 5px; }
+  .menu-tile-desc { font-size: 13.5px; color: var(--text-mid); line-height: 1.6; }
+  .menu-tile-arrow { font-size: 22px; color: var(--text-light); flex-shrink: 0; }
+
+  /* ===== 회사 소개: 키오스크형 타일 그리드 ===== */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+  }
+
+  .intro-tile {
+    background: var(--cream);
+    border: 2.5px solid transparent;
+    border-radius: 24px;
+    padding: 26px 18px;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text);
+    transition: all 0.2s;
+    min-height: 168px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .intro-tile:hover, .intro-tile:active {
+    transform: translateY(-4px);
+    background: white;
+    box-shadow: 0 16px 32px rgba(255, 168, 189, 0.2);
+  }
+
+  .intro-tile.pink { background: var(--pink-soft); }
+  .intro-tile.pink:hover, .intro-tile.pink:active { border-color: var(--pink); }
+  .intro-tile.mint { background: var(--mint-soft); }
+  .intro-tile.mint:hover, .intro-tile.mint:active { border-color: var(--mint); }
+  .intro-tile.yellow { background: var(--yellow-soft); }
+  .intro-tile.yellow:hover, .intro-tile.yellow:active { border-color: var(--yellow); }
+  .intro-tile.lavender { background: var(--lavender-light); }
+  .intro-tile.lavender:hover, .intro-tile.lavender:active { border-color: var(--lavender); }
+
+  .intro-tile-emoji { font-size: 42px; line-height: 1; margin-bottom: 4px; }
+  .intro-tile-title { font-size: 17px; font-weight: 800; }
+  .intro-tile-summary { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+
+  /* ===== 회사 소개: 상세 화면 ===== */
+  .intro-detail-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    border-radius: 24px;
+    margin-bottom: 22px;
+    background: var(--cream);
+  }
+  .intro-detail-head.pink { background: var(--pink-soft); }
+  .intro-detail-head.mint { background: var(--mint-soft); }
+  .intro-detail-head.yellow { background: var(--yellow-soft); }
+  .intro-detail-head.lavender { background: var(--lavender-light); }
+
+  .intro-detail-emoji { font-size: 46px; line-height: 1; flex-shrink: 0; }
+  .intro-detail-title { font-size: 24px; font-weight: 800; }
+  .intro-detail-summary { font-size: 13.5px; color: var(--text-mid); margin-top: 4px; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(172px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .stat-card {
+    background: white;
+    border: 2px solid var(--pink-light);
+    border-radius: 18px;
+    padding: 18px 14px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+    /* "4,639억 원"처럼 띄어쓰기가 든 수치가 어절 중간에서 깨지지 않도록 */
+    word-break: keep-all;
+    white-space: nowrap;
+  }
+
+  .stat-label { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+
+  .intro-section {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+
+  .intro-section-heading {
+    font-size: 16.5px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .intro-section-body {
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+
+  .intro-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .intro-chip {
+    background: white;
+    color: var(--text-mid);
+    border: 1.5px solid var(--pink-light);
+    padding: 8px 15px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .step-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .step-item {
+    background: white;
+    border: 2px solid var(--mint-light);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-text { font-size: 13.5px; font-weight: 700; }
+  .step-arrow { color: var(--text-light); font-size: 16px; }
+
+  .intro-note {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: right;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  .intro-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .intro-nav .btn { flex: 1; min-width: 200px; }
+
+  /* 태블릿에서 터치하기 좋도록 여백·글자 키우기 */
+  @media (min-width: 768px) {
+    .menu-tile { padding: 30px 26px; }
+    .menu-tile-emoji { font-size: 52px; }
+    .menu-tile-title { font-size: 22px; }
+    .menu-tile-desc { font-size: 15px; }
+    .intro-tile { min-height: 190px; padding: 30px 20px; }
+    .intro-tile-emoji { font-size: 48px; }
+    .intro-tile-title { font-size: 19px; }
+    .intro-tile-summary { font-size: 13.5px; }
+    .intro-section-body { font-size: 15.5px; }
+    .stat-value { font-size: 26px; }
+  }
+
   /* Small responsive */
   @media (max-width: 480px) {
     .title { font-size: 28px; }
@@ -1149,6 +1377,13 @@
     .welcome-emojis { font-size: 48px; }
     .character-display { width: 200px; height: 200px; }
     .character-emoji { width: 78px; height: 78px; font-size: 46px; }
+    .intro-grid { grid-template-columns: repeat(2, 1fr); }
+    .intro-tile { min-height: 150px; padding: 20px 12px; }
+    .intro-tile-emoji { font-size: 34px; }
+    .intro-tile-title { font-size: 15px; }
+    .intro-tile-summary { font-size: 11.5px; }
+    .intro-detail-title { font-size: 20px; }
+    .intro-nav .btn { min-width: 100%; }
   }
 
   /* Print styles for admin card */
@@ -1498,6 +1733,185 @@ const TRAIT_LABELS = {
 };
 
 /* =========================================================
+   슈피겐코리아 소개 콘텐츠
+   출처: [채용상담회] 슈피겐코리아 소개 구글 슬라이드
+   태블릿 키오스크에서 항목별로 터치해 보도록 구성했습니다.
+========================================================= */
+
+const SPIGEN_INTRO = [
+  {
+    key: 'about',
+    emoji: '🏆',
+    title: '회사 소개',
+    summary: '모바일 액세서리 Global Top Tier',
+    accent: 'pink',
+    sections: [
+      {
+        heading: '모바일 액세서리 시장을 이끄는 Global Top Tier Brand',
+        body: '슈피겐코리아는 모바일 액세서리 Global Top 3 기업으로,\nAmazon.com 지역 셀러 랭킹에서 대한민국 1위를 차지하고 있습니다.',
+      },
+      {
+        heading: '폭발적으로 성장하는 시장',
+        body: '스마트폰 보급률 증가와 함께 글로벌 이커머스 시장은 폭발적으로 성장하고 있습니다.\n케이스, 보호필름, 충전제품군을 포함하는 모바일 액세서리 시장은 2030년까지 562조 원 규모로 성장할 전망입니다.',
+      },
+    ],
+    stats: [
+      { value: '562조 원', label: '2030년 시장 규모 전망' },
+      { value: 'Global Top 3', label: '모바일 액세서리' },
+      { value: '대한민국 1위', label: 'Amazon 지역 셀러 랭킹' },
+    ],
+    note: 'Source : Next Move Strategy Consulting / Marketplace pulse',
+  },
+  {
+    key: 'business',
+    emoji: '📊',
+    title: '숫자로 보는 슈피겐',
+    summary: '매출·고객·글로벌 지표',
+    accent: 'mint',
+    stats: [
+      { value: '4,639억 원', label: '매출' },
+      { value: '80+', label: '진출 국가' },
+      { value: '99.5%', label: '긍정 리뷰' },
+      { value: '5,000만 명', label: 'Loyal Customers' },
+      { value: '2,000+', label: '지식재산권(IP)' },
+      { value: '405명', label: '직원 수' },
+    ],
+    sections: [
+      {
+        heading: '사옥',
+        body: '서울시 강남구 선정릉역 사옥',
+      },
+    ],
+  },
+  {
+    key: 'product',
+    emoji: '📦',
+    title: '제품 & 사업 확장',
+    summary: '카테고리 확장과 신사업',
+    accent: 'yellow',
+    sections: [
+      {
+        heading: 'Product Expansion',
+        body: '케이스, 보호 필름 외에도 충전 제품, 차량용/데스크 액세서리 등 제품 카테고리를 확장하고 있습니다.',
+        chips: ['Mobile Product', 'Screen Protector', 'Power', 'Automobile', 'Desk'],
+      },
+      {
+        heading: 'Service Expansion',
+        body: '이커머스 물류 노하우를 활용한 물류 대행 서비스,\nIP 라이선스를 활용한 맞춤형 굿즈 제작 등 신사업을 추진하고 있습니다.',
+        chips: ['Fandom Platform', '3PL'],
+      },
+    ],
+  },
+  {
+    key: 'global',
+    emoji: '🌏',
+    title: '글로벌 진출',
+    summary: '지역별 매출 비중과 확장 타임라인',
+    accent: 'lavender',
+    sections: [
+      {
+        heading: 'Geographic Expansion',
+        body: '2009년을 시작으로 미국, 유럽, 아시아 등으로 진출 국가를 꾸준히 확장해왔습니다.',
+        chips: ['2009', '2017', '2019', '2020', '2021', '2022', '2023'],
+      },
+    ],
+    stats: [
+      { value: '46%', label: 'America' },
+      { value: '30%', label: 'Pan EU' },
+      { value: '14%', label: 'Asia' },
+    ],
+  },
+  {
+    key: 'work',
+    emoji: '🏢',
+    title: '근무 환경 & 복지',
+    summary: '유연근무·사무공간·복지 제도',
+    accent: 'mint',
+    sections: [
+      {
+        heading: '일하는 방식',
+        body: '유연하게 일하고 충분히 쉴 수 있는 제도를 운영합니다.',
+        chips: ['목요일 2시간 조기 퇴근', '점심시간 90분', '하이브리드 근무', '리프레시 휴가 2일 별도 지급'],
+      },
+      {
+        heading: '성장 지원',
+        body: '슈피겐연수원과 온라인 교육을 제공하고, 복지 포인트를 지급합니다.',
+        chips: ['슈피겐연수원', '온라인 교육 제공', '복지 포인트 지급'],
+      },
+      {
+        heading: '오피스',
+        body: '전 직원 모션데스크를 지원하고, 층별 안마의자와 개인 휴식 공간을 갖추고 있습니다.\n선정릉 뷰의 슈피겐 라운지에서 재충전할 수 있어요.',
+        chips: ['전 직원 모션데스크', '층별 안마의자', '개인 휴식 공간', '선정릉 뷰 라운지'],
+      },
+    ],
+  },
+  {
+    key: 'intern',
+    emoji: '🎓',
+    title: '채용연계형 인턴',
+    summary: '6주 인턴십 & 채용 프로세스',
+    accent: 'pink',
+    sections: [
+      {
+        heading: '채용연계형 인턴이란?',
+        body: '슈피겐코리아는 채용연계형 인턴십을 통해 직무 경험을 제공하고 있어요.\n6주의 인턴십 기간 동안 서로의 Fit을 맞춰보는 시간 그 이상의 가치를 제공할 수 있도록 체계적인 교육과 평가 기준을 수립하여 운영 중입니다.',
+      },
+      {
+        heading: '정규직 전환',
+        body: '회사는 정규직 선발을 목적으로 하는 만큼 실제 조직의 업무를 부여하고,\n업무평가·다면평가·정규직 전환심사 결과를 종합적으로 고려하여 최종 정규직 전환 여부를 결정하게 돼요.',
+      },
+    ],
+    steps: {
+      heading: 'Hiring Process',
+      items: ['서류전형', '인적성 검사', '실무진 화상 면접', '채용검진', '입사'],
+    },
+  },
+  {
+    key: 'remote',
+    emoji: '💻',
+    title: '리모트 인턴십',
+    summary: '8주 비대면 인턴십 프로그램',
+    accent: 'lavender',
+    sections: [
+      {
+        heading: '리모트 인턴십(Remote Internship)',
+        body: '지역과 공간의 제약 없이 자신이 원하는 시간에 실무 경험을 쌓고 싶은 분들을 위해\n8주간 진행되는 비대면 인턴십 프로그램입니다.',
+      },
+      {
+        heading: '대상 / 자격 요건',
+        body: '· 학사 이상 기졸업자 및 대학교 6학기 이상 수료한 분\n· SNS 계정 및 원격근무 가능한 개인용 PC 보유하신 분\n· 신제품을 기획·제안하거나 디자인하는 데 관심이 있는 분',
+      },
+      {
+        heading: '활동 혜택',
+        body: '· 과제 수행비 : 80만 원\n· 실무진과 프로젝트를 진행하며 신제품 기획 경험\n· 현직자 과제 피드백 및 커리어 멘토링 제공\n· 우수 인턴 혜택 : 채용연계형 인턴 지원 시 서류 및 인적성 전형 면제\n  (수료일로부터 1년 이내, 1회)',
+      },
+    ],
+  },
+  {
+    key: 'event',
+    emoji: '🎁',
+    title: '채용 상담 & 이벤트',
+    summary: '부스에서 참여할 수 있는 혜택',
+    accent: 'yellow',
+    sections: [
+      {
+        heading: '채용 상담',
+        body: '부스에서 채용연계형 인턴 프로그램, 리모트 인턴 프로그램, 직무 상담을 받아보실 수 있어요.',
+        chips: ['채용연계형 인턴 프로그램', '리모트 인턴 프로그램', '직무 상담'],
+      },
+      {
+        heading: '채용 상담 이벤트',
+        body: '간편 지원서를 접수하시면 무선충전기 / 거치대 / 우산 중 랜덤으로 드려요.',
+      },
+      {
+        heading: '슈피겐코리아 유튜브',
+        body: '지금 구독하면 슈피겐 제품이 내 손에!\n참여 방법 : [슈피겐코리아 조직문화] 채널 구독 버튼 누르기\n경품 : 슈피겐 인기 제품(충전기, 거치대, 배터리 등)',
+      },
+    ],
+  },
+];
+
+/* =========================================================
    설정
 ========================================================= */
 
@@ -1513,7 +1927,8 @@ const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyfqvs
 ========================================================= */
 
 const state = {
-  screen: 'welcome',
+  screen: 'home',
+  introKey: null,
   currentQuestion: 0,
   answers: new Array(QUESTIONS.length).fill(null),
   name: '',
@@ -1814,7 +2229,9 @@ function clearAllResults() {
 
 function goScreen(name) {
   state.screen = name;
-  if (name === 'welcome') {
+  // 홈(메뉴)이나 테스트 시작 화면으로 돌아오면 이전 참가자의 입력을 모두 비웁니다.
+  // 부스에서 여러 사람이 같은 기기를 번갈아 쓰기 때문에 반드시 초기화되어야 해요.
+  if (name === 'welcome' || name === 'home') {
     state.currentQuestion = 0;
     state.answers = new Array(QUESTIONS.length).fill(null);
     state.name = '';
@@ -1841,7 +2258,7 @@ document.addEventListener('keydown', (e) => {
   } else if (e.key === 'Backspace') {
     handlePinKey('del');
   } else if (e.key === 'Escape') {
-    goScreen('welcome');
+    goScreen('home');
   }
 });
 
@@ -1864,24 +2281,28 @@ function copyToClipboard(text, label = '복사되었어요! 📋') {
 function render() {
   const app = document.getElementById('app');
   app.innerHTML = '';
-  const isAdmin = state.screen === 'admin';
+  // 태블릿 키오스크로 띄우는 회사 소개 화면과 관리자 화면은 넓은 레이아웃을 씁니다.
+  const isWide = state.screen === 'admin' || state.screen === 'intro' || state.screen === 'introDetail';
   const container = document.createElement('div');
-  container.className = 'container' + (isAdmin ? ' wide' : '');
+  container.className = 'container' + (isWide ? ' wide' : '');
 
   container.appendChild(renderHeader());
 
   const card = document.createElement('div');
-  card.className = 'card' + (isAdmin ? ' admin-card' : '');
+  card.className = 'card' + (state.screen === 'admin' ? ' admin-card' : '');
 
   switch (state.screen) {
-    case 'welcome':   renderWelcome(card); break;
-    case 'info':      renderInfo(card); break;
-    case 'photo':     renderPhoto(card); break;
-    case 'questions': renderQuestion(card); break;
-    case 'loading':   renderLoading(card); break;
-    case 'result':    renderResult(card); break;
-    case 'adminAuth': renderAdminAuth(card); break;
-    case 'admin':     renderAdmin(card); break;
+    case 'home':        renderHome(card); break;
+    case 'intro':       renderIntro(card); break;
+    case 'introDetail': renderIntroDetail(card); break;
+    case 'welcome':     renderWelcome(card); break;
+    case 'info':        renderInfo(card); break;
+    case 'photo':       renderPhoto(card); break;
+    case 'questions':   renderQuestion(card); break;
+    case 'loading':     renderLoading(card); break;
+    case 'result':      renderResult(card); break;
+    case 'adminAuth':   renderAdminAuth(card); break;
+    case 'admin':       renderAdmin(card); break;
   }
 
   container.appendChild(card);
@@ -1893,10 +2314,129 @@ function renderHeader() {
   h.className = 'header';
   const isAdminArea = state.screen === 'admin' || state.screen === 'adminAuth';
   h.innerHTML = `
-    <div class="logo" onclick="goScreen('welcome')">🪪 사원증 만들기</div>
-    <button class="admin-btn" onclick="${isAdminArea ? "goScreen('welcome')" : 'enterAdmin()'}">${isAdminArea ? '✨ 처음으로' : '🔑 관리자'}</button>
+    <div class="logo" onclick="goScreen('home')">🏠 슈피겐코리아 채용상담회</div>
+    <button class="admin-btn" onclick="${isAdminArea ? "goScreen('home')" : 'enterAdmin()'}">${isAdminArea ? '✨ 처음으로' : '🔑 관리자'}</button>
   `;
   return h;
+}
+
+/* ---- Home (메뉴 선택) ---- */
+function renderHome(card) {
+  card.innerHTML = `
+    <div class="welcome-hero" style="margin-bottom: 8px;">
+      <div class="welcome-emojis"><span>👋</span></div>
+      <h1 class="title">무엇을 <span class="accent">먼저</span> 해볼까요?</h1>
+      <p class="subtitle">원하는 메뉴를 선택해주세요</p>
+    </div>
+
+    <button class="menu-tile pink" onclick="goScreen('intro')">
+      <div class="menu-tile-emoji">🏢</div>
+      <div class="menu-tile-body">
+        <div class="menu-tile-title">슈피겐코리아 소개 보기</div>
+        <div class="menu-tile-desc">회사·복지·인턴십 정보를 항목별로 확인해요</div>
+      </div>
+      <div class="menu-tile-arrow">→</div>
+    </button>
+
+    <button class="menu-tile mint" onclick="goScreen('welcome')">
+      <div class="menu-tile-emoji">🪪</div>
+      <div class="menu-tile-body">
+        <div class="menu-tile-title">나만의 사원증 만들기</div>
+        <div class="menu-tile-desc">성향 테스트로 캐릭터·추천 직무·사원증을 받아요</div>
+      </div>
+      <div class="menu-tile-arrow">→</div>
+    </button>
+  `;
+}
+
+/* ---- 슈피겐코리아 소개: 항목 선택 (키오스크형 타일) ---- */
+function renderIntro(card) {
+  card.innerHTML = `
+    <div style="text-align: center; margin-bottom: 26px;">
+      <h1 class="title" style="margin-bottom: 8px;"><span class="accent">슈피겐코리아</span>를 소개합니다</h1>
+      <p class="subtitle" style="margin-bottom: 0;">궁금한 항목을 눌러보세요 👆</p>
+    </div>
+
+    <div class="intro-grid">
+      ${SPIGEN_INTRO.map(item => `
+        <button class="intro-tile ${item.accent}" onclick="openIntroDetail('${item.key}')">
+          <div class="intro-tile-emoji">${item.emoji}</div>
+          <div class="intro-tile-title">${item.title}</div>
+          <div class="intro-tile-summary">${item.summary}</div>
+        </button>
+      `).join('')}
+    </div>
+
+    <div style="margin-top: 26px;">
+      <button class="btn btn-secondary" onclick="goScreen('home')">← 메뉴로 돌아가기</button>
+    </div>
+  `;
+}
+
+function openIntroDetail(key) {
+  state.introKey = key;
+  goScreen('introDetail');
+}
+
+/* ---- 슈피겐코리아 소개: 항목별 상세 ---- */
+function renderIntroDetail(card) {
+  const item = SPIGEN_INTRO.find(x => x.key === state.introKey);
+  if (!item) { goScreen('intro'); return; }
+
+  card.innerHTML = `
+    <div class="intro-detail-head ${item.accent}">
+      <div class="intro-detail-emoji">${item.emoji}</div>
+      <div>
+        <div class="intro-detail-title">${item.title}</div>
+        <div class="intro-detail-summary">${item.summary}</div>
+      </div>
+    </div>
+
+    ${item.stats ? `
+      <div class="stat-grid">
+        ${item.stats.map(s => `
+          <div class="stat-card">
+            <div class="stat-value">${s.value}</div>
+            <div class="stat-label">${s.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${(item.sections || []).map(sec => `
+      <div class="intro-section">
+        <div class="intro-section-heading">${sec.heading}</div>
+        <div class="intro-section-body">${sec.body.replace(/\n/g, '<br>')}</div>
+        ${sec.chips ? `
+          <div class="intro-chip-row">
+            ${sec.chips.map(c => `<span class="intro-chip">${c}</span>`).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `).join('')}
+
+    ${item.steps ? `
+      <div class="intro-section">
+        <div class="intro-section-heading">${item.steps.heading}</div>
+        <div class="step-row">
+          ${item.steps.items.map((s, i) => `
+            <div class="step-item">
+              <div class="step-num">${i + 1}</div>
+              <div class="step-text">${s}</div>
+            </div>
+            ${i < item.steps.items.length - 1 ? '<div class="step-arrow">→</div>' : ''}
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    ${item.note ? `<div class="intro-note">${item.note}</div>` : ''}
+
+    <div class="intro-nav">
+      <button class="btn btn-secondary" onclick="goScreen('intro')">← 목록으로</button>
+      <button class="btn" onclick="goScreen('welcome')">🪪 사원증 만들러 가기</button>
+    </div>
+  `;
 }
 
 function enterAdmin() {
@@ -1929,6 +2469,7 @@ function renderWelcome(card) {
       </div>
     </div>
     <button class="btn" onclick="goScreen('info')">시작하기 →</button>
+    <button class="btn btn-secondary" style="margin-top: 12px;" onclick="goScreen('home')">← 메뉴로 돌아가기</button>
   `;
 }
 
@@ -2235,7 +2776,7 @@ function renderResult(card) {
       <button class="btn" onclick="downloadCardPNG('${r.id}')">📥 사원증 PNG로 저장</button>
     </div>
     <div class="button-row">
-      <button class="btn btn-secondary" onclick="goScreen('welcome')">✨ 다시하기</button>
+      <button class="btn btn-secondary" onclick="goScreen('home')">🏠 처음으로</button>
       <button class="btn btn-secondary" onclick="showResultDetail()">상세 보기 →</button>
     </div>
   `;
@@ -2326,7 +2867,7 @@ function renderAdminAuth(card) {
     </div>
 
     <div style="margin-top: auto;">
-      <button class="btn btn-secondary" onclick="goScreen('welcome')">← 돌아가기</button>
+      <button class="btn btn-secondary" onclick="goScreen('home')">← 돌아가기</button>
     </div>
   `;
 
