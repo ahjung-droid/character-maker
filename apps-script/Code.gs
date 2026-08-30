@@ -16,7 +16,20 @@
  * 7. 코드를 수정한 뒤에는 "새 배포"가 아니라 기존 배포를 "관리 > 편집 > 새 버전"으로
  *    업데이트해야 URL이 바뀌지 않습니다. (Drive/Gmail 권한이 새로 추가된 경우
  *    새 버전 배포 시 권한 재승인 팝업이 다시 뜰 수 있어요 — 승인해주세요)
+ *
+ * ⚠️ "DriveApp... 호출할 수 있는 권한이 없습니다" 에러가 난다면:
+ *    웹 앱 배포만으로는 권한 승인 팝업이 안 뜨는 경우가 있어요. 이럴 땐 아래
+ *    authorizeDriveAccess 함수를 편집기에서 직접 실행해서 강제로 승인창을 띄우세요.
+ *    (편집기 상단 함수 선택 드롭다운에서 authorizeDriveAccess 선택 → ▶ 실행 버튼 클릭
+ *    → 권한 승인 팝업이 뜨면 본인 계정으로 승인. 한 번만 해두면 웹 앱 배포에도 그대로 적용돼요)
  */
+
+// 이 함수를 Apps Script 편집기에서 직접 실행하면 드라이브 접근 권한 승인 팝업이 떠요.
+// (doPost는 매개변수 e가 필요해서 편집기에서 바로 실행할 수 없기 때문에 만든 전용 함수입니다)
+function authorizeDriveAccess() {
+  const folder = getOrCreateFolder(DRIVE_FOLDER_NAME);
+  Logger.log('드라이브 접근 확인 완료: ' + folder.getUrl());
+}
 
 const SHEET_NAME = '참가자기록';
 
