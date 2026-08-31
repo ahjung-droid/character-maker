@@ -1495,6 +1495,74 @@
     font-weight: 700;
   }
 
+  /* ===== 연도별 진출 국가 타임라인 ===== */
+  .tl-hint {
+    font-size: 12.5px;
+    color: var(--text-mid);
+    margin-bottom: 12px;
+  }
+
+  .tl-years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    position: relative;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 2px dashed rgba(199, 168, 232, 0.5);
+  }
+
+  .tl-year {
+    background: white;
+    border: 2px solid var(--lavender-light);
+    color: var(--text-mid);
+    padding: 9px 14px;
+    border-radius: 16px;
+    font-size: 13.5px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tl-year:hover { border-color: var(--lavender); }
+
+  .tl-year.active {
+    background: var(--lavender);
+    border-color: var(--lavender);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(199, 168, 232, 0.5);
+  }
+
+  .tl-panel { animation: chatIn 0.22s ease-out; }
+
+  .tl-panel-year {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--lavender);
+    margin-bottom: 9px;
+  }
+
+  .tl-countries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .tl-country {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: white;
+    border-radius: 14px;
+    padding: 8px 14px 8px 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .tl-flag { font-size: 20px; line-height: 1; }
+
   .step-row {
     display: flex;
     flex-wrap: wrap;
@@ -2013,9 +2081,37 @@ const SPIGEN_INTRO = [
       {
         heading: 'Geographic Expansion',
         body: '2009년을 시작으로 미국, 유럽, 아시아 등으로 진출 국가를 꾸준히 확장해왔습니다.',
-        chips: ['2009', '2017', '2019', '2020', '2021', '2022', '2023'],
       },
     ],
+    // 연도를 누르면 그 해에 진출한 국가가 국기와 함께 나옵니다.
+    timeline: {
+      heading: '진출 국가 확장 타임라인',
+      hint: '연도를 눌러보면 그 해에 진출한 나라가 나와요 👆',
+      items: [
+        { year: '2009', countries: [
+          { flag: '🇺🇸', name: '미국' }, { flag: '🇨🇦', name: '캐나다' },
+        ] },
+        { year: '2017', countries: [
+          { flag: '🇩🇪', name: '독일' }, { flag: '🇬🇧', name: '영국' }, { flag: '🇫🇷', name: '프랑스' },
+          { flag: '🇪🇸', name: '스페인' }, { flag: '🇮🇹', name: '이탈리아' },
+        ] },
+        { year: '2019', countries: [
+          { flag: '🇵🇹', name: '포르투갈' }, { flag: '🇮🇳', name: '인도' }, { flag: '🇦🇹', name: '오스트리아' },
+        ] },
+        { year: '2020', countries: [
+          { flag: '🇪🇺', name: 'EU' }, { flag: '🇸🇬', name: '싱가포르' }, { flag: '🇯🇵', name: '일본' },
+        ] },
+        { year: '2021', countries: [
+          { flag: '🇲🇾', name: '말레이시아' },
+        ] },
+        { year: '2022', countries: [
+          { flag: '🇧🇪', name: '벨기에' },
+        ] },
+        { year: '2023', countries: [
+          { flag: '🇨🇭', name: '스위스' },
+        ] },
+      ],
+    },
     stats: [
       { value: '46%', label: 'America' },
       { value: '30%', label: 'Pan EU' },
@@ -2727,7 +2823,50 @@ function appendChatEntry(entry, { instant } = {}) {
   if (instant) scrollChatToBottom();
 }
 
-// 주제 카드(이미지·통계·본문·칩·프로세스·링크)를 말풍선 안에 들어갈 HTML로 만듭니다.
+/* ---- 연도별 진출 국가 타임라인 (연도를 누르면 국기가 나옵니다) ---- */
+// 카드 HTML은 문자열로 만들어 넣기 때문에, 클릭 시 원본 데이터를 다시 찾을 수 있도록
+// 렌더할 때마다 고유 id를 붙여 여기에 보관해둡니다.
+const timelineStore = {};
+let timelineSeq = 0;
+
+function buildTimelineHTML(timeline) {
+  const id = 'tl' + (++timelineSeq);
+  timelineStore[id] = timeline;
+  return `
+    <div class="intro-section timeline-box" id="${id}">
+      <div class="intro-section-heading">${timeline.heading}</div>
+      ${timeline.hint ? `<div class="tl-hint">${timeline.hint}</div>` : ''}
+      <div class="tl-years">
+        ${timeline.items.map((t, i) => `
+          <button class="tl-year${i === 0 ? ' active' : ''}" onclick="selectTimelineYear('${id}', ${i})">${t.year}</button>
+        `).join('')}
+      </div>
+      <div class="tl-panel" id="${id}-panel">${buildTimelinePanelHTML(timeline.items[0])}</div>
+    </div>
+  `;
+}
+
+function buildTimelinePanelHTML(entry) {
+  return `
+    <div class="tl-panel-year">${entry.year}년 진출</div>
+    <div class="tl-countries">
+      ${entry.countries.map(c => `
+        <span class="tl-country"><span class="tl-flag">${c.flag}</span>${c.name}</span>
+      `).join('')}
+    </div>
+  `;
+}
+
+function selectTimelineYear(id, index) {
+  const timeline = timelineStore[id];
+  const box = document.getElementById(id);
+  const panel = document.getElementById(id + '-panel');
+  if (!timeline || !box || !panel) return;
+  box.querySelectorAll('.tl-year').forEach((b, i) => b.classList.toggle('active', i === index));
+  panel.innerHTML = buildTimelinePanelHTML(timeline.items[index]);
+}
+
+// 주제 카드(이미지·통계·본문·칩·타임라인·프로세스·링크)를 말풍선 안에 들어갈 HTML로 만듭니다.
 function buildIntroCardHTML(item) {
   return `
     <div class="intro-card ${item.accent}">
@@ -2760,6 +2899,8 @@ function buildIntroCardHTML(item) {
           ` : ''}
         </div>
       `).join('')}
+
+      ${item.timeline ? buildTimelineHTML(item.timeline) : ''}
 
       ${item.steps ? `
         <div class="intro-section">
