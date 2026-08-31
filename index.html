@@ -1371,8 +1371,14 @@
     background: white;
     border-top: 1px solid #F0E7EE;
     padding: 12px 14px 14px;
-    max-height: 40vh;
+  }
+
+  /* 주제 버튼이 많아져도 아래 CTA(유튜브·사원증)는 항상 보이도록,
+     주제 목록만 따로 스크롤시킵니다. */
+  .quick-row.topics {
+    max-height: 26vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .quick-hint {
@@ -1493,6 +1499,43 @@
     border-radius: 16px;
     font-size: 12.5px;
     font-weight: 700;
+  }
+
+  /* ===== 채용 직군 표 ===== */
+  .job-table {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+
+  .job-row {
+    display: flex;
+    align-items: stretch;
+    gap: 1px;
+    margin-bottom: 1px;
+  }
+
+  .job-row-label {
+    flex: 0 0 42%;
+    background: var(--text);
+    color: white;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 12px 10px;
+    display: flex;
+    align-items: center;
+    /* "영업 / 마케팅"이 낱말 중간에서 잘리지 않도록 */
+    word-break: keep-all;
+  }
+
+  .job-row-value {
+    flex: 1;
+    background: white;
+    font-size: 13px;
+    padding: 12px 12px;
+    display: flex;
+    align-items: center;
+    word-break: keep-all;
   }
 
   /* ===== 연도별 진출 국가 타임라인 ===== */
@@ -1629,8 +1672,8 @@
     /* 좁은 화면에서는 여백·아바타를 줄여 말풍선이 쓸 수 있는 폭을 최대한 확보합니다 */
     .logo { font-size: 17px; }
     .card.chat-card { padding: 0; border-radius: 24px; }
-    /* 버튼 영역이 화면을 다 먹지 않도록 제한 (넘치면 이 영역만 스크롤) */
-    .quick-replies { max-height: 34vh; }
+    /* 주제 버튼 목록이 화면을 다 먹지 않도록 제한 (넘치면 이 목록만 스크롤) */
+    .quick-row.topics { max-height: 24vh; }
     .chat-scroll { padding: 16px 10px; }
     .chat-row { gap: 6px; }
     .chat-avatar { width: 30px; height: 30px; border-radius: 10px; font-size: 16px; }
@@ -2188,21 +2231,51 @@ const SPIGEN_INTRO = [
     ],
   },
   {
+    key: 'hiring',
+    emoji: '📢',
+    title: '채용 공고',
+    summary: '채용연계형 인턴 공개채용',
+    reply: '지금 딱 공고가 열려 있어.. 이건 꼭 봐둬..',
+    accent: 'pink',
+    stats: [
+      { value: '09.18 ~ 09.27', label: '2026년 접수 기간' },
+    ],
+    sections: [
+      {
+        heading: '슈피겐코리아 채용연계형 인턴 공개채용',
+        body: 'Unlock Your Next Level',
+      },
+      {
+        heading: '우리는 이런 회사예요',
+        body: '우리는 모바일 액세서리를 넘어, 사람들이 기술을 쓰는 방식을 디자인합니다.\n오늘 당신이 제안한 아이디어가, 내일 전 세계 고객의 나아진 일상이 되는 경험.\n여러분 커리어의 다음 장을 슈피겐코리아에서 시작해 보세요.',
+      },
+    ],
+    table: {
+      heading: '채용 직군',
+      rows: [
+        { label: '영업 / 마케팅', value: '글로벌 이커머스 영업' },
+        { label: 'R&D', value: '기구개발' },
+        { label: '지원', value: '해외영업지원' },
+      ],
+    },
+  },
+  {
     key: 'event',
     emoji: '🎁',
     title: '채용 상담 & 이벤트',
-    summary: '부스에서 참여할 수 있는 혜택',
+    summary: '테스트 후 상담하면 선물 지급',
     reply: '이건 꼭 챙겨가.. 그냥 가면 아쉬워..',
     accent: 'yellow',
     sections: [
       {
+        heading: '🎁 선물 지급 이벤트',
+        body: '「나만의 사원증 만들기(feat. 직무 찾기)」 테스트를 마치고\n채용 상담을 받으시면 선물을 드려요.',
+        chips: ['무선충전기', '거치대', '우산'],
+      },
+      {
         heading: '채용 상담',
         body: '부스에서 채용연계형 인턴 프로그램, 리모트 인턴 프로그램, 직무 상담을 받아보실 수 있어요.',
         chips: ['채용연계형 인턴 프로그램', '리모트 인턴 프로그램', '직무 상담'],
-      },
-      {
-        heading: '채용 상담 이벤트',
-        body: '간편 지원서를 접수하시면 무선충전기 / 거치대 / 우산 중 랜덤으로 드려요.',
       },
       {
         heading: '슈피겐코리아 유튜브',
@@ -2900,6 +2973,20 @@ function buildIntroCardHTML(item) {
         </div>
       `).join('')}
 
+      ${item.table ? `
+        <div class="intro-section">
+          <div class="intro-section-heading">${item.table.heading}</div>
+          <div class="job-table">
+            ${item.table.rows.map(r => `
+              <div class="job-row">
+                <div class="job-row-label">${r.label}</div>
+                <div class="job-row-value">${r.value}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
       ${item.timeline ? buildTimelineHTML(item.timeline) : ''}
 
       ${item.steps ? `
@@ -2935,7 +3022,7 @@ function renderQuickReplies() {
 
   wrap.innerHTML = `
     ${allSeen ? `<div class="quick-hint">다 봤네..! 이제 사원증 만들러 가볼까..? 🪪</div>` : ''}
-    <div class="quick-row">
+    <div class="quick-row topics">
       ${SPIGEN_INTRO.map(i => `
         <button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">
           ${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}
