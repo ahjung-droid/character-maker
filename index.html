@@ -1534,8 +1534,23 @@
     font-size: 13px;
     padding: 12px 12px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
     word-break: keep-all;
+  }
+
+  /* 한 직군에 포지션이 여러 개일 때 각 줄 앞에 점을 찍어 구분 */
+  .job-position { position: relative; padding-left: 11px; }
+  .job-position::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--pink);
   }
 
   /* ===== 연도별 진출 국가 타임라인 ===== */
@@ -2253,7 +2268,8 @@ const SPIGEN_INTRO = [
     table: {
       heading: '채용 직군',
       rows: [
-        { label: '영업 / 마케팅', value: '글로벌 이커머스 영업' },
+        // value에 배열을 넣으면 한 직군 아래 여러 포지션이 줄바꿈되어 나옵니다.
+        { label: '영업 / 마케팅', value: ['글로벌 이커머스 영업', '글로벌 마케팅기획'] },
         { label: 'R&D', value: '기구개발' },
         { label: '지원', value: '해외영업지원' },
       ],
@@ -2984,7 +3000,11 @@ function buildIntroCardHTML(item) {
             ${item.table.rows.map(r => `
               <div class="job-row">
                 <div class="job-row-label">${r.label}</div>
-                <div class="job-row-value">${r.value}</div>
+                <div class="job-row-value">${
+                  Array.isArray(r.value)
+                    ? r.value.map(v => `<div class="job-position">${v}</div>`).join('')
+                    : r.value
+                }</div>
               </div>
             `).join('')}
           </div>
