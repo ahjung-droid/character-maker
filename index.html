@@ -1365,6 +1365,9 @@
   }
   .intro-link-btn:hover { opacity: 0.9; }
 
+  /* 카카오톡 채널 버튼은 카카오 색으로 — 한눈에 알아보도록 */
+  .intro-link-btn.kakao { background: #FEE500; color: #191919; }
+
   /* 아래쪽 퀵리플라이 버튼 영역 */
   .quick-replies {
     flex-shrink: 0;
@@ -2235,6 +2238,9 @@ const GLOBAL_CHECKIN_URL = 'https://youtu.be/AKa_7duO0OY';
 // 부서별 AI 활용 사례를 소개한 조직문화 블로그 글
 const BLOG_AI_URL = 'https://www.spigenkorea.co.kr/culture/news.php?ptype=view&idx=1178&code=news';
 
+// 채용 소식을 알려주는 카카오톡 채널 (채널 추가 시 채용공고 알림 발송)
+const KAKAO_CHANNEL_URL = 'https://pf.kakao.com/_vypLb';
+
 /* ---------------------------------------------------------
    채용 직무 상세 (채용 공고 카드에서 직무를 누르면 열립니다)
    새 직무를 추가할 땐 여기에 항목을 넣고, SPIGEN_INTRO의
@@ -2791,6 +2797,15 @@ const SPIGEN_INTRO = [
         ] },
       ],
     },
+    tailSections: [
+      {
+        heading: '💬 다음 공고도 놓치지 않으려면',
+        body: '카카오톡에서 슈피겐코리아 채널을 추가해두세요.\n새로운 채용공고가 열리면 카카오톡으로 알림을 보내드려요.\n지금 지원 시기가 아니어도, 채널만 추가해두면 다음 기회를 챙길 수 있어요.',
+      },
+    ],
+    links: [
+      { label: '💬 카카오톡 채널 추가하고 채용 알림 받기', url: KAKAO_CHANNEL_URL, kind: 'kakao' },
+    ],
   },
   {
     key: 'event',
@@ -3545,6 +3560,22 @@ function selectTimelineYear(id, index) {
   panel.innerHTML = buildTimelinePanelHTML(timeline.items[index]);
 }
 
+// 본문 묶음(제목 + 본문 + 칩)을 그립니다.
+// sections 는 표 위에, tailSections 는 표 아래(링크 버튼 바로 위)에 놓입니다.
+function buildIntroSectionsHTML(list) {
+  return (list || []).map(sec => `
+    <div class="intro-section">
+      <div class="intro-section-heading">${sec.heading}</div>
+      <div class="intro-section-body">${sec.body.replace(/\n/g, '<br>')}</div>
+      ${sec.chips ? `
+        <div class="intro-chip-row">
+          ${sec.chips.map(c => `<span class="intro-chip">${c}</span>`).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
 // 주제 카드(이미지·통계·본문·칩·타임라인·프로세스·링크)를 말풍선 안에 들어갈 HTML로 만듭니다.
 function buildIntroCardHTML(item) {
   return `
@@ -3567,17 +3598,7 @@ function buildIntroCardHTML(item) {
         </div>
       ` : ''}
 
-      ${(item.sections || []).map(sec => `
-        <div class="intro-section">
-          <div class="intro-section-heading">${sec.heading}</div>
-          <div class="intro-section-body">${sec.body.replace(/\n/g, '<br>')}</div>
-          ${sec.chips ? `
-            <div class="intro-chip-row">
-              ${sec.chips.map(c => `<span class="intro-chip">${c}</span>`).join('')}
-            </div>
-          ` : ''}
-        </div>
-      `).join('')}
+      ${buildIntroSectionsHTML(item.sections)}
 
       ${item.table ? `
         <div class="intro-section">
@@ -3619,8 +3640,10 @@ function buildIntroCardHTML(item) {
         </div>
       ` : ''}
 
+      ${buildIntroSectionsHTML(item.tailSections)}
+
       ${item.links ? item.links.map(l => `
-        <a class="intro-link-btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>
+        <a class="intro-link-btn ${l.kind || ''}" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>
       `).join('') : ''}
 
       ${item.note ? `<div class="intro-note">${item.note}</div>` : ''}
