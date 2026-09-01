@@ -1370,7 +1370,7 @@
     flex-shrink: 0;
     background: white;
     border-top: 1px solid #F0E7EE;
-    padding: 12px 14px 14px;
+    padding: 10px 12px 12px;
   }
 
   /* 주제 버튼은 세로로만 쌓이게 합니다.
@@ -1379,7 +1379,17 @@
   .quick-row.topics {
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 7px;
+    gap: 6px;
+  }
+
+  /* 주제 버튼은 개수가 많아 목록이 채팅창을 잡아먹기 쉽습니다.
+     글자를 한 단계 줄여 목록을 낮추고, 그만큼 대화창을 넓게 씁니다.
+     (아래쪽 액션 버튼은 눈에 띄어야 하므로 원래 크기를 유지) */
+  .quick-row.topics .quick-chip {
+    font-size: 12.5px;
+    padding: 8px 12px;
+    border-width: 1.5px;
+    line-height: 1.25;
   }
 
   /* 3막 구조를 드러내는 막별 묶음 — 왼쪽에 얇은 막 표시를 두고
@@ -1393,9 +1403,9 @@
 
   .act-label {
     flex: 0 0 auto;
-    width: 30px;
-    padding-top: 9px;
-    font-size: 11px;
+    width: 26px;
+    padding-top: 7px;
+    font-size: 10.5px;
     font-weight: 800;
     color: var(--pink);
     line-height: 1.3;
@@ -1407,7 +1417,7 @@
     flex: 1;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
     min-width: 0;
   }
 
@@ -1443,7 +1453,7 @@
     flex-wrap: wrap;
     gap: 8px;
   }
-  .quick-row.actions { margin-top: 10px; }
+  .quick-row.actions { margin-top: 8px; }
 
   .quick-chip {
     background: white;
@@ -1810,6 +1820,7 @@
     .chat-bubble { font-size: 16.5px; padding: 14px 17px; }
     .intro-section-body { font-size: 15px; }
     .quick-chip { font-size: 15px; padding: 13px 18px; }
+    .quick-row.topics .quick-chip { font-size: 13.5px; padding: 9px 14px; }
     .stat-value { font-size: 22px; }
   }
 
@@ -1849,12 +1860,14 @@
     .chat-card-bubble { max-width: calc(100% - 36px); }
     .intro-card { padding: 12px; }
     .intro-section { padding: 12px 13px; }
-    .quick-replies { padding: 9px 9px 11px; }
+    .quick-replies { padding: 8px 8px 10px; }
     /* 주제 버튼은 한 화면에 다 들어와야 하므로 좁은 화면에서 더 촘촘하게 */
     .quick-chip { font-size: 12px; padding: 8px 11px; }
-    .quick-row.actions .quick-chip { font-size: 13px; padding: 11px 14px; }
-    .act-label { width: 24px; font-size: 10.5px; padding-top: 7px; }
-    .act-group { gap: 6px; }
+    .quick-row.topics { gap: 5px; }
+    .quick-row.topics .quick-chip { font-size: 11px; padding: 6px 9px; }
+    .quick-row.actions .quick-chip { font-size: 12.5px; padding: 10px 13px; }
+    .act-label { width: 20px; font-size: 9.5px; padding-top: 6px; }
+    .act-group { gap: 5px; }
     .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
     .stat-card { padding: 12px 6px; }
     .stat-value { font-size: 16.5px; }
@@ -2279,6 +2292,107 @@ const JOB_POSTINGS = {
     ],
   },
 
+  'ecommerce-global': {
+    group: '영업 / 마케팅',
+    title: '글로벌 이커머스 영업',
+    team: '해외마케팅팀',
+    teamIntro: '해외마케팅팀은 글로벌 시장에서 슈피겐 브랜드 인지도 확산을 통한 매출 성장을 만들어가고 있습니다.\n아마존 등 국가별 주요 이커머스 플랫폼을 중심으로 퍼포먼스 마케팅 전략을 기획·실행합니다.\n고객 여정을 고려한 맞춤형 캠페인과 광고 효율 최적화를 통해 신규 고객을 확보하고, 글로벌 시장에서의 지속 가능한 성장 기반을 마련합니다.',
+    quoteLabel: '동료의 한마디',
+    quote: '해외마케팅팀은 빠르게 변화하는 글로벌 시장 속 마케팅 성과 향상을 위해 최신 마케팅 트렌드와 사례를 탐색하며, 지속적이고 역동적으로 성장하고 있습니다. 새로운 시도에 두려움이 없고 스스로 목표를 세워 끝까지 추진하는 분이라면, 저희 팀에서 그 잠재력을 마음껏 펼칠 수 있을 거예요.',
+    blocks: [
+      {
+        heading: '함께할 업무에요',
+        items: [
+          '해외 시장 트렌드 분석 및 마케팅 전략 수립',
+          '마케팅 채널 발굴 및 관리 (SNS, 인플루언서 등)',
+          'SNS 광고 캠페인 기획 및 운영',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 분을 찾고 있어요',
+        items: [
+          '학사 이상 기졸업자',
+          '영어로 원활한 의사소통이 가능한 분 (OPIc IH 수준)',
+        ],
+        note: '※ 면접 시 외국어(영어) 인터뷰가 진행될 예정입니다. (공인어학 성적이 없어도 지원 가능)',
+      },
+      {
+        heading: '이런 분이라면 더욱 좋아요',
+        items: [
+          '해외 모바일 액세서리 시장 트렌드에 관심이 많은 분',
+          '데이터에 기반하여 문제를 정의하고 해결하는 사고를 보유한 분',
+          'IT 트렌드 및 스마트 디바이스에 대한 관심이 많은 분',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 경험을 하며 성장할 수 있어요',
+        items: [
+          '이커머스 시장에서 다양한 플랫폼과 SNS 채널을 통해 마케팅 전략을 수립하고 실행해 볼 수 있어요.',
+          '성과 분석을 통해 체계적인 마케팅 활동을 고민하고 실행하는 경험을 할 수 있어요.',
+          '다양한 제품에 대한 온/오프라인 채널 마케팅 전문가로 성장할 수 있어요.',
+        ],
+      },
+      {
+        heading: '함께 참고하시면 더욱 좋아요',
+        items: [
+          '해외 이커머스 시장과 소비자의 특성에 대해 생각해 보세요.',
+          'SNS 채널을 운영하거나 콘텐츠를 기획해 본 경험이 있다면, 구체적인 과정과 결과를 숫자와 함께 적극적으로 표현해 주시면 좋아요.',
+        ],
+      },
+    ],
+  },
+
+  'test-engineer': {
+    group: 'R&D',
+    title: '테스트 엔지니어',
+    team: '테크개발팀',
+    teamIntro: '테크개발팀은 슈피겐코리아의 모든 전자제품이 최고의 품질을 유지할 수 있도록 하는 핵심 부서입니다.\n현재 글로벌 시장 확대에 따른 제품 검증 수요 증가로 신규 인력을 충원하고 있습니다.',
+    quoteLabel: '동료의 한마디',
+    quote: '단순한 성능 측정을 넘어, 글로벌 시장의 흐름과 국가별 소비자 사용 패턴을 분석해 실제 제품 개발에 반영합니다. 제품 기획의 첫 단계부터 출시 후 소비자의 생생한 후기까지 모든 과정을 깊이 있게 이해할 수 있습니다.',
+    quoteLink: { label: '팀 이야기 더 보기', url: 'https://www.spigenkorea.co.kr/culture/news.php?ptype=view&idx=1137&code=news' },
+    blocks: [
+      {
+        heading: '함께할 업무에요',
+        items: [
+          '소형가전 및 충전제품 하드웨어 검증 및 디버깅',
+          '펌웨어 정합성 검증',
+          '국제 규격 분석을 통한 검증 기준 수립',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 분을 찾고 있어요',
+        items: [
+          '학사 이상 기졸업자',
+          '전기·전자공학 관련학과 전공한 분',
+        ],
+      },
+      {
+        heading: '이런 분이라면 더욱 좋아요',
+        items: [
+          '영어 중급(Intermediate) 이상 가능한 분',
+          'IT 트렌드 및 스마트 디바이스에 대한 관심이 많은 분',
+          '논리적으로 문제를 해결하고 새로운 기술 습득을 적극적으로 하는 분',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 경험을 하며 성장할 수 있어요',
+        items: [
+          '다양한 국가의 환경과 시장 특성에 맞춘 제품 테스트 및 개발 프로세스를 배울 수 있어요.',
+          '글로벌 소비자 피드백을 바탕으로 제품 개선을 진행하며 빠르게 성장할 수 있어요.',
+        ],
+      },
+      {
+        heading: '함께 참고하시면 더욱 좋아요',
+        items: [
+          '다양한 국가에 판매할 전자 제품을 테스트할 때 중요한 요소가 무엇인지 생각해 보세요.',
+          '전기/전자 하드웨어 기초 이론 및 충전기, 보조배터리 등 파워 제품군의 구조 및 원리에 대해 생각해 보세요.',
+          '전기적 특성(전압, 전류, 전력 등)을 측정하는 방법과 전자제품 성능 개선을 위해 필요한 사항을 확인해 보세요.',
+          '스위칭모드 파워 서플라이(SMPS)의 기본 동작원리와 효율성 검증 방법에 대해 확인해 보세요.',
+        ],
+      },
+    ],
+  },
+
   'scm-india': {
     group: 'SCM',
     title: '글로벌 SCM (인도)',
@@ -2666,6 +2780,7 @@ const SPIGEN_INTRO = [
         // { name, job: 'JOB_POSTINGS 키' } 로 적으면 눌러서 상세를 볼 수 있는 버튼이 됩니다.
         { label: '영업 / 마케팅', value: [
           { name: '글로벌 이커머스 영업 (인도)', job: 'ecommerce-india' },
+          { name: '글로벌 이커머스 영업', job: 'ecommerce-global' },
           { name: '글로벌 마케팅기획' },
         ] },
         { label: 'SCM', value: [
@@ -2673,8 +2788,8 @@ const SPIGEN_INTRO = [
         ] },
         { label: 'R&D', value: [
           { name: '기구개발', job: 'rnd-mechanical' },
+          { name: '테스트 엔지니어', job: 'test-engineer' },
         ] },
-        { label: '지원', value: '해외영업지원' },
       ],
     },
   },
@@ -3221,9 +3336,27 @@ let quickRepliesRef = null;
 
 function chatScrollEl() { return chatScrollRef; }
 
+// 카드(회사 소개 / 채용 공고)는 길어서, 맨 아래로 내려버리면 끝부분부터 보이게 됩니다.
+// 카드를 붙인 뒤에는 "카드 머리"에 시선을 고정하고, 그 뒤에 이어지는 자동 스크롤은 잠깐 멈춥니다.
+// 다음 주제를 누르면(=새 대화가 시작되면) 다시 평소대로 따라 내려갑니다.
+let chatScrollHold = false;
+
+function releaseChatScroll() { chatScrollHold = false; }
+
 function scrollChatToBottom() {
+  if (chatScrollHold) return;
   const el = chatScrollEl();
   if (el) el.scrollTop = el.scrollHeight;
+}
+
+// 방금 붙인 말풍선의 윗부분이 화면 맨 위에 오도록 맞춥니다.
+function scrollChatRowToTop(row) {
+  const el = chatScrollEl();
+  if (!el || !row) return;
+  chatScrollHold = false;
+  const delta = row.getBoundingClientRect().top - el.getBoundingClientRect().top;
+  el.scrollTop = el.scrollTop + delta - 8;
+  chatScrollHold = true;
 }
 
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
@@ -3247,6 +3380,7 @@ function renderIntro(card) {
 
   chatScrollRef = card.querySelector('#chatScroll');
   quickRepliesRef = card.querySelector('#quickReplies');
+  releaseChatScroll();
 
   // 이미 대화한 내역이 있으면 애니메이션 없이 그대로 복원합니다.
   state.chat.forEach(entry => appendChatEntry(entry, { instant: true }));
@@ -3366,6 +3500,7 @@ function appendChatEntry(entry, { instant } = {}) {
   }
   scroll.appendChild(row);
   if (instant) scrollChatToBottom();
+  return row;
 }
 
 /* ---- 연도별 진출 국가 타임라인 (연도를 누르면 국기가 나옵니다) ---- */
@@ -3527,11 +3662,7 @@ function renderQuickReplies() {
           <div class="act-group">
             <div class="act-label ${actDone ? 'done' : ''}" title="${actInfo.label}">${actInfo.short}${actDone ? '<br>✓' : ''}</div>
             <div class="act-chips">
-              ${items.map(i => `
-                <button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">
-                  ${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}
-                </button>
-              `).join('')}
+              ${items.map(i => `<button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}</button>`).join('')}
             </div>
           </div>
         `;
@@ -3562,7 +3693,7 @@ function buildJobPostingHTML(job) {
 
       ${job.quote ? `
         <div class="job-quote">
-          <div class="job-quote-label">🎤 리더의 한마디</div>
+          <div class="job-quote-label">🎤 ${job.quoteLabel || '리더의 한마디'}</div>
           <div class="job-quote-text">"${job.quote.replace(/\n/g, '<br>')}"</div>
           ${job.quoteLink ? `<a class="job-quote-link" href="${job.quoteLink.url}" target="_blank" rel="noopener noreferrer">${job.quoteLink.label} →</a>` : ''}
         </div>
@@ -3589,6 +3720,7 @@ function askJobPosting(key) {
   enqueueChat(async (fast) => {
     if (!chatScrollEl() || token !== chatRunToken) return;
 
+    releaseChatScroll();
     const myEntry = { who: 'me', type: 'text', text: `${job.title} 자세히 볼래!` };
     state.chat.push(myEntry);
     appendChatEntry(myEntry, { instant: true });
@@ -3601,8 +3733,8 @@ function askJobPosting(key) {
 
     const jobEntry = { who: 'bot', type: 'job', key };
     state.chat.push(jobEntry);
-    appendChatEntry(jobEntry, { instant: true });
-    scrollChatToBottom();
+    const jobRow = appendChatEntry(jobEntry, { instant: true });
+    scrollChatRowToTop(jobRow);
   });
 }
 
@@ -3615,6 +3747,7 @@ function askIntroTopic(key) {
     if (!chatScrollEl() || token !== chatRunToken) return;
 
     // 1) 사용자가 고른 주제를 내 말풍선으로 표시
+    releaseChatScroll();
     const myEntry = { who: 'me', type: 'text', text: `${item.title} 궁금해!` };
     state.chat.push(myEntry);
     appendChatEntry(myEntry, { instant: true });
@@ -3628,7 +3761,8 @@ function askIntroTopic(key) {
 
     const cardEntry = { who: 'bot', type: 'card', key: item.key };
     state.chat.push(cardEntry);
-    appendChatEntry(cardEntry, { instant: true });
+    const cardRow = appendChatEntry(cardEntry, { instant: true });
+    scrollChatRowToTop(cardRow);
 
     if (!state.chatSeen.includes(key)) state.chatSeen.push(key);
     renderQuickReplies();
