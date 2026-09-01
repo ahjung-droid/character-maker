@@ -1379,7 +1379,47 @@
     max-height: 26vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    gap: 10px;
   }
+
+  /* 3막 구조를 드러내는 막별 묶음 */
+  .act-group { width: 100%; }
+
+  .act-label {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--pink);
+    letter-spacing: 0.3px;
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+  .act-label.done { color: var(--text-light); }
+
+  .act-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  /* 카드 맨 아래 "다음 이야기" 버튼 */
+  .story-next {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--pink), #FF7A9A);
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .story-next:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(255, 122, 154, 0.35); }
+  .story-next.done { background: linear-gradient(135deg, var(--mint), #5EC8C8); }
 
   .quick-hint {
     text-align: center;
@@ -2147,6 +2187,12 @@ const TRAIT_LABELS = {
 // 슈피겐코리아 조직문화 유튜브 채널
 const YOUTUBE_URL = 'https://youtube.com/@spigenhr';
 
+// 해외 시장에서 일하는 모습을 담은 '글로벌 체크인' 영상
+const GLOBAL_CHECKIN_URL = 'https://youtu.be/AKa_7duO0OY';
+
+// 부서별 AI 활용 사례를 소개한 조직문화 블로그 글
+const BLOG_AI_URL = 'https://www.spigenkorea.co.kr/culture/news.php?ptype=view&idx=1178&code=news';
+
 /* ---------------------------------------------------------
    채용 직무 상세 (채용 공고 카드에서 직무를 누르면 열립니다)
    새 직무를 추가할 땐 여기에 항목을 넣고, SPIGEN_INTRO의
@@ -2302,12 +2348,38 @@ const JOB_POSTINGS = {
 
 // 각 항목에 image: 'images/파일명.png' 를 추가하면 카드 안에 사진이 함께 표시됩니다.
 // (구글 슬라이드 PDF에서 추출한 이미지를 images/ 폴더에 넣고 경로만 적어주세요)
+/* ---------------------------------------------------------
+   소개 챗봇의 3막 스토리라인.
+   퀵리플라이 버튼이 막별로 묶여 나오고, 한 막을 다 보면
+   봇이 다음 막으로 넘어가는 멘트를 던집니다.
+--------------------------------------------------------- */
+const STORY_ACTS = [
+  {
+    act: 1,
+    label: '1막 · 우리는 누구인가',
+    // 이 막을 다 봤을 때 봇이 던지는 다음 막 예고 멘트
+    outro: '여기까지가 우리가 누구인지야..\n이제 우리가 어떻게 일하는지 궁금하지..?',
+  },
+  {
+    act: 2,
+    label: '2막 · 우리는 이렇게 일해',
+    outro: '일하는 방식은 여기까지..\n이제 진짜 중요한 거.. 어떻게 들어오는지 알려줄게..',
+  },
+  {
+    act: 3,
+    label: '3막 · 너는 이렇게 합류해',
+    outro: null, // 마지막 막은 별도 마무리 멘트를 씁니다
+  },
+];
+
 const SPIGEN_INTRO = [
+  /* ===== 1막 · 우리는 누구인가 ===== */
   {
     key: 'about',
+    act: 1,
     emoji: '🏆',
-    title: '회사 소개',
-    summary: '모바일 액세서리 Global Top Tier',
+    title: '어떤 회사야?',
+    summary: '모바일 액세서리 Global Top 3',
     reply: '오 좋아.. 우리가 어떤 회사인지부터 알려줄게..',
     accent: 'pink',
     sections: [
@@ -2319,41 +2391,29 @@ const SPIGEN_INTRO = [
         heading: '폭발적으로 성장하는 시장',
         body: '스마트폰 보급률 증가와 함께 글로벌 이커머스 시장은 폭발적으로 성장하고 있습니다.\n케이스, 보호필름, 충전제품군을 포함하는 모바일 액세서리 시장은 2030년까지 562조 원 규모로 성장할 전망입니다.',
       },
+      {
+        heading: '숫자로 보면 이런 회사예요',
+        body: '서울시 강남구 선정릉역 사옥에서 405명이 함께 일하고 있어요.',
+      },
     ],
     stats: [
-      { value: '562조 원', label: '2030년 시장 규모 전망' },
       { value: 'Global Top 3', label: '모바일 액세서리' },
       { value: '대한민국 1위', label: 'Amazon 지역 셀러 랭킹' },
-    ],
-    note: 'Source : Next Move Strategy Consulting / Marketplace pulse',
-  },
-  {
-    key: 'business',
-    emoji: '📊',
-    title: '숫자로 보는 슈피겐',
-    summary: '매출·고객·글로벌 지표',
-    reply: '숫자로 보면 감이 확 올 거야..',
-    accent: 'mint',
-    stats: [
       { value: '4,639억 원', label: '매출' },
       { value: '80+', label: '진출 국가' },
       { value: '99.5%', label: '긍정 리뷰' },
       { value: '5,000만 명', label: 'Loyal Customers' },
       { value: '2,000+', label: '지식재산권(IP)' },
-      { value: '405명', label: '직원 수' },
+      { value: '562조 원', label: '2030년 시장 규모 전망' },
     ],
-    sections: [
-      {
-        heading: '사옥',
-        body: '서울시 강남구 선정릉역 사옥',
-      },
-    ],
+    note: 'Source : Next Move Strategy Consulting / Marketplace pulse',
   },
   {
     key: 'product',
+    act: 1,
     emoji: '📦',
-    title: '제품 & 사업 확장',
-    summary: '카테고리 확장과 신사업',
+    title: '뭘 만들어?',
+    summary: '케이스를 넘어 확장 중',
     reply: '케이스 회사인 줄만 알았지..? 더 있어..',
     accent: 'yellow',
     sections: [
@@ -2371,16 +2431,29 @@ const SPIGEN_INTRO = [
   },
   {
     key: 'global',
+    act: 1,
     emoji: '🌏',
-    title: '글로벌 진출',
-    summary: '지역별 매출 비중과 확장 타임라인',
+    title: '어디서 팔아?',
+    summary: '80개국, 나라마다 다른 전략',
     reply: '해외에서 더 유명한 거 알고 있었어..?',
     accent: 'lavender',
     sections: [
       {
-        heading: 'Geographic Expansion',
-        body: '2009년을 시작으로 미국, 유럽, 아시아 등으로 진출 국가를 꾸준히 확장해왔습니다.',
+        heading: '80개국에 똑같이 팔지 않아요',
+        body: '인도의 아마존·플립카트, 유럽의 채널, 일본의 소비자는 전부 다릅니다.\n그래서 국가별로 마케팅·영업 전략을 따로 세우고, 담당자가 그 시장을 직접 책임져요.',
       },
+      {
+        heading: '그래서 이런 일을 하게 돼요',
+        body: '담당 국가의 시장을 읽고, 그 나라에 맞는 제품·프로모션·가격 전략을 설계합니다.\n"담당 국가의 미니 CEO"라는 말이 나오는 이유예요.',
+        chips: ['시장 분석', '국가별 채널 전략', '프로모션 기획', '수요 예측'],
+      },
+      {
+        heading: '실제로 어떻게 일하는지 궁금하다면',
+        body: '해외 시장에서 우리가 어떻게 움직이는지 영상으로 확인해보세요.',
+      },
+    ],
+    links: [
+      { label: '▶️ 글로벌 체크인 영상 보기', url: GLOBAL_CHECKIN_URL },
     ],
     // 연도를 누르면 그 해에 진출한 국가가 국기와 함께 나옵니다.
     timeline: {
@@ -2417,33 +2490,79 @@ const SPIGEN_INTRO = [
       { value: '14%', label: 'Asia' },
     ],
   },
+  /* ===== 2막 · 우리는 이렇게 일해 ===== */
   {
     key: 'work',
-    emoji: '🏢',
-    title: '근무 환경 & 복지',
-    summary: '유연근무·사무공간·복지 제도',
-    reply: '이거 궁금했지..? 제일 인기 많은 질문이야..',
+    act: 2,
+    emoji: '💡',
+    title: '이렇게 일해',
+    summary: '일하는 방식, 그리고 그걸 받쳐주는 것들',
+    reply: '복지만 쭉 나열하면 재미없잖아..\n왜 그게 필요한지부터 말해줄게..',
     accent: 'mint',
     sections: [
       {
-        heading: '일하는 방식',
-        body: '유연하게 일하고 충분히 쉴 수 있는 제도를 운영합니다.',
-        chips: ['목요일 2시간 조기 퇴근', '점심시간 90분', '하이브리드 근무', '리프레시 휴가 2일 별도 지급'],
+        heading: '① 몰입해서 일해요',
+        body: '깊게 파고들어야 하는 일이 많아요.\n그래서 앉는 자리부터 챙깁니다.',
+        chips: ['전 직원 모션데스크', '층별 안마의자', '개인 휴식 공간', '선정릉 뷰 슈피겐 라운지'],
       },
       {
-        heading: '성장 지원',
-        body: '슈피겐연수원과 온라인 교육을 제공하고, 복지 포인트를 지급합니다.',
+        heading: '② 유연하게 일해요',
+        body: '언제 어디서 일할지를 스스로 조율할 수 있어요.',
+        chips: ['하이브리드 근무', '점심시간 90분', '목요일 2시간 조기 퇴근'],
+      },
+      {
+        heading: '③ 계속 성장해요',
+        body: '배우는 데 드는 비용과 시간은 회사가 지원합니다.',
         chips: ['슈피겐연수원', '온라인 교육 제공', '복지 포인트 지급'],
       },
       {
-        heading: '오피스',
-        body: '전 직원 모션데스크를 지원하고, 층별 안마의자와 개인 휴식 공간을 갖추고 있습니다.\n선정릉 뷰의 슈피겐 라운지에서 재충전할 수 있어요.',
-        chips: ['전 직원 모션데스크', '층별 안마의자', '개인 휴식 공간', '선정릉 뷰 라운지'],
+        heading: '④ 제대로 쉬어요',
+        body: '잘 쉬어야 다시 몰입할 수 있으니까요.',
+        chips: ['리프레시 휴가 2일 별도 지급'],
       },
     ],
+    note: '복지는 혜택이 아니라, 일을 잘하기 위한 지원이라고 생각해요.',
   },
   {
+    key: 'ai',
+    act: 2,
+    emoji: '🤖',
+    title: 'AI와 함께 일해',
+    summary: 'AI로 커리어를 쌓는 방법',
+    reply: '요즘 이게 제일 궁금할 텐데..\n우리 진심이야..',
+    accent: 'lavender',
+    sections: [
+      {
+        heading: '"skills? md 파일?" 낯설어도 괜찮아요',
+        body: '용어만 들어봤지, 익숙하진 않으셨죠?\n괜찮아요. 슈피겐코리아는 AI를 이미 잘 쓰는 사람을 찾는 게 아니라,\nAI와 어떻게 일해야 하는지를 알려주는 회사예요.',
+      },
+      {
+        heading: 'AI 사용을 적극 장려해요',
+        body: '도구만 주고 알아서 하라고 하지 않아요.\n어떤 업무에 어떻게 AI를 붙여야 하는지까지 함께 익힙니다.',
+        chips: ['AI 도구 지원', 'AI 활용 교육', '업무 적용 가이드'],
+      },
+      {
+        heading: 'AI가 곧 커리어패스가 돼요',
+        body: 'AI를 쓸 줄 아는 사람이 아니라, AI로 일하는 방식을 바꾸는 사람으로 성장할 수 있어요.\n실제로 글로벌 SCM 직무는 "AI를 활용해 결과물의 완성도를 높여본 경험"을 우대하고 있어요.',
+      },
+      {
+        heading: '못 믿겠다면 직접 확인해보세요 🙂',
+        body: 'ChatGPT · Claude · Gemini에 "슈피겐코리아 AI"라고 검색해보세요.\nAI한테 물어봐도 나올 만큼 하고 있어요.',
+      },
+      {
+        heading: '부서별로 AI를 어떻게 쓰는지 궁금하다면',
+        body: '조직문화 블로그에서 부서별 AI 활용 사례를 확인할 수 있어요.',
+      },
+    ],
+    links: [
+      { label: '📝 부서별 AI 활용법 보러 가기', url: BLOG_AI_URL },
+    ],
+  },
+
+  /* ===== 3막 · 너는 이렇게 합류해 ===== */
+  {
     key: 'intern',
+    act: 3,
     emoji: '🎓',
     title: '채용연계형 인턴',
     summary: '6주 인턴십 & 채용 프로세스',
@@ -2466,6 +2585,7 @@ const SPIGEN_INTRO = [
   },
   {
     key: 'remote',
+    act: 3,
     emoji: '💻',
     title: '리모트 인턴십',
     summary: '8주 비대면 인턴십 프로그램',
@@ -2488,6 +2608,7 @@ const SPIGEN_INTRO = [
   },
   {
     key: 'hiring',
+    act: 3,
     emoji: '📢',
     title: '채용 공고',
     summary: '채용연계형 인턴 공개채용',
@@ -2527,6 +2648,7 @@ const SPIGEN_INTRO = [
   },
   {
     key: 'event',
+    act: 3,
     emoji: '🎁',
     title: '채용 상담 & 이벤트',
     summary: '3가지 하면 선물 지급',
@@ -2878,7 +3000,10 @@ function clearAllResults() {
 
 function goScreen(name) {
   // 진행 중이던 챗봇 타이핑 애니메이션이 있으면 중단시키고, 곧 버려질 DOM 참조도 비웁니다.
+  // (대기 중이던 답변들도 토큰이 어긋나 자동으로 건너뛰어집니다)
   chatRunToken++;
+  chatQueue = Promise.resolve();
+  chatQueueDepth = 0;
   chatScrollRef = null;
   quickRepliesRef = null;
   state.screen = name;
@@ -3038,8 +3163,23 @@ const CHAT_INTRO_LINES = [
   '상담도 받고 가..',
 ];
 
-// 애니메이션이 진행되는 도중에 사용자가 화면을 벗어나면 중단시키기 위한 토큰
+// 화면을 벗어나면 진행 중인 애니메이션을 중단시키기 위한 토큰 (goScreen에서만 증가)
 let chatRunToken = 0;
+
+// 부스에서는 버튼을 빠르게 연타하는 경우가 많습니다. 답변을 서로 취소시키지 않도록
+// 요청을 큐에 쌓아 순서대로 처리하고, 뒤에 대기 중인 요청이 있으면 타이핑 연출을
+// 건너뛰어 밀리지 않게 합니다.
+let chatQueue = Promise.resolve();
+let chatQueueDepth = 0;
+
+function enqueueChat(fn) {
+  chatQueueDepth++;
+  chatQueue = chatQueue
+    .then(() => fn(chatQueueDepth > 1))
+    .catch(err => console.warn('채팅 처리 중 오류:', err))
+    .finally(() => { chatQueueDepth--; });
+  return chatQueue;
+}
 
 // render()는 카드를 document에 붙이기 "전에" renderIntro를 호출하기 때문에
 // 그 시점에는 document.getElementById로 채팅 영역을 찾을 수 없습니다.
@@ -3088,19 +3228,37 @@ function renderIntro(card) {
   }
 }
 
-async function playIntroSequence() {
-  const token = ++chatRunToken;
-  for (const line of CHAT_INTRO_LINES) {
-    const ok = await botSay(line, token);
-    if (!ok) return;
-  }
+function playIntroSequence() {
+  const token = chatRunToken;
+  enqueueChat(async (fast) => {
+    for (const line of CHAT_INTRO_LINES) {
+      const ok = await botSay(line, token, fast);
+      if (!ok) return;
+    }
+  });
 }
 
 // 봇이 "입력 중..." 표시를 띄운 뒤 한 글자씩 타이핑하듯 말합니다.
 // 토큰이 바뀌면(=화면 이탈) 즉시 중단하고 false를 돌려줍니다.
-async function botSay(text, token) {
+// fast=true 이면 (뒤에 대기 중인 요청이 있을 때) 타이핑 연출 없이 바로 뿌립니다.
+async function botSay(text, token, fast) {
   const scroll = chatScrollEl();
   if (!scroll || token !== chatRunToken) return false;
+
+  const pushEntry = () => state.chat.push({ who: 'bot', type: 'text', text });
+
+  if (fast) {
+    const row = document.createElement('div');
+    row.className = 'chat-row bot';
+    row.innerHTML = `
+      <div class="chat-avatar">🏢</div>
+      <div class="chat-bubble bot">${escapeHTML(text).replace(/\n/g, '<br>')}</div>
+    `;
+    scroll.appendChild(row);
+    scrollChatToBottom();
+    pushEntry();
+    return true;
+  }
 
   // 1) 입력 중 표시
   const typing = document.createElement('div');
@@ -3127,7 +3285,12 @@ async function botSay(text, token) {
   scrollChatToBottom();
 
   for (let i = 1; i <= text.length; i++) {
-    if (token !== chatRunToken) return false;
+    // 화면을 벗어났다면 문장이 잘린 채 남지 않도록 남은 글자를 즉시 채우고 중단합니다.
+    if (token !== chatRunToken) {
+      bubble.innerHTML = escapeHTML(text).replace(/\n/g, '<br>');
+      pushEntry();
+      return false;
+    }
     bubble.innerHTML = escapeHTML(text.slice(0, i)).replace(/\n/g, '<br>');
     if (i % 3 === 0) scrollChatToBottom();
     await sleep(28);
@@ -3135,7 +3298,7 @@ async function botSay(text, token) {
   bubble.innerHTML = escapeHTML(text).replace(/\n/g, '<br>');
   scrollChatToBottom();
 
-  state.chat.push({ who: 'bot', type: 'text', text });
+  pushEntry();
   return true;
 }
 
@@ -3295,8 +3458,23 @@ function buildIntroCardHTML(item) {
       `).join('') : ''}
 
       ${item.note ? `<div class="intro-note">${item.note}</div>` : ''}
+
+      ${buildNextStoryButtonHTML(item)}
     </div>
   `;
+}
+
+// 카드 맨 아래의 "다음 이야기" 버튼 — 아무 생각 없이 눌러도 이야기가 순서대로 흘러가게 합니다.
+// 이미 본 주제는 건너뛰고, 다 봤으면 사원증 만들기로 연결해요.
+function buildNextStoryButtonHTML(item) {
+  const idx = SPIGEN_INTRO.findIndex(x => x.key === item.key);
+  const next = SPIGEN_INTRO.slice(idx + 1).find(x => !state.chatSeen.includes(x.key))
+    || SPIGEN_INTRO.find(x => !state.chatSeen.includes(x.key) && x.key !== item.key);
+
+  if (!next) {
+    return `<button class="story-next done" onclick="goScreen('welcome')">🪪 이제 사원증 만들러 가기 →</button>`;
+  }
+  return `<button class="story-next" onclick="askIntroTopic('${next.key}')">다음 이야기 · ${next.emoji} ${next.title} →</button>`;
 }
 
 // 아래쪽 퀵리플라이(빠른 응답) 버튼들 — 아직 안 본 주제는 강조해서 보여줍니다.
@@ -3306,14 +3484,26 @@ function renderQuickReplies() {
   const remaining = SPIGEN_INTRO.filter(i => !state.chatSeen.includes(i.key));
   const allSeen = remaining.length === 0;
 
+  // 주제를 막(act)별로 묶어서 보여줍니다 — 9개가 한 덩어리로 보이지 않고 흐름이 읽히도록.
   wrap.innerHTML = `
     ${allSeen ? `<div class="quick-hint">다 봤네..! 이제 사원증 만들러 가볼까..? 🪪</div>` : ''}
     <div class="quick-row topics">
-      ${SPIGEN_INTRO.map(i => `
-        <button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">
-          ${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}
-        </button>
-      `).join('')}
+      ${STORY_ACTS.map(actInfo => {
+        const items = SPIGEN_INTRO.filter(i => i.act === actInfo.act);
+        const actDone = items.every(i => state.chatSeen.includes(i.key));
+        return `
+          <div class="act-group">
+            <div class="act-label ${actDone ? 'done' : ''}">${actInfo.label}${actDone ? ' ✓' : ''}</div>
+            <div class="act-chips">
+              ${items.map(i => `
+                <button class="quick-chip ${state.chatSeen.includes(i.key) ? 'seen' : ''}" data-key="${i.key}">
+                  ${i.emoji} ${i.title}${state.chatSeen.includes(i.key) ? ' ✓' : ''}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('')}
     </div>
     <div class="quick-row actions">
       <a class="quick-chip yt" href="${YOUTUBE_URL}" target="_blank" rel="noopener noreferrer">▶️ 유튜브 구독하기</a>
@@ -3359,61 +3549,78 @@ function buildJobPostingHTML(job) {
   `;
 }
 
-async function askJobPosting(key) {
+function askJobPosting(key) {
   const job = JOB_POSTINGS[key];
   if (!job) return;
-  const token = ++chatRunToken;
-  if (!chatScrollEl()) return;
+  const token = chatRunToken;
 
-  const myEntry = { who: 'me', type: 'text', text: `${job.title} 자세히 볼래!` };
-  state.chat.push(myEntry);
-  appendChatEntry(myEntry, { instant: true });
+  enqueueChat(async (fast) => {
+    if (!chatScrollEl() || token !== chatRunToken) return;
 
-  const ok = await botSay(`${job.title}, 이런 일을 하게 돼..`, token);
-  if (!ok) return;
+    const myEntry = { who: 'me', type: 'text', text: `${job.title} 자세히 볼래!` };
+    state.chat.push(myEntry);
+    appendChatEntry(myEntry, { instant: true });
 
-  await sleep(180);
-  if (token !== chatRunToken) return;
+    const ok = await botSay(`${job.title}, 이런 일을 하게 돼..`, token, fast);
+    if (!ok) return;
 
-  const jobEntry = { who: 'bot', type: 'job', key };
-  state.chat.push(jobEntry);
-  appendChatEntry(jobEntry, { instant: true });
-  scrollChatToBottom();
+    if (!fast) await sleep(180);
+    if (token !== chatRunToken) return;
+
+    const jobEntry = { who: 'bot', type: 'job', key };
+    state.chat.push(jobEntry);
+    appendChatEntry(jobEntry, { instant: true });
+    scrollChatToBottom();
+  });
 }
 
-async function askIntroTopic(key) {
+function askIntroTopic(key) {
   const item = SPIGEN_INTRO.find(x => x.key === key);
   if (!item) return;
-  const token = ++chatRunToken;
-  const scroll = chatScrollEl();
-  if (!scroll) return;
+  const token = chatRunToken;
 
-  // 1) 사용자가 고른 주제를 내 말풍선으로 표시
-  const myText = `${item.title} 궁금해!`;
-  const myEntry = { who: 'me', type: 'text', text: myText };
-  state.chat.push(myEntry);
-  appendChatEntry(myEntry, { instant: true });
+  enqueueChat(async (fast) => {
+    if (!chatScrollEl() || token !== chatRunToken) return;
 
-  // 2) 봇의 짧은 리액션 후 내용 카드 전달
-  const ok = await botSay(item.reply || `${item.title}, 좋은 선택이야..!`, token);
-  if (!ok) return;
+    // 1) 사용자가 고른 주제를 내 말풍선으로 표시
+    const myEntry = { who: 'me', type: 'text', text: `${item.title} 궁금해!` };
+    state.chat.push(myEntry);
+    appendChatEntry(myEntry, { instant: true });
 
-  await sleep(180);
-  if (token !== chatRunToken) return;
+    // 2) 봇의 짧은 리액션 후 내용 카드 전달
+    const ok = await botSay(item.reply || `${item.title}, 좋은 선택이야..!`, token, fast);
+    if (!ok) return;
 
-  const cardEntry = { who: 'bot', type: 'card', key: item.key };
-  state.chat.push(cardEntry);
-  appendChatEntry(cardEntry, { instant: true });
+    if (!fast) await sleep(180);
+    if (token !== chatRunToken) return;
 
-  if (!state.chatSeen.includes(key)) state.chatSeen.push(key);
-  renderQuickReplies();
+    const cardEntry = { who: 'bot', type: 'card', key: item.key };
+    state.chat.push(cardEntry);
+    appendChatEntry(cardEntry, { instant: true });
 
-  // 3) 모든 주제를 다 본 경우 마무리 멘트
-  if (state.chatSeen.length === SPIGEN_INTRO.length) {
-    await sleep(300);
-    await botSay('이제 다 봤네..!\n부스에서 상담도 꼭 받고 가..', token);
-  }
-  scrollChatToBottom();
+    if (!state.chatSeen.includes(key)) state.chatSeen.push(key);
+    renderQuickReplies();
+
+    // 3) 모든 주제를 다 본 경우 마무리 멘트
+    if (state.chatSeen.length === SPIGEN_INTRO.length) {
+      if (!fast) await sleep(300);
+      await botSay('이제 다 봤네..!\n부스에서 상담도 꼭 받고 가..', token, fast);
+      scrollChatToBottom();
+      return;
+    }
+
+    // 4) 방금 이 주제로 한 막을 끝냈다면, 다음 막으로 넘어가는 멘트를 던집니다.
+    //    (순서대로 안 보고 아무거나 골라도 그 막을 다 채운 시점에 나와요)
+    const actInfo = STORY_ACTS.find(a => a.act === item.act);
+    if (actInfo && actInfo.outro) {
+      const actItems = SPIGEN_INTRO.filter(i => i.act === item.act);
+      if (actItems.every(i => state.chatSeen.includes(i.key))) {
+        if (!fast) await sleep(300);
+        await botSay(actInfo.outro, token, fast);
+      }
+    }
+    scrollChatToBottom();
+  });
 }
 
 function enterAdmin() {
