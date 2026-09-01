@@ -1540,6 +1540,94 @@
     word-break: keep-all;
   }
 
+  /* 눌러서 상세를 볼 수 있는 직무 */
+  .job-open {
+    background: var(--pink-soft);
+    border: 1.5px solid var(--pink-light);
+    border-radius: 10px;
+    color: var(--pink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+    padding: 8px 10px 8px 20px;
+    transition: all 0.15s;
+  }
+  .job-open:hover { background: white; border-color: var(--pink); }
+  .job-open::before { top: 15px; }
+  .job-open-arrow { font-size: 11px; opacity: 0.7; }
+
+  /* ===== 직무 상세 카드 ===== */
+  .job-card-group {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 4px 11px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .job-card-title {
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.35;
+    word-break: keep-all;
+  }
+
+  .job-quote {
+    background: linear-gradient(135deg, var(--lavender-light), #F3E9FB);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+
+  .job-quote-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--lavender);
+    margin-bottom: 6px;
+  }
+
+  .job-quote-text {
+    font-size: 13.5px;
+    line-height: 1.75;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .job-quote-link {
+    display: inline-block;
+    margin-top: 9px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--lavender);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--lavender-light);
+  }
+
+  .job-list {
+    margin: 0;
+    padding-left: 17px;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+  .job-list li { margin-bottom: 5px; }
+  .job-list li::marker { color: var(--pink); }
+
+  .job-note {
+    margin-top: 9px;
+    padding: 9px 11px;
+    background: white;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--text-mid);
+  }
+
   /* 한 직군에 포지션이 여러 개일 때 각 줄 앞에 점을 찍어 구분 */
   .job-position { position: relative; padding-left: 11px; }
   .job-position::before {
@@ -2059,6 +2147,159 @@ const TRAIT_LABELS = {
 // 슈피겐코리아 조직문화 유튜브 채널
 const YOUTUBE_URL = 'https://youtube.com/@spigenhr';
 
+/* ---------------------------------------------------------
+   채용 직무 상세 (채용 공고 카드에서 직무를 누르면 열립니다)
+   새 직무를 추가할 땐 여기에 항목을 넣고, SPIGEN_INTRO의
+   hiring 항목 table에서 { name, job: '키' } 로 연결해주세요.
+--------------------------------------------------------- */
+const JOB_POSTINGS = {
+  'ecommerce-india': {
+    group: '영업 / 마케팅',
+    title: '글로벌 이커머스 영업 (인도)',
+    team: '인도사업부문',
+    teamIntro: '인도사업부문은 인도 시장에서 신제품 기획부터 판매까지 전 과정을 책임집니다.\n인도 소비자에게 최적화된 제품을 기획하고, 인도 아마존·플립카트와 같은 주요 이커머스 플랫폼에 맞춘 전략을 수립하고 실행합니다.',
+    quote: '인도는 하나의 정답으로 설명할 수 없는 시장입니다. 우리가 당연하게 여겨온 모든 것들이 그곳에서는 전혀 다른 방식으로 작동하죠. 그래서 저는 정답을 찾기보다, 매일 새로운 질문을 던지는 법을 배웁니다.',
+    blocks: [
+      {
+        heading: '함께할 업무에요',
+        items: [
+          '인도 시장 분석을 통한 이커머스 영업 전략 수립 및 실행',
+          '영업 데이터 분석을 통한 수요 예측 및 손익 관리',
+          '이커머스 플랫폼 프로모션 기획 및 마케팅/광고 효율 최적화',
+        ],
+        note: '주요 플랫폼 : 플립카트(Flipkart), 아마존(Amazon)',
+      },
+      {
+        heading: '우리 팀에서는 이런 분을 찾고 있어요',
+        items: [
+          '학사 이상 기졸업자 및 26년 8월 졸업예정자',
+          '영어로 원활한 의사소통이 가능한 분 (OPIc IH 수준)',
+        ],
+        note: '※ 면접 시 외국어(영어) 인터뷰가 진행될 예정입니다. (공인어학 성적이 없어도 지원 가능)',
+      },
+      {
+        heading: '이런 분이라면 더욱 좋아요',
+        items: [
+          '인도 시장에 관심을 갖고 도전하고 싶은 분',
+          '데이터에 기반하여 문제를 정의하고 해결하는 사고를 보유한 분',
+          'IT 트렌드 및 스마트 디바이스에 대한 관심이 많은 분',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 경험을 하며 성장할 수 있어요',
+        items: [
+          '세계에서 가장 빠르게 성장하는 인도 이커머스 시장을 몸으로 배우며, 어디서든 통하는 글로벌 이커머스 커리어 기반을 만들 수 있어요.',
+          '인도 Amazon·Flipkart를 무대로 담당 국가를 책임지는 미니 CEO처럼 제품 기획, 수요예측, 프로모션, 재고·광고 운영까지 비즈니스 전 과정을 경험하게 됩니다.',
+          "'가설 → 실행 → 검증'으로 이어지는 데이터 기반 업무 방식을 몸에 익히며, 단순 실행자가 아닌 문제를 정의하고 해결하는 비즈니스 기획자로 성장할 수 있어요.",
+        ],
+      },
+      {
+        heading: '함께 참고하시면 더욱 좋아요',
+        items: [
+          '인도 Amazon·Flipkart에서 슈피겐 제품을 한 번 검색해 보고, 어떤 상품이 어떻게 팔리고 있는지, 리뷰에 어떤 이야기들이 있는지 가볍게 살펴보세요.',
+          '최근에 본 인도 관련 IT·이커머스·소비자 트렌드 기사나 뉴스 중 흥미로웠던 내용을 하나 정리해 보면 좋아요.',
+          '과제·공모전·프로젝트·아르바이트 등에서 데이터를 보고 문제를 발견하고, 다른 사람들과 함께 해결해 본 경험이 있다면 그 과정을 간단히 되짚어 보세요.',
+        ],
+      },
+    ],
+  },
+
+  'scm-india': {
+    group: 'SCM',
+    title: '글로벌 SCM (인도)',
+    team: '인도사업부문 FDI전략기획팀',
+    teamIntro: '인도사업부문 FDI전략기획팀은 인도 시장에서 신제품 기획부터 판매 이후 고객 경험까지 전 과정을 책임지는 조직입니다.\n판매 데이터와 시장 흐름을 기반으로 공급 계획, 재고 수준, 글로벌 생산 일정을 체계적으로 조율하며 공급망 전반의 운영 효율을 높이고 있습니다.',
+    quote: '판매·재고 데이터를 분석해 어떤 제품에 집중해야 하는지, 언제 생산을 늘리거나 조정해야 하는지와 같은 핵심 영업 의사결정을 뒷받침하는 인사이트를 제공합니다.',
+    quoteLink: { label: '팀 이야기 더 보기', url: 'https://www.spigenkorea.co.kr/culture/news.php?ptype=view&idx=1105&code=news' },
+    blocks: [
+      {
+        heading: '함께할 업무에요',
+        items: [
+          '이커머스 채널별 판매·재고 데이터 분석을 통한 수요 예측',
+          '적정 재고 운영을 통한 품절 방지 및 매출 확대 지원',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 분을 찾고 있어요',
+        items: ['학사 이상 기졸업자 및 26년 8월 졸업예정자'],
+      },
+      {
+        heading: '이런 분이라면 더욱 좋아요',
+        items: [
+          '영어 중급(Intermediate) 이상 가능한 분',
+          'AI를 활용하여 결과물의 완성도를 높여본 경험이 있는 분',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 경험을 하며 성장할 수 있어요',
+        items: [
+          '해외 지사 및 협력 업체와의 소통을 통해, 글로벌 비즈니스 실무 감각과 협업 능력을 키울 수 있어요.',
+          '판매·재고·제품 데이터를 기반으로 프로세스를 개선하며, 체계적으로 데이터를 활용하는 방법을 배울 수 있어요.',
+        ],
+      },
+      {
+        heading: '함께 참고하시면 더욱 좋아요',
+        items: [
+          '다양한 데이터를 모으고 분석하면서, 그 안에서 인사이트를 얻어본 경험을 정리해 보세요.',
+          '팀 프로젝트나 활동에서, 협업 속에서 본인이 주도적으로 목표를 달성한 사례를 떠올려 보세요.',
+        ],
+      },
+    ],
+  },
+
+  'rnd-mechanical': {
+    group: 'R&D',
+    title: '기구개발',
+    team: '클리어프로텍션개발팀',
+    teamIntro: '클리어프로텍션개발팀은 모바일 디바이스 화면을 안전하게 지켜내기 위해, 보이지 않는 기술을 연구합니다.\n신소재 탐구부터 정밀 제조까지, 스크린 보호의 기준을 새롭게 만드는 사람들이 모여 있습니다.',
+    quote: "0.01mm의 오차도 허용되지 않는 만큼 매일 실험하고, 또 실험해요.\n우리가 만든 필름이 실제 유저에게 '아무것도 안 붙인 듯한' 느낌을 줄 때 가장 큰 보람을 느낍니다.",
+    quoteLink: { label: '팀 이야기 더 보기', url: 'https://www.spigenkorea.co.kr/culture/news.php?ptype=view&idx=180&code=news' },
+    blocks: [
+      {
+        heading: '함께할 업무에요',
+        items: [
+          '모바일/웨어러블/차량용 스크린 프로텍터 제품 개발',
+          '신제품 선행 연구 및 부자재 소재 개발',
+          '해외 협력사 양산 관리',
+          '개발 신뢰성 검증 및 품질관리',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 분을 찾고 있어요',
+        items: [
+          '학사 이상 기졸업자 및 26년 8월 졸업예정자',
+          'ProE(CREO) 활용 가능한 분',
+        ],
+        note: "※ 포트폴리오 제출 필수 — '어떤 문제를 해결하기 위해 이렇게 설계했는지'에 대한 의도와 결과(문제 해결 과정)가 담겨 있다면 더욱 좋습니다.",
+      },
+      {
+        heading: '이런 분이라면 더욱 좋아요',
+        items: [
+          '영어 또는 중국어 중급(Intermediate) 이상 가능한 분',
+          '모바일 디바이스 및 액세서리에 관심이 많은 분',
+        ],
+      },
+      {
+        heading: '우리 팀에서는 이런 경험을 하며 성장할 수 있어요',
+        items: [
+          '신규 제품 기획부터 양산까지 전 과정을 함께하며 정밀한 기구 설계·금형 개발 기술을 빠르게 성장시킬 수 있어요.',
+          '신규 구조·공법을 직접 배우며 제품 개발 전문성을 높일 수 있어요.',
+          '해외 협력사와의 긴밀한 협업을 통해 글로벌 커뮤니케이션 및 문제 해결 역량을 강화할 수 있어요.',
+          '차세대 디바이스용 보호 솔루션을 연구하고 신소재를 탐색하며 미래 기술을 선도하는 경험을 쌓을 수 있어요.',
+        ],
+      },
+      {
+        heading: '함께 참고하시면 더욱 좋아요',
+        items: [
+          '스크린 프로텍터 제품군의 트렌드 변화에 대해 알아보고, 관련 제품 개발 시 고려해야 할 사항에 대해 생각해 보세요.',
+          '새로운 아이디어를 제안하거나 다른 사람들과 협업하여 문제를 해결해 본 경험을 떠올려 보세요.',
+          '제품을 개발할 때 가장 중요하게 고려해야 할 요소는 무엇인지 생각해 보세요.',
+        ],
+      },
+    ],
+  },
+};
+
 // 각 항목에 image: 'images/파일명.png' 를 추가하면 카드 안에 사진이 함께 표시됩니다.
 // (구글 슬라이드 PDF에서 추출한 이미지를 images/ 폴더에 넣고 경로만 적어주세요)
 const SPIGEN_INTRO = [
@@ -2269,8 +2510,17 @@ const SPIGEN_INTRO = [
       heading: '채용 직군',
       rows: [
         // value에 배열을 넣으면 한 직군 아래 여러 포지션이 줄바꿈되어 나옵니다.
-        { label: '영업 / 마케팅', value: ['글로벌 이커머스 영업', '글로벌 마케팅기획'] },
-        { label: 'R&D', value: '기구개발' },
+        // { name, job: 'JOB_POSTINGS 키' } 로 적으면 눌러서 상세를 볼 수 있는 버튼이 됩니다.
+        { label: '영업 / 마케팅', value: [
+          { name: '글로벌 이커머스 영업 (인도)', job: 'ecommerce-india' },
+          { name: '글로벌 마케팅기획' },
+        ] },
+        { label: 'SCM', value: [
+          { name: '글로벌 SCM (인도)', job: 'scm-india' },
+        ] },
+        { label: 'R&D', value: [
+          { name: '기구개발', job: 'rnd-mechanical' },
+        ] },
         { label: '지원', value: '해외영업지원' },
       ],
     },
@@ -2905,6 +3155,13 @@ function appendChatEntry(entry, { instant } = {}) {
       <div class="chat-avatar">🏢</div>
       <div class="chat-card-bubble">${item ? buildIntroCardHTML(item) : ''}</div>
     `;
+  } else if (entry.type === 'job') {
+    row.className = 'chat-row bot';
+    const job = JOB_POSTINGS[entry.key];
+    row.innerHTML = `
+      <div class="chat-avatar">🏢</div>
+      <div class="chat-card-bubble">${job ? buildJobPostingHTML(job) : ''}</div>
+    `;
   } else {
     row.className = 'chat-row bot';
     row.innerHTML = `
@@ -3002,7 +3259,12 @@ function buildIntroCardHTML(item) {
                 <div class="job-row-label">${r.label}</div>
                 <div class="job-row-value">${
                   Array.isArray(r.value)
-                    ? r.value.map(v => `<div class="job-position">${v}</div>`).join('')
+                    ? r.value.map(v => {
+                        if (typeof v === 'string') return `<div class="job-position">${v}</div>`;
+                        return v.job
+                          ? `<button class="job-position job-open" onclick="askJobPosting('${v.job}')">${v.name} <span class="job-open-arrow">▸</span></button>`
+                          : `<div class="job-position">${v.name}</div>`;
+                      }).join('')
                     : r.value
                 }</div>
               </div>
@@ -3062,6 +3324,61 @@ function renderQuickReplies() {
   wrap.querySelectorAll('.quick-chip[data-key]').forEach(btn => {
     btn.addEventListener('click', () => askIntroTopic(btn.dataset.key));
   });
+}
+
+/* ---- 직무 상세 (채용 공고 카드에서 직무를 누르면 대화로 이어집니다) ---- */
+function buildJobPostingHTML(job) {
+  return `
+    <div class="intro-card pink job-card">
+      <div class="job-card-group">${job.group}</div>
+      <div class="job-card-title">${job.title}</div>
+
+      <div class="intro-section">
+        <div class="intro-section-heading">팀 소개 · ${job.team}</div>
+        <div class="intro-section-body">${job.teamIntro.replace(/\n/g, '<br>')}</div>
+      </div>
+
+      ${job.quote ? `
+        <div class="job-quote">
+          <div class="job-quote-label">🎤 리더의 한마디</div>
+          <div class="job-quote-text">"${job.quote.replace(/\n/g, '<br>')}"</div>
+          ${job.quoteLink ? `<a class="job-quote-link" href="${job.quoteLink.url}" target="_blank" rel="noopener noreferrer">${job.quoteLink.label} →</a>` : ''}
+        </div>
+      ` : ''}
+
+      ${job.blocks.map(b => `
+        <div class="intro-section">
+          <div class="intro-section-heading">${b.heading}</div>
+          <ul class="job-list">
+            ${b.items.map(it => `<li>${it}</li>`).join('')}
+          </ul>
+          ${b.note ? `<div class="job-note">${b.note}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+async function askJobPosting(key) {
+  const job = JOB_POSTINGS[key];
+  if (!job) return;
+  const token = ++chatRunToken;
+  if (!chatScrollEl()) return;
+
+  const myEntry = { who: 'me', type: 'text', text: `${job.title} 자세히 볼래!` };
+  state.chat.push(myEntry);
+  appendChatEntry(myEntry, { instant: true });
+
+  const ok = await botSay(`${job.title}, 이런 일을 하게 돼..`, token);
+  if (!ok) return;
+
+  await sleep(180);
+  if (token !== chatRunToken) return;
+
+  const jobEntry = { who: 'bot', type: 'job', key };
+  state.chat.push(jobEntry);
+  appendChatEntry(jobEntry, { instant: true });
+  scrollChatToBottom();
 }
 
 async function askIntroTopic(key) {
